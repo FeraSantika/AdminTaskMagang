@@ -16,7 +16,6 @@ class DataDepoController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
         $dtDepo = DataDepo::with('distributor')->get();
-        // dd($dtDepo);
         return view('depo.index', compact('menu', 'roleuser', 'dtDepo'));
     }
 

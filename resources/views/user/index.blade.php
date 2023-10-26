@@ -12,11 +12,11 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Master Menu</a></li>
-                                <li class="breadcrumb-item active">Menu</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Master User</a></li>
+                                <li class="breadcrumb-item active">User</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Menu</h4>
+                        <h4 class="page-title">User</h4>
                     </div>
                 </div>
             </div>
@@ -28,8 +28,8 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('menu.create') }}" class="btn btn-danger mb-2"><i
-                                            class="mdi mdi-plus-circle me-2"></i> Add Menu</a>
+                                    <a href="{{ route('user.create') }}" class="btn btn-primary mb-2"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Add User</a>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="text-sm-end">
@@ -42,52 +42,56 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-centered w-100 table-nowrap mb-0" id="products-datatable">
+                                <table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Link</th>
-                                            <th scope="col">Category</th>
-                                            <th scope="col">Menu sub</th>
-                                            <th scope="col">Menu Position</th>
-                                            <th scope="col" style="width: 85px;" class="text-end">Action</th>
+                                            <th>Role</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Gender</th>
+                                            <th>User Token</th>
+                                            <th>Photo</th>
+                                            <th style="width: 85px;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtMenu as $item)
+                                        @foreach ($dtUser as $item)
                                             <tr>
                                                 <td>
                                                     {{ $rowNumber }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->Menu_name }}
+                                                    {{ $item->role->Role_name }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->Menu_link }}
+                                                    {{ $item->User_name }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->Menu_category }}
+                                                    {{ $item->User_email }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->submenu_name }}
+                                                    {{ $item->User_gender }}
                                                 </td>
-                                                <td class="text-center">
-                                                    {{ $item->Menu_position }}
+                                                <td>
+                                                    {{ $item->User_token }}
                                                 </td>
-                                                <td class="text-end">
-                                                    <a href="{{ route('menu.edit', $item->Menu_id) }}" class="action-icon">
+                                                <td>
+                                                    <img src="{{ asset($item->User_photo) }}" width="100px">
+                                                </td>
+                                                <td class="table-action">
+                                                    <a href="{{ route('user.edit', $item->User_id) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
-                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->Menu_id }}').submit();">
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->User_id }}').submit();">
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->Menu_id }}"
-                                                        action="{{ route('menu.destroy', $item->Menu_id) }}"
+                                                    <form id="delete-form-{{ $item->User_id }}"
+                                                        action="{{ route('user.destroy', $item->User_id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -103,11 +107,6 @@
                             </div>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
-                    <div class="mt-3 text-center">
-                        <div class="pagination">
-                            {{ $dtMenu->links('pagination::bootstrap-4') }}
-                        </div>
-                    </div>
                 </div> <!-- end col -->
             </div>
             <!-- end row -->

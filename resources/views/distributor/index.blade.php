@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('distributor.create') }}" class="btn btn-danger mb-2"><i
+                                    <a href="{{ route('distributor.create') }}" class="btn btn-primary mb-2"><i
                                             class="mdi mdi-plus-circle me-2"></i> Add Distributor</a>
                                 </div>
                                 <div class="col-sm-7">

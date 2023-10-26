@@ -18,7 +18,7 @@ class UserController extends Controller
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
-        return view('user.user', compact('dtUser', 'menu', 'roleuser'));
+        return view('user.index', compact('dtUser', 'menu', 'roleuser'));
     }
 
 

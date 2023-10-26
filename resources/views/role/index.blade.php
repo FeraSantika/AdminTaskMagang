@@ -12,11 +12,11 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
-                                <li class="breadcrumb-item active">Depo</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Master User</a></li>
+                                <li class="breadcrumb-item active">Role</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Depo</h4>
+                        <h4 class="page-title">Role</h4>
                     </div>
                 </div>
             </div>
@@ -28,11 +28,15 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('depo.create') }}" class="btn btn-primary mb-2"><i
-                                            class="mdi mdi-plus-circle me-2"></i> Add Depo</a>
+                                    <a href="{{ route('role.create') }}" class="btn btn-primary mb-2"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Add Role</a>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="text-sm-end">
+                                        {{-- <button type="button" class="btn btn-success mb-2 me-1"><i
+                                                class="mdi mdi-cog-outline"></i></button>
+                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                                        <button type="button" class="btn btn-light mb-2">Export</button> --}}
                                     </div>
                                 </div><!-- end col-->
                             </div>
@@ -42,8 +46,8 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th>Nama Depo</th>
-                                            <th>Nama Distributor</th>
+                                            <th>Name Role</th>
+                                            <th>Menu</th>
                                             <th style="width: 95px;">Action</th>
                                         </tr>
                                     </thead>
@@ -51,27 +55,35 @@
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtDepo as $item)
+                                        @foreach ($dtRole as $item)
                                             <tr>
                                                 <td>
                                                     {{ $rowNumber }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->depo_nama }}
+                                                    {{ $item->Role_name }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->distributor->distributor_nama }}
+                                                    @foreach ($item->rolemenu as $role)
+                                                        @if (isset($role->menu) && isset($role->menu->Menu_name))
+                                                            {{ $role->menu->Menu_name }}
+                                                            @if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('depo.edit', $item->depo_id) }}" class="action-icon">
+                                                    <a href="{{ route('role.edit', $item->Role_id) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
-                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->depo_id }}').submit();">
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->Role_id }}').submit();">
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->depo_id }}"
-                                                        action="{{ route('depo.destroy', $item->depo_id) }}" method="POST">
+                                                    <form id="delete-form-{{ $item->Role_id }}"
+                                                        action="{{ route('role.destroy', $item->Role_id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

@@ -1,30 +1,32 @@
 @extends('main')
 @section('content')
     <div class="container mt-3">
-        <h3>Tambah Data Depo</h3>
+        <h3>Tambah Data Detail Rute</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('depo.store') }}" method="POST" class="mb-3">
+                <form action="{{ route('detail-rute.store') }}" method="POST" class="mb-3">
                     @csrf
 
                     <div class="row mb-3">
                         <div class="col-md-2">
-                            <label for="nama" class="form-label-md-6">Nama Depo</label>
+                            <label for="nama" class="form-label-md-6">Nama Rute</label>
                         </div>
                         <div class="col-md-10">
-                            <input type="text" name="nama" id="nama " class="form-control">
+                            <input type="text" name="nama" id="nama" class="form-control">
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="category" class="col-md-2 col-form-label text-md-start">Distributor</label>
-                        <div class="col-md-10 {{ $errors->has('category') ? 'has-error' : '' }}">
-                            <select name="distributor" id="distributor" class="form-select">
-                                @foreach ($distributor as $item)
-                                    <option value="{{ $item->distributor_id }}">{{ $item->distributor_nama }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-2">
+                            <label for="menu" class="form-label">Customer</label>
+                        </div>
+                        <div class="col-md-8">
+                            @foreach ($dtcustomer as $item)
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="customer" name="customer[]"
+                                        value="{{ $item->customer_kode }}">{{ $item->customer_nama }}
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 

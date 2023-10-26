@@ -16,7 +16,7 @@ class RoleController extends Controller
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
-        return view('role.role', compact('dtRole', 'menus', 'menu', 'roleuser'));
+        return view('role.index', compact('dtRole', 'menus', 'menu', 'roleuser'));
     }
 
     public function create()
@@ -57,7 +57,6 @@ class RoleController extends Controller
 
     public function update(Request $request, $Role_id)
     {
-
         DataRoleMenu::where('Role_id', $Role_id)->delete();
         DataRole::where('Role_id', $Role_id)->update([
             'Role_name' => $request->name
@@ -71,7 +70,6 @@ class RoleController extends Controller
                 'Menu_id' => $id,
             ]);
         }
-
         return redirect()->route('role')->with('success', 'Data stored successfully');
     }
 

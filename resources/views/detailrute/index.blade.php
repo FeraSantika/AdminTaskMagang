@@ -1,7 +1,6 @@
 @extends('main')
 @section('content')
     <div class="content">
-
         <!-- Start Content-->
         <div class="container-fluid">
 
@@ -12,11 +11,11 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Master User</a></li>
-                                <li class="breadcrumb-item active">Role</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
+                                <li class="breadcrumb-item active">Detail Rute</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Role</h4>
+                        <h4 class="page-title">Detail Rute</h4>
                     </div>
                 </div>
             </div>
@@ -28,15 +27,11 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('role.create') }}" class="btn btn-danger mb-2"><i
-                                            class="mdi mdi-plus-circle me-2"></i> Add Role</a>
+                                    <a href="{{ route('detail-rute.create') }}" class="btn btn-primary mb-2"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Add Detail Rute</a>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="text-sm-end">
-                                        {{-- <button type="button" class="btn btn-success mb-2 me-1"><i
-                                                class="mdi mdi-cog-outline"></i></button>
-                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
-                                        <button type="button" class="btn btn-light mb-2">Export</button> --}}
                                     </div>
                                 </div><!-- end col-->
                             </div>
@@ -46,8 +41,8 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th>Name Role</th>
-                                            <th>Menu</th>
+                                            <th>Nama Rute</th>
+                                            <th>Nama Customer</th>
                                             <th style="width: 95px;">Action</th>
                                         </tr>
                                     </thead>
@@ -55,35 +50,26 @@
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtRole as $item)
+                                        @foreach ($dtdetailrute as $item)
                                             <tr>
-                                                <td>
-                                                    {{ $rowNumber }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->Role_name }}
-                                                </td>
-                                                <td>
-                                                    @foreach ($item->rolemenu as $role)
-                                                        @if (isset($role->menu) && isset($role->menu->Menu_name))
-                                                            {{ $role->menu->Menu_name }}
-                                                            @if (!$loop->last)
-                                                                ,
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-
-                                                </td>
+                                                <td>{{ $rowNumber }}</td>
+                                                <td>{{ $item->rute->rute_nama }}</td>
+                                                <td></td>
+                                                {{-- <td>{{ $item->customer->customer_nama }}
+                                                    @if (!$loop->last)
+                                                        ,
+                                                    @endif
+                                                </td> --}}
                                                 <td class="table-action">
-                                                    <a href="{{ route('role.edit', $item->Role_id) }}" class="action-icon">
+                                                    <a href="{{ route('detail-rute.edit', $item->detail_rute_id) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
-                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->Role_id }}').submit();">
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->detail_rute_id }}').submit();">
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->Role_id }}"
-                                                        action="{{ route('role.destroy', $item->Role_id) }}" method="POST">
+                                                    <form id="delete-form-{{ $item->detail_rute_id }}"
+                                                        action="{{ route('detail-rute.destroy', $item->detail_rute_id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

@@ -1,54 +1,24 @@
 <?php
 
+use App\Models\DataDetailRute;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LabController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\ObatController;
-use App\Http\Controllers\PoliController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PasienController;
-use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AksesLabController;
 use App\Http\Controllers\DataDepoController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\TindakanController;
-use App\Http\Controllers\AksespoliController;
-use App\Http\Controllers\HomeKasirController;
-use App\Http\Controllers\KamarInapController;
+use App\Http\Controllers\DataRuteController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeDokterController;
-use App\Http\Controllers\RumahsakitController;
-use App\Http\Controllers\TindakanLabController;
-use App\Http\Controllers\HomeApotekerController;
-use App\Http\Controllers\JadwalDokterController;
+use App\Http\Controllers\DataProdukController;
+use App\Http\Controllers\DataCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\HomeAnalisLabController;
-use App\Http\Controllers\TransaksiObatController;
+use App\Http\Controllers\DataKunjunganController;
+use App\Http\Controllers\DataDetailRuteController;
 use App\Http\Controllers\DataDistributorController;
-use App\Http\Controllers\HomeResepsionisController;
-use App\Http\Controllers\CekRiwayatPasienController;
-use App\Http\Controllers\ListdaftarpasienController;
-use App\Http\Controllers\ListRujukanPasienController;
-use App\Http\Controllers\LaporanAntrianObatController;
-use App\Http\Controllers\LaporanAntrianDokterController;
-use App\Http\Controllers\LaporanObatRawatInapController;
-use App\Http\Controllers\ListdaftarpasienInapController;
-use App\Http\Controllers\LaporanHasilRawatInapController;
-use App\Http\Controllers\LaporanObatRawatJalanController;
-use App\Http\Controllers\ListRujukanPasienInapController;
-use App\Http\Controllers\PendaftaranPasienInapController;
-use App\Http\Controllers\LaporanHasilRawatJalanController;
-use App\Http\Controllers\LaporanPasienRawatInapController;
-use App\Http\Controllers\PendaftaranPasienJalanController;
-use App\Http\Controllers\LaporanKartuAntrianObatController;
-use App\Http\Controllers\LaporanPasienRawatJalanController;
-use App\Http\Controllers\LaporanKartuAntrianDokterController;
-use App\Http\Controllers\TransaksiPembayaranRawatInapController;
-use App\Http\Controllers\TransaksiPembayaranRawatJalanController;
+use App\Http\Controllers\CekDataKunjunganController;
+use App\Http\Controllers\DataKategoriCustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,3 +83,45 @@ Route::post('/admin/depo/store', [DataDepoController::class, 'store'])->name('de
 Route::get('/admin/depo/edit/{id}', [DataDepoController::class, 'edit'])->name('depo.edit');
 Route::post('/admin/depo/update/{id}', [DataDepoController::class, 'update'])->name('depo.update');
 Route::delete('/admin/depo/destroy/{id}', [DataDepoController::class, 'destroy'])->name('depo.destroy');
+
+Route::get('/admin/customer', [DataCustomerController::class, 'index'])->name('customer');
+Route::get('/admin/customer/create', [DataCustomerController::class, 'create'])->name('customer.create');
+Route::post('/admin/customer/store', [DataCustomerController::class, 'store'])->name('customer.store');
+Route::get('/admin/customer/edit/{id}', [DataCustomerController::class, 'edit'])->name('customer.edit');
+Route::post('/admin/customer/update/{id}', [DataCustomerController::class, 'update'])->name('customer.update');
+Route::delete('/admin/customer/destroy/{id}', [DataCustomerController::class, 'destroy'])->name('customer.destroy');
+Route::delete('/admin/customer/destroysearch/{id}', [DataCustomerController::class, 'destroysearch'])->name('customer.destroysearch');
+Route::get('/search/customer', [DataCustomerController::class, 'search'])->name('search.customer');
+
+Route::get('/admin/kategori_customer', [DataKategoriCustomerController::class, 'index'])->name('kategori_customer');
+Route::get('/admin/kategori_customer/create', [DataKategoriCustomerController::class, 'create'])->name('kategori_customer.create');
+Route::post('/admin/kategori_customer/store', [DataKategoriCustomerController::class, 'store'])->name('kategori_customer.store');
+Route::get('/admin/kategori_customer/edit/{id}', [DataKategoriCustomerController::class, 'edit'])->name('kategori_customer.edit');
+Route::post('/admin/kategori_customer/update/{id}', [DataKategoriCustomerController::class, 'update'])->name('kategori_customer.update');
+Route::delete('/admin/kategori_customer/destroy/{id}', [DataKategoriCustomerController::class, 'destroy'])->name('kategori_customer.destroy');
+Route::get('/search/kategori_customer', [DataKategoriCustomerController::class, 'search'])->name('search.kategori_customer');
+
+Route::get('/admin/rute', [DataRuteController::class, 'index'])->name('rute');
+Route::get('/admin/rute/create', [DataRuteController::class, 'create'])->name('rute.create');
+Route::post('/admin/rute/store', [DataRuteController::class, 'store'])->name('rute.store');
+Route::get('/admin/rute/edit/{id}', [DataRuteController::class, 'edit'])->name('rute.edit');
+Route::post('/admin/rute/update/{id}', [DataRuteController::class, 'update'])->name('rute.update');
+Route::delete('/admin/rute/destroy/{id}', [DataRuteController::class, 'destroy'])->name('rute.destroy');
+
+Route::get('/admin/produk', [DataProdukController::class, 'index'])->name('produk');
+Route::get('/admin/produk/create', [DataProdukController::class, 'create'])->name('produk.create');
+Route::post('/admin/produk/store', [DataProdukController::class, 'store'])->name('produk.store');
+Route::get('/admin/produk/edit/{id}', [DataProdukController::class, 'edit'])->name('produk.edit');
+Route::post('/admin/produk/update/{id}', [DataProdukController::class, 'update'])->name('produk.update');
+Route::delete('/admin/produk/destroy/{id}', [DataProdukController::class, 'destroy'])->name('produk.destroy');
+
+Route::get('/admin/kunjungan', [DataKunjunganController::class, 'index'])->name('kunjungan');
+Route::get('/admin/kunjungan/create', [DataKunjunganController::class, 'create'])->name('kunjungan.create');
+Route::post('/admin/kunjungan/store', [DataKunjunganController::class, 'store'])->name('kunjungan.store');
+Route::get('/admin/kunjungan/edit/{id}', [DataKunjunganController::class, 'edit'])->name('kunjungan.edit');
+Route::post('/admin/kunjungan/update/{id}', [DataKunjunganController::class, 'update'])->name('kunjungan.update');
+Route::delete('/admin/kunjungan/destroy/{id}', [DataKunjunganController::class, 'destroy'])->name('kunjungan.destroy');
+Route::get('/admin/kunjungan/detail/{id}', [DataKunjunganController::class, 'detail'])->name('kunjungan.detail');
+
+Route::get('/admin/cek-kunjungan', [CekDataKunjunganController::class, 'index'])->name('cek-kunjungan');
+Route::get('/admin/cek-kunjungan/get_data', [CekDataKunjunganController::class, 'getData'])->name('cek-kunjungan.get_data');

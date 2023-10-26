@@ -12,11 +12,11 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
-                                <li class="breadcrumb-item active">Depo</li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Master Menu</a></li>
+                                <li class="breadcrumb-item active">Menu</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Depo</h4>
+                        <h4 class="page-title">Menu</h4>
                     </div>
                 </div>
             </div>
@@ -28,50 +28,67 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('depo.create') }}" class="btn btn-primary mb-2"><i
-                                            class="mdi mdi-plus-circle me-2"></i> Add Depo</a>
+                                    <a href="{{ route('menu.create') }}" class="btn btn-primary mb-2"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Add Menu</a>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="text-sm-end">
+                                        {{-- <button type="button" class="btn btn-success mb-2 me-1"><i
+                                                class="mdi mdi-cog-outline"></i></button>
+                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                                        <button type="button" class="btn btn-light mb-2">Export</button> --}}
                                     </div>
                                 </div><!-- end col-->
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
+                                <table class="table table-centered w-100 table-nowrap mb-0" id="products-datatable">
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th>Nama Depo</th>
-                                            <th>Nama Distributor</th>
-                                            <th style="width: 95px;">Action</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Link</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Menu sub</th>
+                                            <th scope="col">Menu Position</th>
+                                            <th scope="col" style="width: 85px;" class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtDepo as $item)
+                                        @foreach ($dtMenu as $item)
                                             <tr>
                                                 <td>
                                                     {{ $rowNumber }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->depo_nama }}
+                                                    {{ $item->Menu_name }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->distributor->distributor_nama }}
+                                                    {{ $item->Menu_link }}
                                                 </td>
-                                                <td class="table-action">
-                                                    <a href="{{ route('depo.edit', $item->depo_id) }}" class="action-icon">
+                                                <td>
+                                                    {{ $item->Menu_category }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->submenu_name }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $item->Menu_position }}
+                                                </td>
+                                                <td class="text-end">
+                                                    <a href="{{ route('menu.edit', $item->Menu_id) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
-                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->depo_id }}').submit();">
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->Menu_id }}').submit();">
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->depo_id }}"
-                                                        action="{{ route('depo.destroy', $item->depo_id) }}" method="POST">
+                                                    <form id="delete-form-{{ $item->Menu_id }}"
+                                                        action="{{ route('menu.destroy', $item->Menu_id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -86,6 +103,11 @@
                             </div>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
+                    <div class="mt-3 text-center">
+                        <div class="pagination">
+                            {{ $dtMenu->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
                 </div> <!-- end col -->
             </div>
             <!-- end row -->

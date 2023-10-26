@@ -19,7 +19,7 @@
                     <div class="row mb-3">
                         <label for="category" class="col-md-2 col-form-label text-md-start">Distributor</label>
                         <div class="col-md-10 {{ $errors->has('category') ? 'has-error' : '' }}">
-                            <select name="distributor" id="distributor" class="form-control">
+                            <select name="distributor" id="distributor" class="form-select">
                                 @foreach ($distributor as $item)
                                     <option value="{{ $item->distributor_id }}">{{ $item->distributor_nama }}
                                     </option>

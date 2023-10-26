@@ -37,7 +37,7 @@
                     <div class="form-group row mb-3">
                         <label for="gender" class="col-md-2 col-form-label text-md-start">Gender</label>
                         <div class="col-md-10 {{ $errors->has('gender') ? 'has-error' : '' }}">
-                            <select name="gender" id="gender" class="form-control">
+                            <select name="gender" id="gender" class="form-select">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -47,7 +47,7 @@
                     <div class="form-group row mb-3">
                         <label for="role" class="col-md-2 col-form-label text-md-start">Role</label>
                         <div class="col-md-10 {{ $errors->has('role') ? 'has-error' : '' }}">
-                            <select name="role" id="role" class="form-control">
+                            <select name="role" id="role" class="form-select">
                                 @foreach ($dtRole as $item)
                                     <option value="{{ $item->Role_id }}">{{ $item->Role_name }}</option>
                                 @endforeach

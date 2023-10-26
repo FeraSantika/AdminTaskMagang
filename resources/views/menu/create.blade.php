@@ -14,7 +14,7 @@
                     <div class="form-group mb-3">
                         <label for="category" class="col-md-4 col-form-label text-md-start">Category</label>
                         <div class="col-md-8 {{ $errors->has('category') ? 'has-error' : '' }}">
-                            <select name="category" id="category" class="form-control"
+                            <select name="category" id="category" class="form-select"
                                 onchange="showDiv('hidden_div', this)">
                                 <option value="Master Menu">Master Menu</option>
                                 <option value="Sub Menu">Sub Menu</option>
@@ -25,7 +25,7 @@
                     <div class="form-group mb-3" id="hidden_div">
                         <label for="submenu" class="col-md-4 col-form-label text-md-start">Sub Menu</label>
                         <div class="col-md-8 {{ $errors->has('submenu') ? 'has-error' : '' }}">
-                            <select name="submenu" id="submenu" class="form-control">
+                            <select name="submenu" id="submenu" class="form-select">
                                 @foreach ($dtMenu as $item)
                                     <option value="{{ $item->Menu_id }}">{{ $item->Menu_name }}</option>
                                 @endforeach
