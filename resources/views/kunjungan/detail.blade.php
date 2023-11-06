@@ -9,7 +9,8 @@
                         <label for="simpleinput" class="form-label">Tanggal Kunjungan</label>
                     </div>
                     <div class="col-md-8">
-                        <label for="simpleinput" class="form-label">: {{ \Carbon\Carbon::parse($kunjungan->kunjungan_tanggal)->format('d-m-Y') }}</label>
+                        <label for="simpleinput" class="form-label">:
+                            {{ \Carbon\Carbon::parse($kunjungan->kunjungan_tanggal)->format('d-m-Y') }}</label>
                     </div>
                 </div>
 
@@ -33,7 +34,8 @@
 
                 <div class="row">
                     <div class="mt-1 text-end">
-                        <a class="btn btn-dark" href="javascript:void(0);" onclick="history.back();">Kembali</a>
+                        <a class="btn btn-dark" href="javascript:void(0);" onclick="history.back();"><i
+                                class=" ri-arrow-go-back-fill"></i> Kembali</a>
                     </div>
                 </div>
             </div>

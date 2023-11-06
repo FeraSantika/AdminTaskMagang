@@ -100,14 +100,14 @@ class DataCustomerController extends Controller
 
         Datacustomer::where('customer_id', $id)->update($dtcustomer);
 
-        return redirect()->route('customer');
+        return redirect()->route('customer')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
         $dt = Datacustomer::where('customer_id', $id);
         $dt->delete();
-        return redirect()->route('customer');
+        return redirect()->route('customer')->with('success', 'Data berhasil dihapus!');
     }
 
     public function search(Request $request)
@@ -124,34 +124,4 @@ class DataCustomerController extends Controller
 
         return response()->json($data);
     }
-
-    // public function destroysearch($id)
-    // {
-    //     try {
-    //         $dt = Datacustomer::where('customer_id', $id);
-
-    //         if ($dt) {
-    //             $dt->delete();
-    //             return response()->json(['message' => 'customer deleted successfully']);
-    //         } else {
-    //             return response()->json(['message' => 'customer not found'], 404);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json(['message' => 'Error deleting customer: ' . $e->getMessage()], 500);
-    //     }
-    // }
-
-
-    // public function autocomplete(Request $request)
-    // {
-    //     $data = DataObat::with('kategori')->select(
-    //         "nama_obat as label",
-    //         DB::raw("(SELECT nama_kategori FROM kategori WHERE kategori.kode_kategori = data_obat.kode_kategori) as value"),
-    //         "kode_obat as kode",
-    //     )
-    //         ->where('nama_obat', 'LIKE', '%' . $request->get('cari') . '%')
-    //         ->get();
-
-    //     return response()->json($data);
-    // }
 }

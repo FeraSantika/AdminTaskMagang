@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Rute</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -32,7 +37,17 @@
                                             class="mdi mdi-plus-circle me-2"></i> Add Rute</a>
                                 </div>
                                 <div class="col-sm-7">
-                                    <div class="text-sm-end">
+                                    <div style="display: flex; justify-content: flex-end;">
+                                        <form action="{{ route('rute.import') }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div style="display: flex; align-items: center;">
+                                                <input type="file" name="file" accept=".xlsx, .csv"
+                                                    class="form-control" style="flex: 1; max-width: 200px;">
+                                                <button type="submit" class="btn btn-success"
+                                                    style="margin-left: 10px;">Import</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div><!-- end col-->
                             </div>

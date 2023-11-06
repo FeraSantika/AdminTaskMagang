@@ -46,6 +46,14 @@ class HomeController extends Controller
         return view('home', compact('roleuser', 'menu'));
     }
 
+    public function sales()
+    {
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $user = auth()->user()->role;
+        $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
+        return view('home-sales', compact('roleuser', 'menu'));
+    }
+
     // public function verifyaccount(){
     //     return view('otp_verification');
     // }

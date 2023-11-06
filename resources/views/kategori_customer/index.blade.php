@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Kategori Customer</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -33,14 +38,7 @@
                                 </div>
                                 <div class="col-md-2"></div>
                                 <div class="col-sm-5">
-                                    <div class="text-sm-end">
-                                        {{-- <div class="input-group">
-                                            <input type="text" class="typeahead form-control" name="search"
-                                                id="search" placeholder="Cari Tindakan">
-                                            <button class="input-group-text btn btn-primary btn-sm" type="button"
-                                                id="search-btn"><i class="uil-search-alt"></i></button>
-                                        </div> --}}
-                                    </div>
+                                    <div class="text-sm-end"></div>
                                 </div><!-- end col-->
                             </div>
 

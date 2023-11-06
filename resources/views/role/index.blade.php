@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Role</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

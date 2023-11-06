@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_detail_rute', function (Blueprint $table) {
-            $table->bigIncrements('detail_rute_id');
-            $table->integer('rute_id');
-            $table->integer('customer_kode');
-            $table->enum('status', ['', 'Selesai', 'Toko Tutup']);
+        Schema::create('data_satuan', function (Blueprint $table) {
+            $table->bigIncrements('satuan_id');
+            $table->char('satuan_nama');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_detail_rute');
+        Schema::dropIfExists('data_satuan');
     }
 };

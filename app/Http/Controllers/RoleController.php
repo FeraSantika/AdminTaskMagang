@@ -42,7 +42,7 @@ class RoleController extends Controller
             ]);
         }
 
-        return redirect()->route('role')->with('success', 'Data stored successfully');
+        return redirect()->route('role')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($Role_id)
@@ -70,7 +70,7 @@ class RoleController extends Controller
                 'Menu_id' => $id,
             ]);
         }
-        return redirect()->route('role')->with('success', 'Data stored successfully');
+        return redirect()->route('role')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($Role_id)
@@ -79,6 +79,6 @@ class RoleController extends Controller
         $rolemenu = DataRoleMenu::where('Role_id', $Role_id);
         $role->delete();
         $rolemenu->delete();
-        return redirect()->route('role')->with('success', 'Role deleted successfully');
+        return redirect()->route('role')->with('success', 'Data berhasil dihapus!');
     }
 }

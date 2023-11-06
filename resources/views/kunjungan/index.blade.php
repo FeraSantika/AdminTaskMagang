@@ -16,6 +16,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Kunjungan</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -31,7 +36,17 @@
                                             class="mdi mdi-plus-circle me-2"></i> Add Kunjungan</a>
                                 </div>
                                 <div class="col-sm-7">
-                                    <div class="text-sm-end">
+                                    <div style="display: flex; justify-content: flex-end;">
+                                        <form action="{{ route('kunjungan.import') }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div style="display: flex; align-items: center;">
+                                                <input type="file" name="file" accept=".xlsx, .csv"
+                                                    class="form-control" style="flex: 1; max-width: 200px;">
+                                                <button type="submit" class="btn btn-success"
+                                                    style="margin-left: 10px;">Import</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div><!-- end col-->
                             </div>
@@ -41,7 +56,6 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th scope="col">ID Kunjungan</th>
                                             <th scope="col">User</th>
                                             <th scope="col">Rute</th>
                                             <th scope="col">Tanggal kunjungan</th>
@@ -58,13 +72,10 @@
                                                     {{ $rowNumber }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->kunjungan_id }}
+                                                    {{ $item->user->User_name ?? '' }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->user->User_name }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->rute->rute_nama }}
+                                                    {{ $item->rute->rute_nama ?? '' }}
                                                 </td>
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}
@@ -100,7 +111,9 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                     <div class="mt-3 text-center">
-                        <div class="pagination"></div>
+                        <div class="pagination">
+                            {{ $dtkunjungan->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div> <!-- end col -->
             </div>

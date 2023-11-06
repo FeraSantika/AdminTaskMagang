@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\DataDetailRute;
+use App\Imports\DataKunjunganImport;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -12,12 +13,13 @@ use App\Http\Controllers\DataDepoController;
 use App\Http\Controllers\DataRuteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DataProdukController;
+use App\Http\Controllers\DataSatuanController;
 use App\Http\Controllers\DataCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DataKunjunganController;
-use App\Http\Controllers\DataDetailRuteController;
 use App\Http\Controllers\DataDistributorController;
 use App\Http\Controllers\CekDataKunjunganController;
+use App\Http\Controllers\ListDataKunjunganController;
 use App\Http\Controllers\DataKategoriCustomerController;
 
 /*
@@ -42,6 +44,7 @@ Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('Adm
 Route::get('/admin/register', [RegisterController::class, 'showRegisterForm'])->name('Adminregister');
 
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
+Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('admin.sales');
 
 Route::get('/tampil', [App\Http\Controllers\HomeController::class, 'tampil'])->name('tampil');
 Route::get('/admin/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -107,6 +110,7 @@ Route::post('/admin/rute/store', [DataRuteController::class, 'store'])->name('ru
 Route::get('/admin/rute/edit/{id}', [DataRuteController::class, 'edit'])->name('rute.edit');
 Route::post('/admin/rute/update/{id}', [DataRuteController::class, 'update'])->name('rute.update');
 Route::delete('/admin/rute/destroy/{id}', [DataRuteController::class, 'destroy'])->name('rute.destroy');
+Route::post('/admin/rute/import', [DataRuteController::class, 'import'])->name('rute.import');
 
 Route::get('/admin/produk', [DataProdukController::class, 'index'])->name('produk');
 Route::get('/admin/produk/create', [DataProdukController::class, 'create'])->name('produk.create');
@@ -122,6 +126,23 @@ Route::get('/admin/kunjungan/edit/{id}', [DataKunjunganController::class, 'edit'
 Route::post('/admin/kunjungan/update/{id}', [DataKunjunganController::class, 'update'])->name('kunjungan.update');
 Route::delete('/admin/kunjungan/destroy/{id}', [DataKunjunganController::class, 'destroy'])->name('kunjungan.destroy');
 Route::get('/admin/kunjungan/detail/{id}', [DataKunjunganController::class, 'detail'])->name('kunjungan.detail');
+Route::post('/admin/kunjungan/import', [DataKunjunganController::class, 'import'])->name('kunjungan.import');
 
 Route::get('/admin/cek-kunjungan', [CekDataKunjunganController::class, 'index'])->name('cek-kunjungan');
 Route::get('/admin/cek-kunjungan/get_data', [CekDataKunjunganController::class, 'getData'])->name('cek-kunjungan.get_data');
+Route::get('/admin/cek-kunjungan/export-excel', [CekDataKunjunganController::class, 'exportExcel'])->name('cek-kunjungan.export-excel');
+Route::get('/admin/cek-kunjungan/export-pdf', [CekDataKunjunganController::class, 'exportPDF'])->name('cek-kunjungan.export-pdf');
+
+Route::get('/admin/list-kunjungan', [ListDataKunjunganController::class, 'index'])->name('list-kunjungan');
+Route::get('/admin/list-kunjungan/detail/{id}', [ListDataKunjunganController::class, 'detail'])->name('list-kunjungan.detail');
+Route::get('/admin/list-kunjungan/auto-complete', [ListDataKunjunganController::class, 'autocomplete'])->name('list-kunjungan.autocomplete');
+Route::post('/admin/list-kunjungan/insert-list', [ListDataKunjunganController::class, 'insertlist'])->name('list-kunjungan.insert-list');
+Route::get('/admin/list-kunjungan/destroy/{id}', [ListDataKunjunganController::class, 'destroy'])->name('list-kunjungan.destroy');
+Route::post('/admin/list-kunjungan/store-list', [ListDataKunjunganController::class, 'storelist'])->name('list-kunjungan.store-list');
+
+Route::get('/admin/satuan', [DataSatuanController::class, 'index'])->name('satuan');
+Route::get('/admin/satuan/create', [DataSatuanController::class, 'create'])->name('satuan.create');
+Route::post('/admin/satuan/store', [DataSatuanController::class, 'store'])->name('satuan.store');
+Route::get('/admin/satuan/edit/{id}', [DataSatuanController::class, 'edit'])->name('satuan.edit');
+Route::post('/admin/satuan/update/{id}', [DataSatuanController::class, 'update'])->name('satuan.update');
+Route::delete('/admin/satuan/destroy/{id}', [DataSatuanController::class, 'destroy'])->name('satuan.destroy');

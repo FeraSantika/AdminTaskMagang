@@ -56,28 +56,18 @@ class DataUser extends Authenticatable
         return $this->role->Role_name === 'Admin';
     }
 
-    public function isDokter()
+    public function isDepo()
     {
-        return $this->role->Role_name === 'Dokter';
+        return $this->role->Role_name === 'Depo';
     }
 
-    public function isApoteker()
+    public function isDistributor()
     {
-        return $this->role->Role_name === 'Apoteker';
+        return $this->role->Role_name === 'Distributor';
     }
 
-    public function isKasir()
+    public function isSales()
     {
-        return $this->role->Role_name === 'Kasir';
-    }
-
-    public function isResepsionis()
-    {
-        return $this->role->Role_name === 'Resepsionis';
-    }
-
-    public function isAnalisLab()
-    {
-        return $this->role->Role_name === 'Analis Lab';
+        return $this->role->Role_name === 'Sales';
     }
 }

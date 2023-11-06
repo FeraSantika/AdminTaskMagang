@@ -88,13 +88,13 @@ class DataProdukController extends Controller
 
         Dataproduk::where('produk_id', $id)->update($dtproduk);
 
-        return redirect()->route('produk');
+        return redirect()->route('produk')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
         $dt = Dataproduk::where('produk_id', $id);
         $dt->delete();
-        return redirect()->route('produk');
+        return redirect()->route('produk')->with('success', 'Data berhasil dihapus!');
     }
 }

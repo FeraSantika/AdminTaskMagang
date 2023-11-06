@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Distributor</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -59,7 +64,8 @@
                                                     {{ $item->distributor_nama }}
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('distributor.edit', $item->distributor_id) }}" class="action-icon">
+                                                    <a href="{{ route('distributor.edit', $item->distributor_id) }}"
+                                                        class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
@@ -67,7 +73,8 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->distributor_id }}"
-                                                        action="{{ route('distributor.destroy', $item->distributor_id) }}" method="POST">
+                                                        action="{{ route('distributor.destroy', $item->distributor_id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

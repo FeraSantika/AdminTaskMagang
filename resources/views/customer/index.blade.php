@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Customer</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -150,7 +155,7 @@
                 if (data.length > 0) {
                     data.forEach(function(item) {
                         console.log(item.kategori),
-                        resultList += "<tr id='item.customer_id'>" +
+                            resultList += "<tr id='item.customer_id'>" +
                             "<td>" + rowNumber + "</td>" +
                             "<td>" + item.customer_kode + "</td>" +
                             "<td>" + item.customer_nama + "</td>" +

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_detail_rute', function (Blueprint $table) {
-            $table->bigIncrements('detail_rute_id');
-            $table->integer('rute_id');
-            $table->integer('customer_kode');
-            $table->enum('status', ['', 'Selesai', 'Toko Tutup']);
+        Schema::create('list_data_produk', function (Blueprint $table) {
+            $table->bigIncrements('list_id');
+            $table->char('produk_kode');
+            $table->char('transaksi_kode');
+            $table->char('customer_kode');
+            $table->integer('jumlah');
+            $table->integer('satuan_id');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_detail_rute');
+        Schema::dropIfExists('list_data_produk');
     }
 };

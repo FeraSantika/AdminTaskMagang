@@ -8,6 +8,8 @@ use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\DataDetailRute;
+use App\Imports\DataRuteImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataRuteController extends Controller
 {
@@ -54,9 +56,10 @@ class DataRuteController extends Controller
             DataDetailRute::create([
                 'rute_id' => $dtrute->id,
                 'customer_kode' => $kode,
+                'status'=>'',
             ]);
         }
-        return redirect()->route('rute');
+        return redirect()->route('rute')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -69,7 +72,7 @@ class DataRuteController extends Controller
         $dtcustomer = DataCustomer::get();
         $rute = DataRute::where('rute_id', $id)->first();
         $selectedcustomer = DataDetailRute::where('rute_id', $id)->pluck('customer_kode')->toArray();
-        // dd($selectedMenuIds);
+
         return view('rute.edit', compact('menu', 'roleuser', 'rute', 'dtcustomer', 'selectedcustomer'));
     }
 
@@ -86,9 +89,10 @@ class DataRuteController extends Controller
             DataDetailRute::create([
                 'rute_id' => $id,
                 'customer_kode' => $kode,
+                'status'=> '',
             ]);
         }
-        return redirect()->route('rute');
+        return redirect()->route('rute')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
@@ -97,6 +101,12 @@ class DataRuteController extends Controller
         $detailrute = DataDetailRute::where('rute_id', $id);
         $rute->delete();
         $detailrute->delete();
-        return redirect()->route('rute');
+        return redirect()->route('rute')->with('success', 'Data berhasil dihapus!');
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new DataRuteImport, $request->file('file'));
+        return redirect()->back()->with('success', 'Data berhasil diimpor!');
     }
 }

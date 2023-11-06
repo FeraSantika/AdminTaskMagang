@@ -12,10 +12,10 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Cek Kunjungan</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">List Kunjungan</a></li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Cek Kunjungan</h4>
+                        <h4 class="page-title">List Kunjungan</h4>
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -31,36 +31,19 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row mb-2">
-                                <div class="row mb-2 align-items-end">
-                                    <div class="col-md-2">
-                                        <label for="Sales" class="form-label form-inline">Pilih User :</label>
-                                        <select id="pilihSales" name="pilihSales" class="form-control">
-                                            <option value="">Pilih User</option>
-                                            @foreach ($dtsales as $item)
-                                                <option value="{{ $item->User_id }}">{{ $item->User_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <label for="tanggalAwal" class="form-label form-inline">Tanggal Awal :</label>
-                                        <input type="date" id="tanggalAwal" name="tanggalAwal" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <label for="tanggalAkhir" class="form-label form-inline">Tanggal Akhir :</label>
-                                        <input type="date" id="tanggalAkhir" name="tanggalAkhir" class="form-control">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for=""></label>
-                                        <button type="button" class="btn btn-success"
-                                            onclick="tampilkanData()">Filter</button>
-                                    </div>
-                                    <div class="col-sm-2 mt-3">
-                                        <a href="#" type="submit" class="btn btn-light mb-2 me-1"
-                                            onclick="exportExcel()"><i class="uil-print"></i>
-                                            Excel</a>
-                                        <a href="#" class="btn btn-primary mb-2 me-1"
-                                            onclick="exportPDFWithDates()"><i class="uil-print"></i> PDF</a>
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <form class="d-flex">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control form-control-light"
+                                                        id="dash-daterange">
+                                                    <span class="input-group-text bg-primary border-primary text-white">
+                                                        <i class="mdi mdi-calendar-range font-13"></i>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -70,34 +53,47 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th scope="col">User</th>
-                                            <th scope="col">Rute</th>
-                                            <th scope="col">Tanggal kunjungan</th>
+                                            <th scope="col">Kode Customer</th>
+                                            <th scope="col">Nama Customer</th>
+                                            <th scope="col">Alamat Customer</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtkunjungan as $item)
+                                        @if ($dtkunjungan->count() > 0)
+                                            @foreach ($dtkunjungan as $item)
+                                                <tr>
+                                                    <td>
+                                                        {{ $rowNumber }}
+                                                    </td>
+                                                    <td>{{ $item->customer_kode }}</td>
+                                                    <td>{{ $item->customer->customer_nama }}</td>
+                                                    <td>{{ $item->customer->customer_alamat }}</td>
+                                                    <td>
+                                                        <a href="{{ route('list-kunjungan.detail', $item->detail_rute_id) }}"
+                                                            class="btn btn-soft-info">Detail</a>
+                                                        {{-- @if ($item->status == 'Selesai')
+                                                            <span class="badge bg-success">{{ $item->status }}</span>
+                                                        @elseif ($item->status == 'Toko Tutup')
+                                                            <span class="badge bg-danger">{{ $item->status }}</span>
+                                                        @else
+                                                            <a href="{{ route('list-kunjungan.detail', $item->detail_rute_id) }}"
+                                                                class="btn btn-soft-info">Detail</a>
+                                                        @endif --}}
+                                                    </td>
+                                                </tr>
+                                                @php
+                                                    $rowNumber++;
+                                                @endphp
+                                            @endforeach
+                                        @else
                                             <tr>
-                                                <td>
-                                                    {{ $rowNumber }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->user->User_name }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->rute->rute_nama }}
-                                                </td>
-                                                <td>
-                                                    {{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}
-                                                </td>
+                                                <td colspan="4">Tidak ada data kunjungan untuk hari ini</td>
                                             </tr>
-                                            @php
-                                                $rowNumber++;
-                                            @endphp
-                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

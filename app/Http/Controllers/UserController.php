@@ -64,7 +64,7 @@ class UserController extends Controller
             'User_photo' => $path
         ]);
 
-        return redirect()->route('user')->with('success', 'Data stored successfully');
+        return redirect()->route('user')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($User_id)
@@ -108,12 +108,12 @@ class UserController extends Controller
 
         DataUser::where('User_id', $User_id)->update($userData);
 
-        return redirect()->route('user')->with('success', 'Data updated successfully');
+        return redirect()->route('user')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($User_id)
     {
         DataUser::where('User_id', $User_id)->delete();
-        return redirect()->route('user')->with('success', 'User deleted successfully');
+        return redirect()->route('user')->with('success', 'Data berhasil dihapus!');
     }
 }

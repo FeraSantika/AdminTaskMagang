@@ -13,6 +13,7 @@ class DataDetailRute extends Model
         'detail_rute_id',
         'rute_id',
         'customer_kode',
+        'status'
     ];
 
     public function rute(){

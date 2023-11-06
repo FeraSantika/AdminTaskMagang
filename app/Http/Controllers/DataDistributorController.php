@@ -32,7 +32,7 @@ class DataDistributorController extends Controller
         $data = DataDistributor::create([
             'distributor_nama' => $request->nama
         ]);
-        return redirect()->route('distributor')->with('success', 'Data stored successfully');
+        return redirect()->route('distributor')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -49,13 +49,13 @@ class DataDistributorController extends Controller
         DataDistributor::where('distributor_id', $id)->update([
             'distributor_nama' => $request->nama
         ]);
-        return redirect()->route('distributor')->with('success', 'Data stored successfully');
+        return redirect()->route('distributor')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
         $distributor = DataDistributor::where('distributor_id', $id);
         $distributor->delete();
-        return redirect()->route('distributor')->with('success', 'Role deleted successfully');
+        return redirect()->route('distributor')->with('success', 'Data berhasil dihapus!');
     }
 }

@@ -45,7 +45,7 @@ class MenuController extends Controller
             'updated_at' => now(),
         ]);
         if ($result) {
-            return redirect()->route('menu');
+            return redirect()->route('menu')->with('success', 'Data berhasil ditambahkan!');
         } else {
             return $this->create();
         }
@@ -73,13 +73,13 @@ class MenuController extends Controller
             'Menu_position' => $request->position,
             'updated_at' => now(),
         ]);
-        return redirect()->route('menu')->with('success', 'Menu edited successfully');
+        return redirect()->route('menu')->with('success', 'Data berhaasil diubah!');
     }
 
     public function destroy($Menu_id)
     {
         $menu = DataMenu::where('Menu_id', $Menu_id);
         $menu->delete();
-        return redirect()->route('menu')->with('success', 'Menu deleted successfully');
+        return redirect()->route('menu')->with('success', 'Data berhaasil dihapus!');
     }
 }

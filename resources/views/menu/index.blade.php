@@ -17,6 +17,11 @@
                             </ol>
                         </div>
                         <h4 class="page-title">Menu</h4>
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -32,12 +37,7 @@
                                             class="mdi mdi-plus-circle me-2"></i> Add Menu</a>
                                 </div>
                                 <div class="col-sm-7">
-                                    <div class="text-sm-end">
-                                        {{-- <button type="button" class="btn btn-success mb-2 me-1"><i
-                                                class="mdi mdi-cog-outline"></i></button>
-                                        <button type="button" class="btn btn-light mb-2 me-1">Import</button>
-                                        <button type="button" class="btn btn-light mb-2">Export</button> --}}
-                                    </div>
+                                    <div class="text-sm-end"></div>
                                 </div><!-- end col-->
                             </div>
 

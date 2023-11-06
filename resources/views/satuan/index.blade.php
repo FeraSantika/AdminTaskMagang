@@ -1,6 +1,7 @@
 @extends('main')
 @section('content')
     <div class="content">
+
         <!-- Start Content-->
         <div class="container-fluid">
 
@@ -12,10 +13,10 @@
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Data Master</a></li>
-                                <li class="breadcrumb-item active">Detail Rute</li>
+                                <li class="breadcrumb-item active">Satuan</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Detail Rute</h4>
+                        <h4 class="page-title">Satuan</h4>
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -32,8 +33,8 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-5">
-                                    <a href="{{ route('detail-rute.create') }}" class="btn btn-primary mb-2"><i
-                                            class="mdi mdi-plus-circle me-2"></i> Add Detail Rute</a>
+                                    <a href="{{ route('satuan.create') }}" class="btn btn-primary mb-2"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Add satuan</a>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="text-sm-end">
@@ -46,8 +47,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th>Nama Rute</th>
-                                            <th>Nama Customer</th>
+                                            <th>Nama</th>
                                             <th style="width: 95px;">Action</th>
                                         </tr>
                                     </thead>
@@ -55,28 +55,24 @@
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @foreach ($dtdetailrute as $item)
+                                        @foreach ($dtsatuan as $item)
                                             <tr>
-                                                <td>{{ $rowNumber }}</td>
-                                                <td>{{ $item->rute->rute_nama }}</td>
-                                                <td></td>
-                                                {{-- <td>{{ $item->customer->customer_nama }}
-                                                    @if (!$loop->last)
-                                                        ,
-                                                    @endif
-                                                </td> --}}
+                                                <td>
+                                                    {{ $rowNumber }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->satuan_nama }}
+                                                </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('detail-rute.edit', $item->detail_rute_id) }}"
-                                                        class="action-icon">
+                                                    <a href="{{ route('satuan.edit', $item->satuan_id) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
-                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->detail_rute_id }}').submit();">
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->satuan_id }}').submit();">
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->detail_rute_id }}"
-                                                        action="{{ route('detail-rute.destroy', $item->detail_rute_id) }}"
-                                                        method="POST">
+                                                    <form id="delete-form-{{ $item->satuan_id }}"
+                                                        action="{{ route('satuan.destroy', $item->satuan_id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

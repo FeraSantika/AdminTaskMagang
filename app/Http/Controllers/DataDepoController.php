@@ -34,7 +34,7 @@ class DataDepoController extends Controller
             'distributor_id' => $request->distributor,
             'depo_nama' => $request->nama
         ]);
-        return redirect()->route('depo')->with('success', 'Data stored successfully');
+        return redirect()->route('depo')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -53,13 +53,13 @@ class DataDepoController extends Controller
             'distributor_id' => $request->distributor,
             'depo_nama' => $request->nama
         ]);
-        return redirect()->route('depo')->with('success', 'Data stored successfully');
+        return redirect()->route('depo')->with('success', 'Data berhasil diupdate!');
     }
 
     public function destroy($id)
     {
         $depo = DataDepo::where('depo_id', $id);
         $depo->delete();
-        return redirect()->route('depo')->with('success', 'Role deleted successfully');
+        return redirect()->route('depo')->with('success', 'Data berhasil dihapus!');
     }
 }

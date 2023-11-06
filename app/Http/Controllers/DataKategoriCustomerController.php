@@ -31,7 +31,7 @@ class DataKategoriCustomerController extends Controller
         DataKategoriCustomer::create([
             'kategori_customer_nama' => $request->nama,
         ]);
-        return redirect()->route('kategori_customer');
+        return redirect()->route('kategori_customer')->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -46,13 +46,13 @@ class DataKategoriCustomerController extends Controller
     public function update(Request $request, $id)
     {
         DataKategoriCustomer::where('kategori_customer_id', $id)->update(['kategori_customer_nama' => $request->nama]);
-        return redirect()->route('kategori_customer');
+        return redirect()->route('kategori_customer')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
         DataKategoriCustomer::where('kategori_customer_id', $id)->delete();
-        return redirect()->route('kategori_customer');
+        return redirect()->route('kategori_customer')->with('success', 'Data berhasil dihapus!');
     }
 
     public function search(Request $request)
