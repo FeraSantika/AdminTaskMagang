@@ -26,7 +26,7 @@ class ListDataKunjunganController extends Controller
         return view('list_kunjungan.index', compact('menu', 'roleuser', 'dtkunjungan'));
     }
 
-    public function detail($id)
+    public function detail($customer_kode)
     {
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
@@ -34,20 +34,40 @@ class ListDataKunjunganController extends Controller
 
         $today = now()->format('Y-m-d');
         $sales = auth()->user()->User_id;
-        $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')->where('data_detail_rute.detail_rute_id', $id)->whereDate('data_kunjungan.kunjungan_tanggal', $today)->with('rute', 'customer')->first();
+        $dtkunjungan = DataDetailRute::where('customer_kode', $customer_kode)->with('customer')->first();
         $dtproduk = DataProduk::get();
-        $dtlistproduk = ListDataProduk::where('customer_kode', $dtkunjungan->customer_kode)->where('transaksi_kode', null)->with('produk', 'satuan')->get();
+        $dtlistproduk = ListDataProduk::where('customer_kode', $customer_kode)->where('transaksi_kode', null)->with('produk', 'satuan')->get();
         $dtsatuan = DataSatuan::get();
-        $dttransaksi = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
-            ->where('transaksi_data_produk.customer_kode', $dtkunjungan->customer_kode)
-            ->where('data_detail_rute.status', '!=', '')
-            ->with('listproduk.produk')
-            ->get();
-        $transaksi = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
-            ->where('transaksi_data_produk.customer_kode', $dtkunjungan->customer_kode)
-            ->where('data_detail_rute.status', '!=', '')
-            ->with('listproduk.produk')
-            ->first();
+        $transaksi = TransaksiDataProduk::where('customer_kode', $customer_kode)->whereDate('created_at', $today)->first();
+
+        if ($transaksi) {
+            $dtpesan = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
+                ->where('transaksi_data_produk.customer_kode', $customer_kode)
+                ->where('transaksi_data_produk.transaksi_kode', $transaksi->transaksi_kode)
+                ->where('data_detail_rute.status', '=', 'Pesan')
+                ->with('listproduk.produk')
+                ->get();
+            $dttransaksi = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
+                ->where('transaksi_data_produk.customer_kode', $customer_kode)
+                ->where('transaksi_data_produk.transaksi_kode', $transaksi->transaksi_kode)
+                ->where('data_detail_rute.status', '=', 'Selesai')
+                ->with('listproduk.produk')
+                ->groupBy('transaksi_data_produk.transaksi_kode')
+                ->get();
+        }else{
+            $dtpesan = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
+                ->where('transaksi_data_produk.customer_kode', $customer_kode)
+                ->where('data_detail_rute.status', '=', 'Pesan')
+                ->with('listproduk.produk')
+                ->get();
+            $dttransaksi = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
+                ->where('transaksi_data_produk.customer_kode', $customer_kode)
+                ->where('data_detail_rute.status', '=', 'Selesai')
+                ->with('listproduk.produk')
+                ->groupBy('transaksi_data_produk.transaksi_kode')
+                ->get();
+        }
+        // dd($dtpesan);
 
         $prefix = 'T-PRD';
         $length = 4;
@@ -61,7 +81,7 @@ class ListDataKunjunganController extends Controller
         $paddedId = str_pad($nextId, $length, '0', STR_PAD_LEFT);
         $transaksiCode = $prefix . $paddedId;
 
-        return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'transaksi'));
+        return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'dtpesan', 'transaksi'));
     }
 
     public function autocomplete(Request $request)
@@ -125,6 +145,21 @@ class ListDataKunjunganController extends Controller
             'status' => $request->action
         ]);
 
-        return redirect()->route('list-kunjungan');
+        return redirect()->back()->with('success', 'Data Berhasil Disimpan!');
+    }
+
+    public function updatelist(Request $request)
+    {
+        DataDetailRute::where('detail_rute_id', $request->detail_rute_id)->update([
+            'status' => $request->status
+        ]);
+
+        // DataDetailRute::join('transaksi_data_produk', 'data_detail_rute.customer_kode', 'transaksi_data_produk.customer_kode')
+        // ->where('data_detail_rute.customer_kode', $request->customer_kode)
+        // ->where('transaksi_data_produk.transaksi_kode', $request->transaksi_kode)->update([
+        //     'data_detail_rute.status' => $request->action
+        // ]);
+
+        return redirect()->back()->with('success', 'Data Berhasil Disimpan!');
     }
 }

@@ -49,99 +49,199 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#previous" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0"
+                    <a href="#pesan" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0"
                         style="font-size: larger;">
-                        Pesanan Sebelumnya
+                        Pesanan Belum Selesai
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#selesai" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0"
+                        style="font-size: larger;">
+                        Pesanan Selesai
                     </a>
                 </li>
             </ul>
             <div class="tab-content mb-3">
                 <div class="tab-pane show active" id="today">
-                    <h4 class="text-center mt-5">Pilih Produk</h4>
-                    <div class="m-5">
-                        <div class="row mb-3">
-                            <div class="col-sm-4">
-                                <div class="text-end mb-3">
-                                    <div class="input-group">
-                                        <input type="text" class="typeahead form-control" name="search" id="search"
-                                            placeholder="Cari Produk">
-                                        <button class="input-group-text btn btn-primary btn-sm" type="button"
-                                            id="add"><i class="mdi mdi-magnify search-icon"></i></button>
+                    @if ($transaksi !== null)
+                        @if ($transaksi->count() > 0)
+                            <h4 class="text-center mt-5">Transaksi sudah tersimpan</h4>
+                        @else
+                            <h4 class="text-center mt-5">Pilih Produk</h4>
+                            <div class="m-5">
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <div class="text-end mb-3">
+                                            <div class="input-group">
+                                                <input type="text" class="typeahead form-control" name="search"
+                                                    id="search" placeholder="Cari Produk">
+                                                <button class="input-group-text btn btn-primary btn-sm" type="button"
+                                                    id="add"><i class="mdi mdi-magnify search-icon"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="text-end mb-3">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="jumlah"
+                                                    placeholder="Jumlah" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select name="satuan" id="satuan" class="form-select">
+                                            <option value="">Pilih Satuan</option>
+                                            @foreach ($dtsatuan as $item)
+                                                <option value="{{ $item->satuan_id }}">{{ $item->satuan_nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="" class="btn btn-primary mb-2" id="submit-produk"><i
+                                                class="mdi mdi-plus-circle me-2"></i> Tambah</a>
                                     </div>
                                 </div>
+                                <div class="table-responsive">
+                                    <table class="table table-centered w-100 table-nowrap mb-0" id="tabelkunjungan">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Kode Produk</th>
+                                                <th scope="col">Nama Produk</th>
+                                                <th scope="col">Jumlah</th>
+                                                <th scope="col">Satuan</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="list-produk">
+                                            @foreach ($dtlistproduk as $produk)
+                                                <tr id="row-{{ $produk->list_id }}">
+                                                    <td>{{ $produk->produk->produk_kode ?? '' }}</td>
+                                                    <td>{{ $produk->produk->produk_nama ?? '' }}</td>
+                                                    <td>{{ $produk->jumlah ?? '' }}</td>
+                                                    <td>{{ $produk->satuan->satuan_nama ?? '' }}</td>
+                                                    <td>
+                                                        <a href="javascript:void(0)"
+                                                            onclick="hapuslist({{ $produk->list_id }})"
+                                                            class="action-icon"><i class="mdi mdi-delete"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <form action="{{ route('list-kunjungan.store-list') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" class="form-control" name="detail_rute_id" id="detail_rute_id"
+                                        value="{{ $dtkunjungan->detail_rute_id }}"readonly>
+                                    <input type="hidden" class="form-control" name="customer_kode" id="customer"
+                                        value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
+                                    <input type="hidden" class="form-control" name="transaksi_kode" id="transaksi_kode"
+                                        value="{{ $transaksiCode }}" readonly>
+                                    <div class="row mt-3">
+                                        <div class="mt-1 text-end">
+                                            <button type="submit" class="btn btn-danger" name="action"
+                                                value="Toko Tutup">Toko
+                                                Tutup</button>
+                                            <button type="submit" class="btn btn-success" name="action"
+                                                value="Pesan">Pesan</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="text-end mb-3">
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="jumlah" placeholder="Jumlah" />
+                        @endif
+                    @else
+                        <h4 class="text-center mt-5">Pilih Produk</h4>
+                        <div class="m-5">
+                            <div class="row mb-3">
+                                <div class="col-sm-4">
+                                    <div class="text-end mb-3">
+                                        <div class="input-group">
+                                            <input type="text" class="typeahead form-control" name="search"
+                                                id="search" placeholder="Cari Produk">
+                                            <button class="input-group-text btn btn-primary btn-sm" type="button"
+                                                id="add"><i class="mdi mdi-magnify search-icon"></i></button>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-3">
+                                    <div class="text-end mb-3">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="jumlah"
+                                                placeholder="Jumlah" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select name="satuan" id="satuan" class="form-select">
+                                        <option value="">Pilih Satuan</option>
+                                        @foreach ($dtsatuan as $item)
+                                            <option value="{{ $item->satuan_id }}">{{ $item->satuan_nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="" class="btn btn-primary mb-2" id="submit-produk"><i
+                                            class="mdi mdi-plus-circle me-2"></i> Tambah</a>
+                                </div>
                             </div>
-                            <div class="col-sm-3">
-                                <select name="satuan" id="satuan" class="form-select">
-                                    <option value="">PIlih Satuan</option>
-                                    @foreach ($dtsatuan as $item)
-                                        <option value="{{ $item->satuan_id }}">{{ $item->satuan_nama }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <a href="" class="btn btn-primary mb-2" id="submit-produk"><i
-                                        class="mdi mdi-plus-circle me-2"></i> Tambah</a>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-centered w-100 table-nowrap mb-0" id="tabelkunjungan">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Kode Produk</th>
-                                        <th scope="col">Nama Produk</th>
-                                        <th scope="col">Jumlah</th>
-                                        <th scope="col">Satuan</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="list-produk">
-                                    @foreach ($dtlistproduk as $produk)
-                                        <tr id="row-{{ $produk->list_id }}">
-                                            <td>{{ $produk->produk->produk_kode ?? '' }}</td>
-                                            <td>{{ $produk->produk->produk_nama ?? '' }}</td>
-                                            <td>{{ $produk->jumlah ?? '' }}</td>
-                                            <td>{{ $produk->satuan->satuan_nama ?? '' }}</td>
-                                            <td>
-                                                <a href="javascript:void(0)" onclick="hapuslist({{ $produk->list_id }})"
-                                                    class="action-icon"><i class="mdi mdi-delete"></i></a>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-centered w-100 table-nowrap mb-0" id="tabelkunjungan">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Kode Produk</th>
+                                            <th scope="col">Nama Produk</th>
+                                            <th scope="col">Jumlah</th>
+                                            <th scope="col">Satuan</th>
+                                            <th scope="col">Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <form action="{{ route('list-kunjungan.store-list') }}" method="POST">
-                            @csrf
-                            <input type="hidden" class="form-control" name="detail_rute_id" id="detail_rute_id"
-                                value="{{ $dtkunjungan->detail_rute_id }}"readonly>
-                            <input type="hidden" class="form-control" name="customer_kode" id="customer"
-                                value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
-                            <input type="hidden" class="form-control" name="transaksi_kode" id="transaksi_kode"
-                                value="{{ $transaksiCode }}" readonly>
-                            <div class="row mt-3">
-                                <div class="mt-1 text-end">
-                                    <button type="submit" class="btn btn-danger" name="action" value="Toko Tutup">Toko
-                                        Tutup</button>
-                                    <button type="submit" class="btn btn-success" name="action"
-                                        value="Selesai">Selesai</button>
-                                </div>
+                                    </thead>
+                                    <tbody id="list-produk">
+                                        @foreach ($dtlistproduk as $produk)
+                                            <tr id="row-{{ $produk->list_id }}">
+                                                <td>{{ $produk->produk->produk_kode ?? '' }}</td>
+                                                <td>{{ $produk->produk->produk_nama ?? '' }}</td>
+                                                <td>{{ $produk->jumlah ?? '' }}</td>
+                                                <td>{{ $produk->satuan->satuan_nama ?? '' }}</td>
+                                                <td>
+                                                    <a href="javascript:void(0)"
+                                                        onclick="hapuslist({{ $produk->list_id }})"
+                                                        class="action-icon"><i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
-                    </div>
+                            <form action="{{ route('list-kunjungan.store-list') }}" method="POST">
+                                @csrf
+                                <input type="hidden" class="form-control" name="detail_rute_id" id="detail_rute_id"
+                                    value="{{ $dtkunjungan->detail_rute_id }}"readonly>
+                                <input type="hidden" class="form-control" name="customer_kode" id="customer"
+                                    value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
+                                <input type="hidden" class="form-control" name="transaksi_kode" id="transaksi_kode"
+                                    value="{{ $transaksiCode }}" readonly>
+                                <div class="row mt-3">
+                                    <div class="mt-1 text-end">
+                                        <button type="submit" class="btn btn-danger" name="action"
+                                            value="Toko Tutup">Toko
+                                            Tutup</button>
+                                        <button type="submit" class="btn btn-success" name="action"
+                                            value="Pesan">Pesan</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
+
                 </div>
-                <div class="tab-pane" id="previous">
+
+                <div class="tab-pane" id="pesan">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4 class="header-title">Pesanan Sebelumnya</h4>
+                                <h4 class="header-title">Pesanan Belum Selesai</h4>
                             </div>
                             <div class="inbox-widget">
                                 <table class="table table-striped">
@@ -149,6 +249,123 @@
                                         <tr>
                                             <th>Tanggal</th>
                                             <th>Kode Transaksi</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if ($dtpesan !== null)
+                                            @if ($dtpesan->count() > 0)
+                                                @foreach ($dtpesan as $transaksi)
+                                                    <tr>
+                                                        <td>{{ $transaksi->created_at->format('d-m-y') }}</td>
+                                                        <td>{{ $transaksi->transaksi_kode }}</td>
+                                                        <td>{{ $transaksi->status }}</td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-sm btn-soft-primary font-16"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#pesanan-belum-selesai-{{ $transaksi->transaksi_kode }}">
+                                                                Detail
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Belum Ada Transaksi</td>
+                                                </tr>
+                                            @endif
+                                        @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">Belum Ada Transaksi</td>
+                                            </tr>
+                                        @endif
+
+                                    </tbody>
+                                </table>
+                            </div> <!-- end inbox-widget -->
+                        </div> <!-- end card-body-->
+                    </div>
+
+                    <!-- Modal -->
+
+                    @foreach ($dtpesan as $pesan)
+                        <div id="pesanan-belum-selesai-{{ $pesan->transaksi_kode }}" class="modal fade" tabindex="-1"
+                            role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary">
+                                        <h4 class="modal-title text-white" id="standard-modalLabel">
+                                            Detail Transaksi {{ $pesan->transaksi_kode ?? '' }}</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-centered w-100 table-nowrap mb-0"
+                                                id="tabelkunjungan">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Kode Produk</th>
+                                                        <th scope="col">Nama Produk</th>
+                                                        <th scope="col">Jumlah</th>
+                                                        <th scope="col">Satuan</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="list-produk">
+                                                    @foreach ($pesan->listproduk as $produk)
+                                                        <tr id="pesan-{{ $produk->list_id }}">
+                                                            <td>{{ $produk->produk_kode ?? '' }}</td>
+                                                            <td>{{ $produk->produk->produk_nama ?? '' }}</td>
+                                                            <td>{{ $produk->jumlah ?? '' }}</td>
+                                                            <td>{{ $produk->satuan->satuan_nama ?? '' }}</td>
+                                                            <td>
+                                                                <a href="javascript:void(0)"
+                                                                    onclick="hapuslist({{ $produk->list_id }})"
+                                                                    class="action-icon"><i class="mdi mdi-delete"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ route('list-kunjungan.update-list') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" class="form-control" name="detail_rute_id"
+                                                id="detail_rute_id" value="{{ $dtkunjungan->detail_rute_id }}"readonly>
+                                            <input type="hidden" class="form-control" name="customer_kode"
+                                                id="customer"
+                                                value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
+                                            <input type="hidden" class="form-control" name="transaksi_kode"
+                                                id="transaksi_kode" value="{{ $transaksiCode }}" readonly>
+                                            <button type="button" class="btn btn-primary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success" name="status"
+                                                value="Selesai">Simpan</button>
+                                        </form>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    @endforeach
+                </div>
+
+                <div class="tab-pane" id="selesai">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="header-title">Pesanan Selesai</h4>
+                            </div>
+                            <div class="inbox-widget">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Kode Transaksi</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -158,10 +375,11 @@
                                                 <tr>
                                                     <td>{{ $transaksi->created_at->format('d-m-y') }}</td>
                                                     <td>{{ $transaksi->transaksi_kode }}</td>
+                                                    <td>{{ $transaksi->status }}</td>
                                                     <td>
                                                         <a href="#" class="btn btn-sm btn-soft-primary font-16"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#primary-header-modal-{{ $transaksi->transaksi_kode }}">
+                                                            data-bs-target="#pesanan-selesai-{{ $transaksi->transaksi_kode }}">
                                                             Detail
                                                         </a>
                                                     </td>
@@ -169,7 +387,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="3" class="text-center">Belum Ada Transaksi</td>
+                                                <td colspan="4" class="text-center">Belum Ada Transaksi</td>
                                             </tr>
                                         @endif
                                     </tbody>
@@ -180,7 +398,7 @@
 
                     <!-- Modal -->
                     @foreach ($dttransaksi as $transaksi)
-                        <div id="primary-header-modal-{{ $transaksi->transaksi_kode ?? '' }}" class="modal fade"
+                        <div id="pesanan-selesai-{{ $transaksi->transaksi_kode ?? '' }}" class="modal fade"
                             tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -215,10 +433,6 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary"
-                                            data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
@@ -366,7 +580,8 @@
                             });
                             console.log("berhasil hapus data");
                             $("#row-" + list_id).remove();
-                            $("#row-" + $produk.list_id).remove();
+                            $("#row-" + list_id).remove();
+                            $("#pesan-" + list_id).remove();
                         }
                     })
                 }

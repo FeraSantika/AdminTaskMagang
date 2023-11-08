@@ -34,8 +34,8 @@
                                             <i class="mdi mdi-account-multiple widget-icon"></i>
                                         </div>
                                         <h5 class="text-muted fw-normal mt-0" title="Number of Customers">
-                                            Distributor</h5>
-                                        <h3 class="mt-3 mb-3"></h3>
+                                            Kunjungan Hari Ini</h5>
+                                        <h3 class="mt-3 mb-3">{{$kunjungan}}</h3>
                                     </a>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -46,11 +46,11 @@
                                 <div class="card-body">
                                     <a href="">
                                         <div class="float-end">
-                                            <i class="mdi mdi-doctor widget-icon"></i>
+                                            <i class="mdi mdi-home-analytics widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Depo
+                                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Toko Tutup
                                         </h5>
-                                        <h3 class="mt-3 mb-3"></h3>
+                                        <h3 class="mt-3 mb-3">{{$tokoTutup}}</h3>
                                     </a>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -63,11 +63,11 @@
                                 <div class="card-body">
                                     <a href="">
                                         <div class="float-end">
-                                            <i class="mdi mdi-pill widget-icon"></i>
+                                            <i class="mdi mdi-shopping-outline widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Average Revenue">User
+                                        <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Pesanan
                                         </h5>
-                                        <h3 class="mt-3 mb-3"></h3>
+                                        <h3 class="mt-3 mb-3">{{$pesanan}}</h3>
                                     </a>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -78,10 +78,10 @@
                                 <div class="card-body">
                                     <a href="">
                                         <div class="float-end">
-                                            <i class="mdi mdi-hospital-building widget-icon"></i>
+                                            <i class="ri ri-bank-card-fill widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Growth">Menu</h5>
-                                        <h3 class="mt-3 mb-3"></h3>
+                                        <h5 class="text-muted fw-normal mt-0" title="Growth">Transaksi</h5>
+                                        <h3 class="mt-3 mb-3">{{$transaksiSelesai}}</h3>
                                     </a>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -90,7 +90,7 @@
                 </div> <!-- end col -->
             </div>
             <!-- end row -->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="d-flex card-header justify-content-between align-items-center">
@@ -152,7 +152,7 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                 </div> <!-- end col-->
-            </div>
+            </div> --}}
             <!-- end row -->
         </div>
         <!-- end row -->

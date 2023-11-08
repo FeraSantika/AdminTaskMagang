@@ -139,6 +139,7 @@ Route::get('/admin/list-kunjungan/auto-complete', [ListDataKunjunganController::
 Route::post('/admin/list-kunjungan/insert-list', [ListDataKunjunganController::class, 'insertlist'])->name('list-kunjungan.insert-list');
 Route::get('/admin/list-kunjungan/destroy/{id}', [ListDataKunjunganController::class, 'destroy'])->name('list-kunjungan.destroy');
 Route::post('/admin/list-kunjungan/store-list', [ListDataKunjunganController::class, 'storelist'])->name('list-kunjungan.store-list');
+Route::post('/admin/list-kunjungan/update-list', [ListDataKunjunganController::class, 'updatelist'])->name('list-kunjungan.update-list');
 
 Route::get('/admin/satuan', [DataSatuanController::class, 'index'])->name('satuan');
 Route::get('/admin/satuan/create', [DataSatuanController::class, 'create'])->name('satuan.create');
