@@ -4,7 +4,9 @@
     @if (Auth::user()->isAdmin())
         <a href="{{ route('admin.home') }}" class="logo logo-light">
         @elseif (Auth::user()->isSales())
-            <a href="{{ route('admin.sales') }}" class="logo logo-light">
+            <a href="{{ route('sales.home') }}" class="logo logo-light">
+        @elseif (Auth::user()->isDepo())
+            <a href="{{ route('depo.home') }}" class="logo logo-light">
     @endif
     <span class="logo-lg">
         <img src="{{ asset('assets/images/logo.png') }}" alt="logo">

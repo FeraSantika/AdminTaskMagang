@@ -64,25 +64,57 @@ class HomeController extends Controller
             ->with('rute', 'customer')
             ->count();
         $pesanan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
-            ->where('data_kunjungan.user_id', $sales)
             ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
             ->where('data_detail_rute.status', '=', 'Pesan')
             ->with('rute', 'customer')
             ->count();
         $tokoTutup = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
-            ->where('data_kunjungan.user_id', $sales)
             ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
             ->where('data_detail_rute.status', '=', 'Toko Tutup')
             ->with('rute', 'customer')
             ->count();
-            $transaksiSelesai = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+        $transaksiSelesai = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
             ->where('data_kunjungan.user_id', $sales)
-            ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+            ->whereDate('data_detail_rute.updated_at', $today)
             ->where('data_detail_rute.status', '=', 'Selesai')
             ->with('rute', 'customer')
             ->count();
-        // dd($transaksiSelesai);
+        // dd($pesanan);
         return view('home-sales', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
+    }
+
+    public function depo()
+    {
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $user = auth()->user()->role;
+        $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
+
+        $depo = auth()->user()->User_id;
+        $today = now()->format('Y-m-d');
+
+        $kunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            ->where('data_kunjungan.user_id', $depo)
+            ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+            ->with('rute', 'customer')
+            ->count();
+        $pesanan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+            ->where('data_detail_rute.status', '=', 'Pesan')
+            ->with('rute', 'customer')
+            ->count();
+        $tokoTutup = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+            ->where('data_detail_rute.status', '=', 'Toko Tutup')
+            ->with('rute', 'customer')
+            ->count();
+        $transaksiSelesai = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            ->where('data_kunjungan.user_id', $depo)
+            ->whereDate('data_detail_rute.updated_at', $today)
+            ->where('data_detail_rute.status', '=', 'Selesai')
+            ->with('rute', 'customer')
+            ->count();
+            
+        return view('home-depo', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
     }
 
     // public function verifyaccount(){

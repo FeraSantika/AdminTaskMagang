@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DataDepoController;
 use App\Http\Controllers\DataRuteController;
+use App\Http\Controllers\AksesDepoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSatuanController;
@@ -18,9 +19,13 @@ use App\Http\Controllers\DataCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DataKunjunganController;
 use App\Http\Controllers\DataDistributorController;
+use App\Http\Controllers\AksesDistributorController;
 use App\Http\Controllers\CekDataKunjunganController;
+use App\Http\Controllers\DataCustomerDepoController;
+use App\Http\Controllers\LaporanKunjunganController;
 use App\Http\Controllers\ListDataKunjunganController;
 use App\Http\Controllers\DataKategoriCustomerController;
+use App\Http\Controllers\LaporanKunjunganDepoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +49,8 @@ Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('Adm
 Route::get('/admin/register', [RegisterController::class, 'showRegisterForm'])->name('Adminregister');
 
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
-Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('admin.sales');
+Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('sales.home');
+Route::get('/admin/home-depo', [HomeController::class, 'depo'])->name('depo.home');
 
 Route::get('/tampil', [App\Http\Controllers\HomeController::class, 'tampil'])->name('tampil');
 Route::get('/admin/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -95,6 +101,17 @@ Route::post('/admin/customer/update/{id}', [DataCustomerController::class, 'upda
 Route::delete('/admin/customer/destroy/{id}', [DataCustomerController::class, 'destroy'])->name('customer.destroy');
 Route::delete('/admin/customer/destroysearch/{id}', [DataCustomerController::class, 'destroysearch'])->name('customer.destroysearch');
 Route::get('/search/customer', [DataCustomerController::class, 'search'])->name('search.customer');
+Route::get('/search/autocomplete_customer', [DataCustomerController::class, 'autocomplete'])->name('autocomplete_customer');
+
+Route::get('/admin/customer-depo', [DataCustomerDepoController::class, 'index'])->name('customer-depo');
+Route::get('/admin/customer-depo/create', [DataCustomerDepoController::class, 'create'])->name('customer-depo.create');
+Route::post('/admin/customer-depo/store', [DataCustomerDepoController::class, 'store'])->name('customer-depo.store');
+Route::get('/admin/customer-depo/edit/{id}', [DataCustomerDepoController::class, 'edit'])->name('customer-depo.edit');
+Route::post('/admin/customer-depo/update/{id}', [DataCustomerDepoController::class, 'update'])->name('customer-depo.update');
+Route::delete('/admin/customer-depo/destroy/{id}', [DataCustomerDepoController::class, 'destroy'])->name('customer-depo.destroy');
+Route::delete('/admin/customer-depo/destroysearch/{id}', [DataCustomerDepoController::class, 'destroysearch'])->name('customer-depo.destroysearch');
+Route::get('/search/customer-depo', [DataCustomerDepoController::class, 'search'])->name('search.customer-depo');
+Route::get('/search/autocomplete_customer-depo', [DataCustomerDepoController::class, 'autocomplete'])->name('autocomplete_customer-depo');
 
 Route::get('/admin/kategori_customer', [DataKategoriCustomerController::class, 'index'])->name('kategori_customer');
 Route::get('/admin/kategori_customer/create', [DataKategoriCustomerController::class, 'create'])->name('kategori_customer.create');
@@ -147,3 +164,23 @@ Route::post('/admin/satuan/store', [DataSatuanController::class, 'store'])->name
 Route::get('/admin/satuan/edit/{id}', [DataSatuanController::class, 'edit'])->name('satuan.edit');
 Route::post('/admin/satuan/update/{id}', [DataSatuanController::class, 'update'])->name('satuan.update');
 Route::delete('/admin/satuan/destroy/{id}', [DataSatuanController::class, 'destroy'])->name('satuan.destroy');
+
+Route::get('/admin/akses-depo', [AksesDepoController::class, 'index'])->name('akses-depo');
+Route::get('/admin/akses-depo/create', [AksesDepoController::class, 'create'])->name('akses-depo.create');
+Route::post('/admin/akses-depo/store', [AksesDepoController::class, 'store'])->name('akses-depo.store');
+Route::get('/admin/akses-depo/edit/{id}', [AksesDepoController::class, 'edit'])->name('akses-depo.edit');
+Route::post('/admin/akses-depo/update/{id}', [AksesDepoController::class, 'update'])->name('akses-depo.update');
+Route::delete('/admin/akses-depo/destroy/{id}', [AksesDepoController::class, 'destroy'])->name('akses-depo.destroy');
+
+Route::get('/admin/akses-distributor', [AksesDistributorController::class, 'index'])->name('akses-distributor');
+Route::get('/admin/akses-distributor/create', [AksesDistributorController::class, 'create'])->name('akses-distributor.create');
+Route::post('/admin/akses-distributor/store', [AksesDistributorController::class, 'store'])->name('akses-distributor.store');
+Route::get('/admin/akses-distributor/edit/{id}', [AksesDistributorController::class, 'edit'])->name('akses-distributor.edit');
+Route::post('/admin/akses-distributor/update/{id}', [AksesDistributorController::class, 'update'])->name('akses-distributor.update');
+Route::delete('/admin/akses-distributor/destroy/{id}', [AksesDistributorController::class, 'destroy'])->name('akses-distributor.destroy');
+
+Route::get('/admin/laporan-kunjungan', [LaporanKunjunganController::class, 'index'])->name('laporan-kunjungan');
+Route::get('/admin/laporan-kunjungan/get_data', [LaporanKunjunganController::class, 'getData'])->name('laporan-kunjungan.get_data');
+
+Route::get('/admin/laporan-kunjungan-depo', [LaporanKunjunganDepoController::class, 'index'])->name('laporan-kunjungan-depo');
+Route::get('/admin/laporan-kunjungan-depo/get_data', [LaporanKunjunganDepoController::class, 'getData'])->name('laporan-kunjungan-depo.get_data');

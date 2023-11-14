@@ -4,7 +4,7 @@
         <h3>Tambah Data Customer</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('customer.store') }}" method="POST" class="mb-3" id="customer-form"
+                <form action="{{ route('customer-depo.store') }}" method="POST" class="mb-3" id="customer-form"
                     enctype="multipart/form-data">
                     @csrf
 
@@ -25,11 +25,9 @@
                                 <div class="col-md-12 {{ $errors->has('distributor') ? 'has-error' : '' }}">
                                     <select name="distributor" id="distributor" class="form-select">
                                         <option selected disabled>Pilih distributor</option>
-                                        @foreach ($dtdepo as $distributor)
-                                            <option value="{{ $distributor->distributor_id }}"
-                                                data-depo_nama="{{ $distributor->depo_nama }}"
-                                                data-depo_id="{{ $distributor->depo_id }}">
-                                                {{ $distributor->distributor->distributor_nama }}
+                                        @foreach ($distributor as $item)
+                                            <option value="{{ $item->depo->distributor->distributor_id }}">
+                                                {{ $item->depo->distributor->distributor_id }} || {{ $item->depo->distributor->distributor_nama }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -61,9 +59,13 @@
                             <div class="mb-3">
                                 <label for="depo" class="form-label-md-6">Depo</label>
                                 <select name="depo" id="depo" class="form-select">
-                                    <option value="" selected>Pilih Depo</option>
+                                    <option selected disabled>Pilih Depo</option>
+                                    @foreach ($distributor as $item)
+                                        <option value="{{ $item->depo_id }}">
+                                            {{ $item->depo_id }}||{{ $item->depo->depo_nama }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                <input type="hidden" name="depo_id" id="depo_id">
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label-md-6">Alamat</label>
@@ -94,36 +96,12 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function() {
-            $("#distributor").change(function() {
-                var distributorId = $(this).val();
 
-                $.ajax({
-                    url: "{{ route('autocomplete_customer') }}",
-                    type: "GET",
-                    data: {
-                        distributor_id: distributorId
-                    },
-                    success: function(data) {
-                        console.log(data.depo)
-                        $("#depo").empty();
-                        $.each(data.depo, function(index, depo) {
-                            $("#depo").append('<option value="' + depo.depo_id +
-                                '">' + depo.depo_nama + '</option>');
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
-
-        var simpan = "{{ route('customer.store') }}";
+        var simpan = "{{ route('customer-depo.store') }}";
         $('#submit').click(function(e) {
             e.preventDefault();
             let distributor = $('#distributor').val();
-            let depo = $('#distributor option:selected').data('depo_id');
+            let depo = $('#depo').val();
             let kodecustomer = $('#kode').val();
             let nama = $('#nama').val();
             let alamat = $('#alamat').val();

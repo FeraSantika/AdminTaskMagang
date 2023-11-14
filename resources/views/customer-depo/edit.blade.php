@@ -5,7 +5,7 @@
         <div class="content bg-white border">
             <div class="m-5">
 
-                <form action="{{ route('customer.update', $dtcustomer->customer_id) }}" method="POST" class="mb-3"
+                <form action="{{ route('customer-depo.update', $dtcustomer->customer_id) }}" method="POST" class="mb-3"
                     id="customer-form" enctype="multipart/form-data">
                     @csrf
 
@@ -25,16 +25,7 @@
                                 <label for="distributor" class="col-form-label text-md-start">Distributor</label>
                                 <div class="col-md-12 {{ $errors->has('distributor') ? 'has-error' : '' }}">
                                     <select name="distributor" id="distributor" class="form-select">
-                                        <option value="{{ $dtcustomer->distributor_id }}" selected disabled>
-                                            {{ $dtcustomer->distributor->distributor_nama ?? '' }}
-                                        </option>
-                                        @foreach ($dtdepo as $distributor)
-                                            <option value="{{ $distributor->distributor_id }}"
-                                                data-depo_nama="{{ $distributor->depo_nama }}"
-                                                data-depo_id="{{ $distributor->depo_id }}">
-                                                {{ $distributor->distributor->distributor_nama }}
-                                            </option>
-                                        @endforeach
+                                        <option value="{{$dtcustomer->distributor_id}}">{{$dtcustomer->distributor->distributor_nama ?? ''}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -68,7 +59,7 @@
                             <div class="mb-3">
                                 <label for="depo" class="form-label-md-6">Depo</label>
                                 <select name="depo" id="depo" class="form-select">
-                                    <option value="" selected>Pilih Depo</option>
+                                    <option value="{{$dtcustomer->depo_id}}">{{$dtcustomer->depo->depo_nama ?? ''}}</option>
                                 </select>
                                 <input type="hidden" name="depo_id" id="depo_id">
                             </div>
@@ -103,29 +94,5 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function() {
-            $("#distributor").change(function() {
-                var distributorId = $(this).val();
-
-                $.ajax({
-                    url: "{{ route('autocomplete_customer') }}",
-                    type: "GET",
-                    data: {
-                        distributor_id: distributorId
-                    },
-                    success: function(data) {
-                        console.log(data.depo)
-                        $("#depo").empty();
-                        $.each(data.depo, function(index, depo) {
-                            $("#depo").append('<option value="' + depo.depo_id +
-                                '">' + depo.depo_nama + '</option>');
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
     </script>
 @endsection

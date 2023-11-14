@@ -33,7 +33,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-2">
-                                    <a href="{{ route('customer.create') }}" class="btn btn-primary mb-2"><i
+                                    <a href="{{ route('customer-depo.create') }}" class="btn btn-primary mb-2"><i
                                             class="mdi mdi-plus-circle me-2"></i> Add customer</a>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -82,25 +82,21 @@
                                                     <td>{{ $item->distributor->distributor_nama ?? '' }}</td>
                                                     <td>{{ $item->depo->depo_nama ?? '' }}</td>
                                                     <td class="text-end">
-                                                        <a href="{{ route('customer.edit', $item->customer_id) }}"
+                                                        <a href="{{ route('customer-depo.edit', $item->customer_id) }}"
                                                             class="action-icon">
                                                             <i class="mdi mdi-square-edit-outline"></i>
                                                         </a>
-                                                        <a href="{{ route('customer.destroy', $item->customer_id) }}"
+                                                        <a href="{{ route('customer-depo.destroy', $item->customer_id) }}"
                                                             class="action-icon"
                                                             onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $item->customer_id }}').submit();">
                                                             <i class="mdi mdi-delete"></i>
                                                         </a>
                                                         <form id="delete-form-{{ $item->customer_id }}"
-                                                            action="{{ route('customer.destroy', $item->customer_id) }}"
+                                                            action="{{ route('customer-depo.destroy', $item->customer_id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
-                                                        {{-- <a href="{{ route('detail.customer', $item->customer_id) }}"
-                                                            class="action-icon">
-                                                            <i class="uil-file-search-alt"></i>
-                                                        </a> --}}
                                                     </td>
                                                 </tr>
                                                 @php
@@ -136,7 +132,7 @@
 
             function performSearch(searchTerm) {
                 $.ajax({
-                    url: "{{ route('search.customer') }}",
+                    url: "{{ route('search.customer-depo') }}",
                     type: 'GET',
                     dataType: "json",
                     data: {
@@ -167,7 +163,9 @@
                             "<td>" + item.customer_alamat + "</td>" +
                             "<td>" + item.latitude + "</td>" +
                             "<td>" + item.longtitude + "</td>" +
-                            "<td><a href='customer/edit/" + item.customer_id + "' class='action-icon'>" +
+                            "<td>" + item.distributor.distributor_nama + "</td>" +
+                            "<td>" + item.depo.depo_nama + "</td>" +
+                            "<td><a href='customer-depo/edit/" + item.customer_id + "' class='action-icon'>" +
                             "<i class='mdi mdi-square-edit-outline'></i></a>" +
                             "<a href='javascript:void(0);' class='action-icon delete-customer' data-customer-id='" +
                             item.customer_id + "'>" +
@@ -195,7 +193,7 @@
                 function deletecustomer(customerId, deleteButton) {
                     console.log('Mengirim permintaan DELETE untuk customerId: ' + customerId);
                     $.ajax({
-                        url: '/admin/customer/destroysearch/' + customerId,
+                        url: '/admin/customer-depo/destroysearch/' + customerId,
                         type: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -9,10 +9,9 @@ use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\DataDistributor;
-use Illuminate\Support\Facades\DB;
 use App\Models\DataKategoriCustomer;
 
-class DataCustomerController extends Controller
+class DataCustomerDepoController extends Controller
 {
     public function index()
     {
@@ -20,8 +19,11 @@ class DataCustomerController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        $dtcustomer = DataCustomer::with('kategori', 'depo', 'distributor')->paginate(10);
-        return view('customer.index', compact('menu', 'roleuser', 'dtcustomer'));
+        $user_id =  auth()->user()->User_id;
+        $depo = AksesDepo::where('user_id', $user_id)->value('depo_id');
+
+        $dtcustomer = DataCustomer::with('kategori', 'depo', 'distributor')->where('depo_id', $depo)->paginate(10);
+        return view('customer-depo.index', compact('menu', 'roleuser', 'dtcustomer'));
     }
 
     public function create()
@@ -39,6 +41,9 @@ class DataCustomerController extends Controller
         $paddedId = str_pad($nextId, $length, '0', STR_PAD_LEFT);
         $customerCode = $prefix . $paddedId;
 
+        $user_id =  auth()->user()->User_id;
+        $distributor = AksesDepo::where('user_id', $user_id)->with('depo.distributor')->get();
+
         $dtkategori = DataKategoriCustomer::get();
         $dtdepo = DataDepo::join('data_distributor', 'data_depo.distributor_id', '=', 'data_distributor.distributor_id')
             ->groupBy('data_distributor.distributor_nama')->get();
@@ -48,8 +53,7 @@ class DataCustomerController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        // dd($dtdepo);
-        return view('customer.create', compact('dtcustomer', 'lastcustomer', 'customerCode', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor'));
+        return view('customer-depo.create', compact('dtcustomer', 'lastcustomer', 'customerCode', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor', 'distributor'));
     }
 
     public function autocomplete(Request $request)
@@ -98,15 +102,19 @@ class DataCustomerController extends Controller
 
     public function edit($id)
     {
-        $dtcustomer =  Datacustomer::where('customer_id', $id)->first();
+        $dtcustomer =  Datacustomer::where('customer_id', $id)->with('depo', 'distributor')->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
+
+        $user_id =  auth()->user()->User_id;
+        $distributor = AksesDepo::where('user_id', $user_id)->with('depo.distributor')->get();
+
         $dtkategori = DataKategoriCustomer::get();
         $dtdepo = DataDepo::join('data_distributor', 'data_depo.distributor_id', '=', 'data_distributor.distributor_id')
             ->groupBy('data_distributor.distributor_nama')->get();
         $dtdistributor = DataDistributor::get();
-        return view('customer.edit', compact('dtcustomer', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor'));
+        return view('customer-depo.edit', compact('dtcustomer', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor', 'distributor'));
     }
 
     public function update(Request $request, $id)
@@ -125,27 +133,32 @@ class DataCustomerController extends Controller
 
         Datacustomer::where('customer_id', $id)->update($dtcustomer);
 
-        return redirect()->route('customer')->with('success', 'Data berhasil diubah!');
+        return redirect()->route('customer-depo')->with('success', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
         $dt = Datacustomer::where('customer_id', $id);
         $dt->delete();
-        return redirect()->route('customer')->with('success', 'Data berhasil dihapus!');
+        return redirect()->route('customer-depo')->with('success', 'Data berhasil dihapus!');
     }
 
     public function search(Request $request)
     {
+        $user_id =  auth()->user()->User_id;
+        $depo = AksesDepo::where('user_id', $user_id)->value('depo_id');
+
         $searchTerm = $request->get('cari');
 
-        $data = Datacustomer::where('customer_nama', 'LIKE', '%' . $searchTerm . '%')
-            ->orWhere('customer_kode', 'LIKE', '%' . $request->get('cari') . '%')
-            ->orWhere('customer_nama', 'LIKE', '%' . $request->get('cari') . '%')
-            ->orWhereHas('kategori', function ($query) use ($searchTerm) {
-                $query->where('kategori_customer_nama', 'LIKE', '%' . $searchTerm . '%');
+        $data = DataCustomer::where('depo_id', $depo)
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('customer_nama', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhereHas('kategori', function ($subquery) use ($searchTerm) {
+                        $subquery->where('kategori_customer_nama', 'LIKE', '%' . $searchTerm . '%');
+                    });
             })
-            ->with('kategori')->get();
+            ->with('kategori', 'depo', 'distributor')
+            ->get();
 
         return response()->json($data);
     }

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->bigIncrements('customer_id');
             $table->char('customer_kode');
             $table->integer('kategori_customer_id');
+            $table->integer('distributor_id');
+            $table->integer('depo_id');
             $table->string('customer_nama');
             $table->char('customer_nomor_hp');
             $table->char('customer_alamat');

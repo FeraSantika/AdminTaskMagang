@@ -56,7 +56,15 @@ class LoginController extends Controller
         $credentials['User_name'] = $credentials['User_name'];
         $credentials['password'] = $credentials['User_password'];
         if (Auth::attempt($credentials)) {
-            return redirect()->route('admin.home');
+            // return redirect()->route('admin.home');
+            $user = Auth::user();
+            if ($user->role->Role_name === 'Admin') {
+                return redirect()->route('admin.home');
+            } elseif ($user->role->Role_name === 'Sales') {
+                return redirect()->route('sales.home');
+            } elseif ($user->role->Role_name === 'Depo') {
+                return redirect()->route('depo.home');
+            }
         }
 
         return back()->withErrors([

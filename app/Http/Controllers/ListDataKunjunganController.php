@@ -46,6 +46,7 @@ class ListDataKunjunganController extends Controller
                 ->where('transaksi_data_produk.transaksi_kode', $transaksi->transaksi_kode)
                 ->where('data_detail_rute.status', '=', 'Pesan')
                 ->with('listproduk.produk')
+                ->groupBy('transaksi_data_produk.transaksi_kode')
                 ->get();
             $dttransaksi = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
                 ->where('transaksi_data_produk.customer_kode', $customer_kode)
@@ -67,7 +68,7 @@ class ListDataKunjunganController extends Controller
                 ->groupBy('transaksi_data_produk.transaksi_kode')
                 ->get();
         }
-        // dd($dtpesan);
+        // dd($today);
 
         $prefix = 'T-PRD';
         $length = 4;
@@ -81,7 +82,7 @@ class ListDataKunjunganController extends Controller
         $paddedId = str_pad($nextId, $length, '0', STR_PAD_LEFT);
         $transaksiCode = $prefix . $paddedId;
 
-        return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'dtpesan', 'transaksi'));
+        return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'dtpesan', 'transaksi', 'today'));
     }
 
     public function autocomplete(Request $request)
