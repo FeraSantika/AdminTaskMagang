@@ -54,13 +54,7 @@
                                         <button type="button" class="btn btn-success"
                                             onclick="tampilkanData()">Filter</button>
                                     </div>
-                                    {{-- <div class="col-sm-2 mt-3">
-                                        <a href="#" type="submit" class="btn btn-light mb-2 me-1"
-                                            onclick="exportExcel()"><i class="uil-print"></i>
-                                            Excel</a>
-                                        <a href="#" class="btn btn-primary mb-2 me-1"
-                                            onclick="exportPDFWithDates()"><i class="uil-print"></i> PDF</a>
-                                    </div> --}}
+                                    <input type="hidden" id="depo" value="{{ $depo_id }}">
                                 </div>
                             </div>
 
@@ -69,9 +63,11 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
+                                            <th scope="col">Tanggal</th>
                                             <th scope="col">Kode Customer</th>
                                             <th scope="col">Nama Customer</th>
-                                            <th scope="col">Alamat Customer</th>    
+                                            <th scope="col">Alamat Customer</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -84,9 +80,21 @@
                                                     <td>
                                                         {{ $rowNumber }}
                                                     </td>
-                                                    <td>{{ $item->customer->customer_kode }}</td>
-                                                    <td>{{ $item->customer->customer_nama }}</td>
-                                                    <td>{{ $item->customer->customer_alamat }}</td>
+                                                    <td>
+                                                        @foreach ($item->detailrute as $status)
+                                                            @if ($status->status == $item->detailrute->first()->status)
+                                                                {{ $status->updated_at->format('d-m-Y') }}
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>{{ $item->customer_kode }}</td>
+                                                    <td>{{ $item->customer_nama }}</td>
+                                                    <td>{{ $item->customer_alamat }}</td>
+                                                    <td>
+                                                        @foreach ($item->detailrute as $status)
+                                                            {{ $status->status }}
+                                                        @endforeach
+                                                    </td>
                                                 </tr>
                                                 @php
                                                     $rowNumber++;
@@ -103,7 +111,7 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                     <div class="mt-3 text-center">
-                        <div class="pagination">{{ $dtkunjungan->links('pagination::bootstrap-4') }}</div>
+                        {{-- <div class="pagination">{{ $dtkunjungan->links('pagination::bootstrap-4') }}</div> --}}
                     </div>
                 </div> <!-- end col -->
             </div>
@@ -119,12 +127,13 @@
             const pilihStatus = $("#pilihStatus").val();
             const tanggalAwal = $("#tanggalAwal").val();
             const tanggalAkhir = $("#tanggalAkhir").val();
+            const depo = $("#depo").val();
 
             const hasilData = document.getElementById('tabelkunjungan');
             hasilData.innerHTML = '';
 
             const url =
-                `/admin/laporan-kunjungan/get_data?pilihStatus=${pilihStatus}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                `/admin/laporan-kunjungan-depo/get_data?pilihStatus=${pilihStatus}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}&depo=${depo}`;
             fetch(url)
                 .then(response => response.json())
                 .then(dataTerfilter => {
@@ -143,8 +152,8 @@
                             console.log(item)
                             tableHTML += '<tr>';
                             tableHTML += `<td>${item.customer_kode}</td>`;
-                            tableHTML += `<td>${item.customer.customer_nama}</td>`;
-                            tableHTML += `<td>${item.customer.customer_alamat}</td>`;
+                            tableHTML += `<td>${item.customer_nama}</td>`;
+                            tableHTML += `<td>${item.customer_alamat}</td>`;
                             tableHTML += '</tr>';
                         });
 

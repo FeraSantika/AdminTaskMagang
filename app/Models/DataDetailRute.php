@@ -23,4 +23,8 @@ class DataDetailRute extends Model
     public function customer(){
         return $this->belongsTo(DataCustomer::class, 'customer_kode', 'customer_kode');
     }
+
+    public function kunjungan(){
+        return $this->belongsTo(DataKunjungan::class, 'rute_id', 'rute_id');
+    }
 }

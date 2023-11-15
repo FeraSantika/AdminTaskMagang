@@ -35,6 +35,6 @@ class DataCustomer extends Model
     }
 
     public function detailrute(){
-        return $this->belongsTo(DataDetailRute::class, 'customer_kode', 'customer_kode');
+        return $this->hasMany(DataDetailRute::class, 'customer_kode', 'customer_kode');
     }
 }
