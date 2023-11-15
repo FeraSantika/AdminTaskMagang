@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
 use App\Models\DataMenu;
+use App\Models\AksesDepo;
+use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\ListDataProduk;
 use Illuminate\Support\Facades\DB;
-use App\Exports\laporanprodukExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\laporanprodukdepoExport;
 
-class LaporanProdukController extends Controller
+class LaporanProdukDepoController extends Controller
 {
     public function index()
     {
@@ -19,12 +21,18 @@ class LaporanProdukController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        $produk = ListDataProduk::select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+        $user_id =  auth()->user()->User_id;
+        $depo_id = AksesDepo::where('user_id', $user_id)->value('depo_id');
+        $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
+
+        $produk = ListDataProduk::whereIn('customer_kode', $customer)->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
             ->groupBy('produk_kode')
             ->with('produk')
             ->get();
 
-        return view('laporan_produk.index', compact('menu', 'roleuser', 'produk'));
+        // dd($produk);
+
+        return view('laporan_produk_depo.index', compact('menu', 'roleuser', 'produk', 'customer'));
     }
 
     public function getData(Request $request)
@@ -32,7 +40,12 @@ class LaporanProdukController extends Controller
         $tglAwal = $request->input('tanggalAwal');
         $tglAkhir = $request->input('tanggalAkhir');
 
-        $dataTerfilter = ListDataProduk::select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+        $user_id =  auth()->user()->User_id;
+        $depo_id = AksesDepo::where('user_id', $user_id)->value('depo_id');
+        $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
+
+        $dataTerfilter = ListDataProduk::whereIn('customer_kode', $customer)
+            ->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
             ->whereBetween('created_at', [$tglAwal, $tglAkhir])
             ->groupBy('produk_kode')
             ->with('produk')
@@ -50,13 +63,18 @@ class LaporanProdukController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        $dtproduk =  ListDataProduk::select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+        $user_id =  auth()->user()->User_id;
+        $depo_id = AksesDepo::where('user_id', $user_id)->value('depo_id');
+        $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
+
+        $dtproduk = ListDataProduk::whereIn('customer_kode', $customer)
+            ->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
             ->whereBetween('created_at', [$tglAwal, $tglAkhir])
             ->groupBy('produk_kode')
             ->with('produk')
             ->get();
 
-        $view = view('laporan_produk.exportpdf', compact('dtproduk', 'tglAwal', 'tglAkhir', 'menu', 'roleuser'))->render();
+        $view = view('laporan_produk_depo.exportpdf', compact('dtproduk', 'tglAwal', 'tglAkhir', 'menu', 'roleuser'))->render();
         $pdf = new Dompdf();
         $pdf->loadHtml($view);
         $pdf->setPaper('A4', 'landscape');
@@ -67,7 +85,7 @@ class LaporanProdukController extends Controller
         $pdfFilePath = 'path_to_save.pdf';
         \Illuminate\Support\Facades\Storage::put($pdfFilePath, $pdfContent);
 
-        return $pdf->stream('Laporan_Produk.pdf');
+        return $pdf->stream('Laporan_Produk_Depo.pdf');
     }
 
     public function exportExcel(Request $request)
@@ -75,9 +93,9 @@ class LaporanProdukController extends Controller
         $tglAwal = $request->input('tanggalAwal');
         $tglAkhir = $request->input('tanggalAkhir');
 
-        return Excel::download(new laporanprodukExport(
+        return Excel::download(new laporanprodukdepoExport(
             $tglAwal,
             $tglAkhir,
-        ), 'Laporan_Produk.xlsx');
+        ), 'Laporan_Produk_Depo.xlsx');
     }
 }

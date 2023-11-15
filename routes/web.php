@@ -18,11 +18,13 @@ use App\Http\Controllers\DataSatuanController;
 use App\Http\Controllers\DataCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DataKunjunganController;
+use App\Http\Controllers\LaporanProdukController;
 use App\Http\Controllers\DataDistributorController;
 use App\Http\Controllers\AksesDistributorController;
 use App\Http\Controllers\CekDataKunjunganController;
 use App\Http\Controllers\DataCustomerDepoController;
 use App\Http\Controllers\LaporanKunjunganController;
+use App\Http\Controllers\LaporanProdukDepoController;
 use App\Http\Controllers\ListDataKunjunganController;
 use App\Http\Controllers\DataKategoriCustomerController;
 use App\Http\Controllers\LaporanKunjunganDepoController;
@@ -184,3 +186,14 @@ Route::get('/admin/laporan-kunjungan/get_data', [LaporanKunjunganController::cla
 
 Route::get('/admin/laporan-kunjungan-depo', [LaporanKunjunganDepoController::class, 'index'])->name('laporan-kunjungan-depo');
 Route::get('/admin/laporan-kunjungan-depo/get_data', [LaporanKunjunganDepoController::class, 'getData'])->name('laporan-kunjungan-depo.get_data');
+
+Route::get('/admin/laporan-produk', [LaporanProdukController::class, 'index'])->name('laporan-produk');
+Route::get('/admin/laporan-produk/get_data', [LaporanProdukController::class, 'getData'])->name('laporan-produk.get_data');
+Route::get('/admin/laporan-produk/export-pdf', [LaporanProdukController::class, 'exportPDF'])->name('laporan-produk.export-pdf');
+Route::get('/admin/laporan-produk/export-excel', [LaporanProdukController::class, 'exportExcel'])->name('laporan-produk.export-excel');
+
+Route::get('/admin/laporan-produk-depo', [LaporanProdukDepoController::class, 'index'])->name('laporan-produk-depo');
+Route::get('/admin/laporan-produk-depo/get_data', [LaporanProdukDepoController::class, 'getData'])->name('laporan-produk-depo.get_data');
+Route::get('/admin/laporan-produk-depo/export-pdf', [LaporanProdukDepoController::class, 'exportPDF'])->name('laporan-produk-depo.export-pdf');
+Route::get('/admin/laporan-produk-depo/export-excel', [LaporanProdukDepoController::class, 'exportExcel'])->name('laporan-produk-depo.export-excel');
+

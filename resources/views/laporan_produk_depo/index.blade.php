@@ -72,9 +72,9 @@
                                         @foreach ($produk as $item)
                                             <tr>
                                                 <td>{{ $rowNumber }}</td>
-                                                <td>{{ $item->produk_kode }}</td>
-                                                <td>{{ $item->produk->produk_nama }}</td>
-                                                <td>{{ $item->total_jumlah }}</td>
+                                                <td>{{$item->produk_kode}}</td>
+                                                <td>{{$item->produk->produk_nama}}</td>
+                                                <td>{{$item->total_jumlah}}</td>
                                             </tr>
                                             @php
                                                 $rowNumber++;
@@ -106,7 +106,7 @@
             hasilData.innerHTML = '';
 
             const url =
-                `/admin/laporan-produk/get_data?&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                `/admin/laporan-produk-depo/get_data?&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
             fetch(url)
                 .then(response => response.json())
                 .then(dataTerfilter => {
@@ -155,7 +155,7 @@
             var tanggalAwal = document.getElementById('tanggalAwal').value;
             var tanggalAkhir = document.getElementById('tanggalAkhir').value;
 
-            var pdfURL = "{{ route('laporan-produk.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
+            var pdfURL = "{{ route('laporan-produk-depo.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
                 "&tanggalAkhir=" +
                 tanggalAkhir;
 
@@ -166,7 +166,7 @@
             var tanggalAwal = document.getElementById('tanggalAwal').value;
             var tanggalAkhir = document.getElementById('tanggalAkhir').value;
 
-            var excelURL = "{{ route('laporan-produk.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
+            var excelURL = "{{ route('laporan-produk-depo.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
                 "&tanggalAkhir=" + tanggalAkhir;
 
             window.location.href = excelURL;
