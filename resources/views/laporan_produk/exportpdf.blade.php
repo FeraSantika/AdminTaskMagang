@@ -79,10 +79,12 @@
                         <th scope="col">Kode Produk</th>
                         <th scope="col">Nama Produk</th>
                         <th scope="col">Jumlah</th>
+                        <th scope="col">Satuan</th>
                     </tr>
                     @if ($dtproduk->isEmpty())
                         <tr>
                             <th style="border-top: 1px solid #fff; border-bottom: 1px solid #fff;"></th>
+                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
@@ -96,14 +98,16 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                         </tr>
                     @endif
                     @foreach ($dtproduk as $item)
                         <tr>
-                            <td style="text-align-center">{{ $loop->iteration }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->produk_kode }}</td>
                             <td>{{ $item->produk->produk_nama }}</td>
-                            <td style="text-align-center">{{ $item->total_jumlah }}</td>
+                            <td>{{ $item->total_jumlah }}</td>
+                            <td>{{ $item->satuan->satuan_nama }}</td>
                         </tr>
                     @endforeach
                 </tbody>

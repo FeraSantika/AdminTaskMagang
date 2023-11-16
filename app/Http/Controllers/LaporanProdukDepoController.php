@@ -25,9 +25,10 @@ class LaporanProdukDepoController extends Controller
         $depo_id = AksesDepo::where('user_id', $user_id)->value('depo_id');
         $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
 
-        $produk = ListDataProduk::whereIn('customer_kode', $customer)->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+        $produk = ListDataProduk::whereIn('customer_kode', $customer)->select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
             ->groupBy('produk_kode')
-            ->with('produk')
+            ->groupBy('satuan_id')
+            ->with('produk', 'satuan')
             ->get();
 
         // dd($produk);
@@ -45,10 +46,11 @@ class LaporanProdukDepoController extends Controller
         $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
 
         $dataTerfilter = ListDataProduk::whereIn('customer_kode', $customer)
-            ->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
             ->whereBetween('created_at', [$tglAwal, $tglAkhir])
             ->groupBy('produk_kode')
-            ->with('produk')
+            ->groupBy('satuan_id')
+            ->with('produk', 'satuan')
             ->get();
 
         return response()->json($dataTerfilter);
@@ -68,10 +70,11 @@ class LaporanProdukDepoController extends Controller
         $customer = DataCustomer::where('depo_id', $depo_id)->pluck('customer_kode');
 
         $dtproduk = ListDataProduk::whereIn('customer_kode', $customer)
-            ->select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
             ->whereBetween('created_at', [$tglAwal, $tglAkhir])
             ->groupBy('produk_kode')
-            ->with('produk')
+            ->groupBy('satuan_id')
+            ->with('produk', 'satuan')
             ->get();
 
         $view = view('laporan_produk_depo.exportpdf', compact('dtproduk', 'tglAwal', 'tglAkhir', 'menu', 'roleuser'))->render();

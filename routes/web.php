@@ -22,6 +22,7 @@ use App\Http\Controllers\LaporanProdukController;
 use App\Http\Controllers\DataDistributorController;
 use App\Http\Controllers\AksesDistributorController;
 use App\Http\Controllers\CekDataKunjunganController;
+use App\Http\Controllers\CekPesananController;
 use App\Http\Controllers\DataCustomerDepoController;
 use App\Http\Controllers\LaporanKunjunganController;
 use App\Http\Controllers\LaporanProdukDepoController;
@@ -196,4 +197,12 @@ Route::get('/admin/laporan-produk-depo', [LaporanProdukDepoController::class, 'i
 Route::get('/admin/laporan-produk-depo/get_data', [LaporanProdukDepoController::class, 'getData'])->name('laporan-produk-depo.get_data');
 Route::get('/admin/laporan-produk-depo/export-pdf', [LaporanProdukDepoController::class, 'exportPDF'])->name('laporan-produk-depo.export-pdf');
 Route::get('/admin/laporan-produk-depo/export-excel', [LaporanProdukDepoController::class, 'exportExcel'])->name('laporan-produk-depo.export-excel');
+
+Route::get('/admin/cek-pesanan', [CekPesananController::class, 'index'])->name('cek-pesanan');
+Route::get('/admin/cek-pesanan/detail/{id}', [CekPesananController::class, 'detail'])->name('cek-pesanan.detail');
+Route::get('/admin/cek-pesanan/auto-complete', [CekPesananController::class, 'autocomplete'])->name('cek-pesanan.autocomplete');
+Route::post('/admin/cek-pesanan/insert-list', [CekPesananController::class, 'insertlist'])->name('cek-pesanan.insert-list');
+Route::get('/admin/cek-pesanan/destroy/{id}', [CekPesananController::class, 'destroy'])->name('cek-pesanan.destroy');
+Route::post('/admin/cek-pesanan/store-list', [CekPesananController::class, 'storelist'])->name('cek-pesanan.store-list');
+Route::post('/admin/cek-pesanan/update-list', [CekPesananController::class, 'updatelist'])->name('cek-pesanan.update-list');
 

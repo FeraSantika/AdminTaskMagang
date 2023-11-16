@@ -63,6 +63,7 @@
                                             <th scope="col">Kode Produk</th>
                                             <th scope="col">Nama Produk</th>
                                             <th scope="col">Jumlah</th>
+                                            <th scope="col">Satuan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,6 +76,7 @@
                                                 <td>{{ $item->produk_kode }}</td>
                                                 <td>{{ $item->produk->produk_nama }}</td>
                                                 <td>{{ $item->total_jumlah }}</td>
+                                                <td>{{ $item->satuan->satuan_nama }}</td>
                                             </tr>
                                             @php
                                                 $rowNumber++;
@@ -117,6 +119,7 @@
                         tableHTML += '<th>Kode Produk</th>';
                         tableHTML += '<th>Nama Produk</th>';
                         tableHTML += '<th>Jumlah</th>';
+                        tableHTML += '<th>Satuan</th>';
                         tableHTML += '</tr>';
                         tableHTML += '</thead>';
                         tableHTML += '<tbody>';
@@ -127,6 +130,7 @@
                             tableHTML += `<td>${item.produk_kode}</td>`;
                             tableHTML += `<td>${item.produk.produk_nama}</td>`;
                             tableHTML += `<td>${item.total_jumlah}</td>`;
+                            tableHTML += `<td>${item.satuan.satuan_nama}</td>`;
                             tableHTML += '</tr>';
                         });
 

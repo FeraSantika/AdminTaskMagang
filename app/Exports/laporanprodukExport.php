@@ -23,17 +23,18 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
 
     function __construct($tglAwal, $tglAkhir)
     {
-        $this->tglAwal = $tglAwal;
-        $this->tglAkhir = $tglAkhir;
+        $this->tglAwal = $tglAwal." 00:00:00";
+        $this->tglAkhir = $tglAkhir." 23:59:00";
         $this->serialNumber = 1;
     }
 
     public function collection()
     {
-        $result  = ListDataProduk::select('produk_kode', DB::raw('SUM(jumlah) as total_jumlah'))
-            ->whereBetween('created_at', [$this->tglAwal, $this->tglAkhir])
+        $result  = ListDataProduk::select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
+            ->whereBetween('created_at', [$this->tglAwal , $this->tglAkhir])
             ->groupBy('produk_kode')
-            ->with('produk')
+            ->groupBy('satuan_id')
+            ->with('produk', 'satuan')
             ->get();
 
         $formattedData = $result->map(function ($item) {
@@ -42,6 +43,7 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
                 'Kode Produk' => $item->produk_kode,
                 'Nama Produk' => $item->produk->produk_nama,
                 'Jumlah' => $item->total_jumlah,
+                'Satuan' => $item->satuan->satuan_nama
             ];
         });
 
@@ -73,6 +75,7 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'Kode Produk',
             'Nama Produk',
             'Jumlah',
+            'Satuan',
         ];
         return $filterText;
     }
@@ -81,10 +84,10 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
     public function styles(Worksheet $sheet)
     {
         $lastRow = count($this->collection()) + 7;
-        $sheet->mergeCells('A1:D1');
-        $sheet->mergeCells('A2:D2');
-        $sheet->mergeCells('A4:D4');
-        $sheet->mergeCells('A6:D6');
+        $sheet->mergeCells('A1:E1');
+        $sheet->mergeCells('A2:E2');
+        $sheet->mergeCells('A4:E4');
+        $sheet->mergeCells('A6:E6');
 
         return [
             1 => [
@@ -94,31 +97,31 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
                 'font' => ['bold' => true],
                 'alignment' => ['horizontal' => 'center'],
             ],
-            'A1:D1' => [
+            'A1:E1' => [
                 'alignment' => ['horizontal' => 'center'],
                 'font' => ['bold' => true, 'size' => 20],
             ],
-            'A2:D2' => [
+            'A2:E2' => [
                 'font' => ['bold' => false],
             ],
-            'A4:D4' => [
+            'A4:E4' => [
                 'alignment' => ['horizontal' => 'center'],
                 'font' => ['bold' => true],
             ],
-            'A5:D5' => [
+            'A5:E5' => [
                 'font' => ['bold' => false],
             ],
-            'A6:D6' => [
+            'A6:E6' => [
                 'alignment' => ['horizontal' => 'center'],
                 'font' => ['bold' => false],
             ],
-            'A7:D7' => [
+            'A7:E7' => [
                 'alignment' => ['horizontal' => 'center'],
                 'font' => ['bold' => true],
                 'borders' => ['allBorders' => ['borderStyle' => 'thick', 'color' => ['rgb' => '000000']]],
             ],
 
-            'A8:D' . $lastRow => ['borders' => ['allBorders' => ['borderStyle' => 'thin', 'color' => ['rgb' => '000000']]]],
+            'A8:E' . $lastRow => ['borders' => ['allBorders' => ['borderStyle' => 'thin', 'color' => ['rgb' => '000000']]]],
         ];
     }
 
@@ -134,6 +137,7 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'Kode Produk' => $data['Kode Produk'],
             'Nama Produk' => $data['Nama Produk'],
             'Jumlah' => $data['Jumlah'],
+            'Satuan' => $data['Satuan'],
         ];
     }
 }

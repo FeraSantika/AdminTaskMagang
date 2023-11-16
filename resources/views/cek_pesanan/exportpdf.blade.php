@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Laporan Produk Depo</title>
+    <title>Laporan Data Kunjungan Sales</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,10 +37,6 @@
             text-align: left;
         }
 
-        th {
-            text-align: center;
-        }
-
         tfoot td {
             font-weight: bold;
         }
@@ -52,11 +48,11 @@
         <div class="d-flex align-items-center mb-3">
             <div class="d-flex align-items-center">
                 <div class="text-center">
-                    {{-- <img src="{{ 'data:image/png;base64,' . base64_encode(file_get_contents($rs->logo_rumahsakit)) }}"
-                        alt="image" width="35px"
-                        style="display: inline-block; vertical-align: middle; margin-right: 10px;"> --}}
-                    <h1 style="display: inline-block; vertical-align: middle; margin-right: 10px;"></h1>
-                    <h5 style="margin-bottom: 5px; margin-top: 2px"></h5>
+                    <h1 style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                        Nama Perusahaan</h1>
+                    <h5 style="margin-bottom: 5px; margin-top: 2px">Alamat Perusahaan ||
+                        Nomor Telepon ||
+                 Kode Pos</h5>
                     <hr class="my-1" style="height: 2px; background-color: black; width: 100%; margin: 5px 0;">
                     <hr class="my-1">
                 </div>
@@ -69,45 +65,50 @@
                     Data tanggal tidak diinputkan
                 @endif
             </p>
+            <p>User :
+                @if (!empty($pilihsales))
+                    Semua Sales
+                @else
+                    @foreach ($kunjungan as $item)
+                        {{ $item->user->User_name }}
+                    @endforeach
+                @endif
+            </p>
         </div>
-        <h4>Laporan Produk Depo</h4>
+        <h4>Laporan Data Kunjungan Sales</h4>
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th scope="col">Kode Produk</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col">Jumlah</th>
-                        <th scope="col">Satuan</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Rute</th>
+                        <th scope="col">Tanggal Kunjungan</th>
                     </tr>
-                    @if ($dtproduk->isEmpty())
+                    @if ($kunjungan->isEmpty())
                         <tr>
                             <th style="border-top: 1px solid #fff; border-bottom: 1px solid #fff;"></th>
-                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
-                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                         </tr>
                     @endif
                 </thead>
                 <tbody>
-                    @if ($dtproduk->isEmpty())
+                    @if ($kunjungan->isEmpty())
                         <tr>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                     @endif
-                    @foreach ($dtproduk as $item)
+                    @foreach ($kunjungan as $item)
                         <tr>
-                            <td style="text-align-center">{{ $loop->iteration }}</td>
-                            <td>{{ $item->produk_kode }}</td>
-                            <td>{{ $item->produk->produk_nama }}</td>
-                            <td style="text-align-center">{{ $item->total_jumlah }}</td>
-                            <td style="text-align-center">{{ $item->satuan->satuan_nama }}</td>
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+                            <td>{{ $item->user->User_name }}</td>
+                            <td>{{ $item->rute->rute_nama }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

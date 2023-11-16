@@ -27,4 +27,8 @@ class DataDetailRute extends Model
     public function kunjungan(){
         return $this->belongsTo(DataKunjungan::class, 'rute_id', 'rute_id');
     }
+
+    public function transaksi(){
+        return $this->belongsTo(TransaksiDataProduk::class, 'customer_kode', 'customer_kode');
+    }
 }
