@@ -34,7 +34,10 @@ class ListDataKunjunganController extends Controller
 
         $today = now()->format('Y-m-d');
         $sales = auth()->user()->User_id;
-        $dtkunjungan = DataDetailRute::where('customer_kode', $customer_kode)->with('customer')->first();
+        $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            ->where('data_detail_rute.customer_kode', $customer_kode)
+            ->where('data_kunjungan.kunjungan_tanggal', $today)
+            ->with('customer')->first();
         $dtproduk = DataProduk::get();
         $dtlistproduk = ListDataProduk::where('customer_kode', $customer_kode)->where('transaksi_kode', null)->with('produk', 'satuan')->get();
         $dtsatuan = DataSatuan::get();
@@ -55,7 +58,7 @@ class ListDataKunjunganController extends Controller
                 ->with('listproduk.produk')
                 ->groupBy('transaksi_data_produk.transaksi_kode')
                 ->get();
-        }else{
+        } else {
             $dtpesan = TransaksiDataProduk::join('data_detail_rute', 'transaksi_data_produk.customer_kode', 'data_detail_rute.customer_kode')
                 ->where('transaksi_data_produk.customer_kode', $customer_kode)
                 ->where('data_detail_rute.status', '=', 'Pesan')

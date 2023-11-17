@@ -60,7 +60,6 @@ class laporanprodukdepoExport implements FromCollection, WithHeadings, ShouldAut
 
     public function headings(): array
     {
-        $rs = ListDataProduk::first();
         $hospitalName = 'Anonim';
         $hospitalAddress = 'Anonim';
 

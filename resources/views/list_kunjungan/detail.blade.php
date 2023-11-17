@@ -15,6 +15,15 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4 ">
+                        <label for="simpleinput" class="form-label"> Rute ID </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="simpleinput" class="form-label">: {{ $dtkunjungan->rute_id }}</label>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 ">
                         <label for="simpleinput" class="form-label">Nama Customer </label>
                     </div>
                     <div class="col-md-8">

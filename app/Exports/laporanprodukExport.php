@@ -80,7 +80,6 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
         return $filterText;
     }
 
-
     public function styles(Worksheet $sheet)
     {
         $lastRow = count($this->collection()) + 7;

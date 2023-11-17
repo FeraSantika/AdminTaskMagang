@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Laporan Data Kunjungan Sales</title>
+    <title>Laporan Pesanan</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,65 +52,101 @@
                         Nama Perusahaan</h1>
                     <h5 style="margin-bottom: 5px; margin-top: 2px">Alamat Perusahaan ||
                         Nomor Telepon ||
-                 Kode Pos</h5>
+                        Kode Pos</h5>
                     <hr class="my-1" style="height: 2px; background-color: black; width: 100%; margin: 5px 0;">
                     <hr class="my-1">
                 </div>
             </div>
-            <p>Rentang Tanggal:
-                @if ($tglAwal && $tglAkhir)
-                    {{ \Carbon\Carbon::parse($tglAwal)->format('d-m-Y') }} hingga
-                    {{ \Carbon\Carbon::parse($tglAkhir)->format('d-m-Y') }}
-                @else
-                    Data tanggal tidak diinputkan
-                @endif
-            </p>
-            <p>User :
-                @if (!empty($pilihsales))
-                    Semua Sales
-                @else
-                    @foreach ($kunjungan as $item)
-                        {{ $item->user->User_name }}
-                    @endforeach
-                @endif
-            </p>
+            <p>Tanggal: {{ $printedDate }}</p>
         </div>
-        <h4>Laporan Data Kunjungan Sales</h4>
+        <h4>Laporan Pesanan</h4>
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Rute</th>
-                        <th scope="col">Tanggal Kunjungan</th>
+                        <th scope="col">Kode Customer</th>
+                        <th scope="col">Nama Customer</th>
+                        <th scope="col">Alamat Customer</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                    @if ($kunjungan->isEmpty())
+                    @if ($dtkunjungan->isEmpty())
                         <tr>
                             <th style="border-top: 1px solid #fff; border-bottom: 1px solid #fff;"></th>
+                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
+                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
+                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
+                            <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                             <th style="border-top: 1px solid #000; border-bottom: 1px solid #fff;"></th>
                         </tr>
                     @endif
                 </thead>
                 <tbody>
-                    @if ($kunjungan->isEmpty())
+                    @php
+                        $rowNumber = 1;
+                    @endphp
+                    @if ($dtkunjungan->isEmpty())
                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                     @endif
-                    @foreach ($kunjungan as $item)
+                    @if ($dtkunjungan->count() > 0)
+                        @foreach ($dtkunjungan as $item)
+                            <tr>
+                                <td>{{ $rowNumber }}</td>
+                                <td>{{ $item->customer_kode }}</td>
+                                <td>{{ $item->customer->customer_nama }}</td>
+                                <td>{{ $item->customer->customer_alamat }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @if ($dtpesan->count() > 0 && $dtpesan->where('customer_kode', $item->customer_kode)->count() > 0)
+                                <tr>
+                                    <th></th>
+                                    <th>No.</th>
+                                    <th>Transaksi kode</th>
+                                    <th>Kode Produk</th>
+                                    <th>Nama Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Satuan</th>
+                                </tr>
+                                @php
+                                    $rowProduk = 1;
+                                @endphp
+                                @foreach ($dtpesan->where('customer_kode', $item->customer_kode) as $pesan)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ $rowProduk }}</td>
+                                        <td>{{ $pesan->transaksi_kode }}</td>
+                                        <td>{{ $pesan->produk_kode }}</td>
+                                        <td>{{ $pesan->produk->produk_nama }}</td>
+                                        <td>{{ $pesan->total_jumlah }}</td>
+                                        <td>{{ $pesan->satuan->satuan_nama }}</td>
+                                    </tr>
+                                    @php
+                                        $rowProduk++;
+                                    @endphp
+                                @endforeach
+                            @endif
+                            @php
+                                $rowNumber++;
+                            @endphp
+                        @endforeach
+                    @else
                         <tr>
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
-                            <td>{{ $item->user->User_name }}</td>
-                            <td>{{ $item->rute->rute_nama }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}</td>
+                            <td colspan="4">Tidak ada data kunjungan untuk hari ini</td>
                         </tr>
-                    @endforeach
+                    @endif
                 </tbody>
             </table>
             <p id="printDate" class="mb-0"></p>

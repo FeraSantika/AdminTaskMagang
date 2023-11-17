@@ -67,7 +67,7 @@
                                             @foreach ($dtkunjungan as $item)
                                                 <tr>
                                                     <td>
-                                                        {{ $rowNumber }}
+                                                        {{ $rowNumber }} || {{$item->rute_id}}
                                                     </td>
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer->customer_nama }}</td>

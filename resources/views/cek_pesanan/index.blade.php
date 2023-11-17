@@ -31,19 +31,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row mb-2">
-                                <div class="col-12">
-                                    <div class="page-title-box">
-                                        <div class="page-title-right">
-                                            <form class="d-flex">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control form-control-light"
-                                                        id="dash-daterange">
-                                                    <span class="input-group-text bg-primary border-primary text-white">
-                                                        <i class="mdi mdi-calendar-range font-13"></i>
-                                                    </span>
-                                                </div>
-                                            </form>
-                                        </div>
+                                <div class="row mb-2 align-items-end">
+                                    <div class="col-sm-2 mt-3">
+                                        <a href="#" type="submit" class="btn btn-light mb-2 me-1"
+                                            onclick="exportExcel()"><i class="uil-print"></i>
+                                            Excel</a>
+                                        <a href="#" class="btn btn-primary mb-2 me-1"
+                                            onclick="exportPDFWithDates()"><i class="uil-print"></i> PDF</a>
                                     </div>
                                 </div>
                             </div>
@@ -56,6 +50,7 @@
                                             <th scope="col">Kode Customer</th>
                                             <th scope="col">Nama Customer</th>
                                             <th scope="col">Alamat Customer</th>
+                                            <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -73,11 +68,13 @@
                                                     <td>{{ $item->customer->customer_alamat }}</td>
                                                     <td></td>
                                                     <td></td>
+                                                    <td></td>
                                                 </tr>
                                                 @if ($dtpesan->count() > 0 && $dtpesan->where('customer_kode', $item->customer_kode)->count() > 0)
                                                     <tr>
                                                         <th></th>
                                                         <th>No.</th>
+                                                        <th>Transaksi kode</th>
                                                         <th>Kode Produk</th>
                                                         <th>Nama Produk</th>
                                                         <th>Jumlah</th>
@@ -90,6 +87,7 @@
                                                         <tr>
                                                             <td></td>
                                                             <td>{{ $rowProduk }}</td>
+                                                            <td>{{ $pesan->transaksi_kode }}</td>
                                                             <td>{{ $pesan->produk_kode }}</td>
                                                             <td>{{ $pesan->produk->produk_nama }}</td>
                                                             <td>{{ $pesan->total_jumlah }}</td>
@@ -128,51 +126,6 @@
 @endsection
 @section('script')
     <script>
-        function tampilkanData() {
-            const pilihSales = $("#pilihSales").val();
-            const tanggalAwal = $("#tanggalAwal").val();
-            const tanggalAkhir = $("#tanggalAkhir").val();
-
-            const hasilData = document.getElementById('tabelkunjungan');
-            hasilData.innerHTML = '';
-
-            const url =
-                `/admin/cek-kunjungan/get_data?pilihSales=${pilihSales}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(dataTerfilter => {
-                    if (dataTerfilter.length > 0) {
-                        let tableHTML = '<table class="table table-centered w-100 dt-responsive nowrap">';
-                        tableHTML += '<thead>';
-                        tableHTML += '<tr>';
-                        tableHTML += '<th>User</th>';
-                        tableHTML += '<th>Rute</th>';
-                        tableHTML += '<th>Tanggal Kunjungan</th>';
-                        tableHTML += '</tr>';
-                        tableHTML += '</thead>';
-                        tableHTML += '<tbody>';
-
-                        dataTerfilter.forEach(item => {
-                            console.log(item)
-                            tableHTML += '<tr>';
-                            tableHTML += `<td>${item.user.User_name}</td>`;
-                            tableHTML += `<td>${item.rute.rute_nama}</td>`;
-                            tableHTML += `<td>${formatDate(item.kunjungan_tanggal)}</td>`;
-                            tableHTML += '</tr>';
-                        });
-
-                        tableHTML += '</tbody> </table>';
-                        hasilData.innerHTML = tableHTML;
-                    } else {
-                        hasilData.innerHTML = 'Tidak ada data pada rentang tanggal yang dipilih.';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    hasilData.innerHTML = 'Terjadi kesalahan saat memuat data.';
-                });
-        }
-
         function formatDate(dateString) {
             const formattedDate = new Date(dateString).toLocaleDateString('en-GB', {
                 day: '2-digit',
@@ -183,32 +136,14 @@
         }
 
         function exportPDFWithDates() {
-            var tanggalAwal = document.getElementById('tanggalAwal').value;
-            var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
-
-            var pdfURL = "{{ route('cek-kunjungan.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
-                "&tanggalAkhir=" +
-                tanggalAkhir;
-
-            if (pilihSales) {
-                pdfURL += "&pilihSales=" + pilihSales;
-            }
+            var pdfURL = "{{ route('cek-pesanan.export-pdf') }}";
 
             window.location.href = pdfURL;
         }
 
         function exportExcel() {
-            var tanggalAwal = document.getElementById('tanggalAwal').value;
-            var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
 
-            var excelURL = "{{ route('cek-kunjungan.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
-                "&tanggalAkhir=" + tanggalAkhir;
-
-            if (pilihSales) {
-                excelURL += "&pilihSales=" + pilihSales;
-            }
+            var excelURL = "{{ route('cek-pesanan.export-excel') }}";
 
             window.location.href = excelURL;
         }
