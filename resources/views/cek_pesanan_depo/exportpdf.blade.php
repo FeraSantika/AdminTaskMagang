@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Laporan Pesanan</title>
+    <title>Laporan Pesanan Depo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -67,7 +67,7 @@
             </div>
             <p>Tanggal: {{ $printedDate }}</p>
         </div>
-        <h4>Laporan Pesanan</h4>
+        <h4>Laporan Pesanan Depo</h4>
         <div class="table-responsive">
             <table>
                 <thead>

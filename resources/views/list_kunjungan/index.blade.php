@@ -53,6 +53,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
+                                            <th>Depo ID</th>
                                             <th scope="col">Kode Customer</th>
                                             <th scope="col">Nama Customer</th>
                                             <th scope="col">Alamat Customer</th>
@@ -66,9 +67,8 @@
                                         @if ($dtkunjungan->count() > 0)
                                             @foreach ($dtkunjungan as $item)
                                                 <tr>
-                                                    <td>
-                                                        {{ $rowNumber }} || {{$item->rute_id}}
-                                                    </td>
+                                                    <td>{{ $rowNumber }}</td>
+                                                    <td>{{ $item->customer->depo_id }}</td>
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer->customer_nama }}</td>
                                                     <td>{{ $item->customer->customer_alamat }}</td>

@@ -13,16 +13,17 @@ use App\Http\Controllers\DataDepoController;
 use App\Http\Controllers\DataRuteController;
 use App\Http\Controllers\AksesDepoController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CekPesananController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSatuanController;
 use App\Http\Controllers\DataCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DataKunjunganController;
 use App\Http\Controllers\LaporanProdukController;
+use App\Http\Controllers\CekPesananDepoController;
 use App\Http\Controllers\DataDistributorController;
 use App\Http\Controllers\AksesDistributorController;
 use App\Http\Controllers\CekDataKunjunganController;
-use App\Http\Controllers\CekPesananController;
 use App\Http\Controllers\DataCustomerDepoController;
 use App\Http\Controllers\LaporanKunjunganController;
 use App\Http\Controllers\LaporanProdukDepoController;
@@ -201,4 +202,8 @@ Route::get('/admin/laporan-produk-depo/export-excel', [LaporanProdukDepoControll
 Route::get('/admin/cek-pesanan', [CekPesananController::class, 'index'])->name('cek-pesanan');
 Route::get('/admin/cek-pesanan/export-pdf', [CekPesananController::class, 'exportPDF'])->name('cek-pesanan.export-pdf');
 Route::get('/admin/cek-pesanan/export-excel', [CekPesananController::class, 'exportExcel'])->name('cek-pesanan.export-excel');
+
+Route::get('/admin/cek-pesanan-depo', [CekPesananDepoController::class, 'index'])->name('cek-pesanan-depo');
+Route::get('/admin/cek-pesanan-depo/export-pdf', [CekPesananDepoController::class, 'exportPDF'])->name('cek-pesanan-depo.export-pdf');
+Route::get('/admin/cek-pesanan-depo/export-excel', [CekPesananDepoController::class, 'exportExcel'])->name('cek-pesanan-depo.export-excel');
 
