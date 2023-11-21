@@ -12,7 +12,8 @@ class TransaksiDataProduk extends Model
     protected $fillable = [
         'transaksi_id',
         'transaksi_kode',
-        'customer_kode'
+        'customer_kode',
+        'status'
     ];
 
     public function listproduk(){

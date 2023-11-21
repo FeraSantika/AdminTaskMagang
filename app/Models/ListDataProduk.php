@@ -18,11 +18,18 @@ class ListDataProduk extends Model
         'satuan_id',
     ];
 
-    public function produk(){
+    public function produk()
+    {
         return $this->belongsTo(DataProduk::class, 'produk_kode', 'produk_kode');
     }
 
-    public function satuan(){
+    public function satuan()
+    {
         return $this->belongsTo(DataSatuan::class, 'satuan_id', 'satuan_id');
+    }
+
+    public function detailrute()
+    {
+        return $this->hasMany(DataDetailRute::class, 'customer_kode', 'customer_kode');
     }
 }

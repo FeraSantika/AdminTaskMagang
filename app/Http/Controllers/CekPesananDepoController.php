@@ -58,7 +58,7 @@ class CekPesananDepoController extends Controller
             ->with('produk', 'satuan')
             ->get();
 
-        return view('cek_pesanan_depo.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtpesan'));
+        return view('cek_pesanan_depo.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtpesan', 'depo_login'));
     }
 
     public function exportPDF(Request $request)

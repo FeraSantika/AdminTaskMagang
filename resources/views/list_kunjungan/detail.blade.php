@@ -348,8 +348,8 @@
                                             <input type="hidden" class="form-control" name="customer_kode"
                                                 id="customer"
                                                 value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
-                                            <input type="hidden" class="form-control" name="transaksi_kode"
-                                                id="transaksi_kode" value="{{ $transaksiCode }}" readonly>
+                                            <input type="text" class="form-control" name="transaksi_kode"
+                                                id="transaksi_kode" value="{{ $pesan->transaksi_kode ?? '' }}" readonly>
                                             <button type="button" class="btn btn-primary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-success" name="status"

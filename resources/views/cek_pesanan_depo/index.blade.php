@@ -15,7 +15,7 @@
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Cek Pesanan</a></li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Cek Pesanan</h4>
+                        <h4 class="page-title">Cek Pesanan Depo {{$depo_login}} </h4>
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}

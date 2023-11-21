@@ -29,20 +29,24 @@ class CekPesananController extends Controller
             ->with('rute', 'customer', 'transaksi.listproduk.produk')
             ->get();
 
-        $customer = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
-            ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
-            ->with('rute', 'customer', 'transaksi.listproduk.produk')
-            ->pluck('customer_kode');
-
+        foreach ($dtkunjungan as $kunjungan) {
+            $customer = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+                ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+                ->where('data_detail_rute.rute_id', $kunjungan->rute_id)
+                ->with('rute', 'customer', 'transaksi.listproduk.produk')
+                ->pluck('customer_kode');
+        }
 
         $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
             ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
             ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
             ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('data_detail_rute.status', '=', 'Pesan')
+            ->where('transaksi_data_produk.status', '=', 'Pesan')
             ->with('produk', 'satuan')
             ->get();
 
+        // dd($dtpesan);
         return view('cek_pesanan.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtpesan'));
     }
 

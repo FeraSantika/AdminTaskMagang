@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('transaksi_id');
             $table->char('transaksi_kode');
             $table->char('customer_kode');
+            $table->enum('status', ['', 'Selesai', 'Toko Tutup']);
             $table->timestamps();
         });
     }
