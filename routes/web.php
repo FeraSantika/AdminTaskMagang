@@ -148,6 +148,7 @@ Route::post('/admin/kunjungan/update/{id}', [DataKunjunganController::class, 'up
 Route::delete('/admin/kunjungan/destroy/{id}', [DataKunjunganController::class, 'destroy'])->name('kunjungan.destroy');
 Route::get('/admin/kunjungan/detail/{id}', [DataKunjunganController::class, 'detail'])->name('kunjungan.detail');
 Route::post('/admin/kunjungan/import', [DataKunjunganController::class, 'import'])->name('kunjungan.import');
+Route::get('/search/kunjungan', [DataKunjunganController::class, 'search'])->name('search.kunjungan');
 
 Route::get('/admin/cek-kunjungan', [CekDataKunjunganController::class, 'index'])->name('cek-kunjungan');
 Route::get('/admin/cek-kunjungan/get_data', [CekDataKunjunganController::class, 'getData'])->name('cek-kunjungan.get_data');

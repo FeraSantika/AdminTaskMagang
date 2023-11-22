@@ -89,4 +89,16 @@ class DataKunjunganController extends Controller
         Excel::import(new DataKunjunganImport, $request->file('file'));
         return redirect()->back()->with('success', 'Data berhasil diimpor!');
     }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->get('cari');
+
+        $data = DataKunjungan::WhereHas('user', function ($query) use ($searchTerm) {
+                $query->where('User_name', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->with('user', 'rute')->get();
+
+        return response()->json($data);
+    }
 }

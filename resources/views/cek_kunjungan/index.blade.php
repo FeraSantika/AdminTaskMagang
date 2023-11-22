@@ -104,7 +104,9 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                     <div class="mt-3 text-center">
-                        <div class="pagination"></div>
+                        <div class="pagination">
+                            {{ $dtkunjungan->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div> <!-- end col -->
             </div>

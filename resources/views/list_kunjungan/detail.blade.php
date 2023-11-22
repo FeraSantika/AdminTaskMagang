@@ -267,7 +267,7 @@
                                             @if ($dtpesan->count() > 0)
                                                 @foreach ($dtpesan as $transaksi)
                                                     <tr>
-                                                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $today)->format('d-m-y') }}</td>
+                                                        <td>{{ $transaksi->updated_at->format('d-m-Y') }}</td>
                                                         <td>{{ $transaksi->transaksi_kode }}</td>
                                                         <td>{{ $transaksi->status }}</td>
                                                         <td>
@@ -348,7 +348,7 @@
                                             <input type="hidden" class="form-control" name="customer_kode"
                                                 id="customer"
                                                 value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
-                                            <input type="text" class="form-control" name="transaksi_kode"
+                                            <input type="hidden" class="form-control" name="transaksi_kode"
                                                 id="transaksi_kode" value="{{ $pesan->transaksi_kode ?? '' }}" readonly>
                                             <button type="button" class="btn btn-primary"
                                                 data-bs-dismiss="modal">Close</button>

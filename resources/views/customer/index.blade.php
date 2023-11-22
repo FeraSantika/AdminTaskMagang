@@ -97,10 +97,6 @@
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
-                                                        {{-- <a href="{{ route('detail.customer', $item->customer_id) }}"
-                                                            class="action-icon">
-                                                            <i class="uil-file-search-alt"></i>
-                                                        </a> --}}
                                                     </td>
                                                 </tr>
                                                 @php

@@ -50,11 +50,14 @@ class CekPesananDepoController extends Controller
             ->pluck('customer_kode');
 
 
+        $today = now()->format('Y-m-d');
         $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
             ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
             ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
             ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('data_detail_rute.status', '=', 'Pesan')
+            ->where('transaksi_data_produk.status', '=', 'Pesan')
+            ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
             ->with('produk', 'satuan')
             ->get();
 
@@ -85,10 +88,12 @@ class CekPesananDepoController extends Controller
             ->pluck('customer_kode');
 
         $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
             ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
             ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
             ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('data_detail_rute.status', '=', 'Pesan')
+            ->where('transaksi_data_produk.status', '=', 'Pesan')
+            ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
             ->with('produk', 'satuan')
             ->get();
 
@@ -127,11 +132,14 @@ class CekPesananDepoController extends Controller
             ->with('rute', 'customer', 'transaksi.listproduk.produk')
             ->pluck('customer_kode');
 
+        $today = now()->format('Y-m-d');
         $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
             ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
             ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
             ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('data_detail_rute.status', '=', 'Pesan')
+            ->where('transaksi_data_produk.status', '=', 'Pesan')
+            ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
             ->with('produk', 'satuan')
             ->get();
 

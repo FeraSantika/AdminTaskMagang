@@ -76,6 +76,7 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>No.</th>
+                                                        <th>Tanggal transaksi</th>
                                                         <th>Transaksi kode</th>
                                                         <th>Kode Produk</th>
                                                         <th>Nama Produk</th>
@@ -89,6 +90,7 @@
                                                         <tr>
                                                             <td></td>
                                                             <td>{{ $rowProduk }}</td>
+                                                            <td>{{ $pesan->created_at->format('d-m-Y') }}</td>
                                                             <td>{{ $pesan->transaksi_kode }}</td>
                                                             <td>{{ $pesan->produk_kode }}</td>
                                                             <td>{{ $pesan->produk->produk_nama }}</td>

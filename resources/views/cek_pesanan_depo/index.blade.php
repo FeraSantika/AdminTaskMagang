@@ -15,7 +15,7 @@
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Cek Pesanan</a></li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Cek Pesanan Depo {{$depo_login}} </h4>
+                        <h4 class="page-title">Cek Pesanan Depo</h4>
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -47,7 +47,6 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th scope="col">Depo ID</th>
                                             <th scope="col">Kode Customer</th>
                                             <th scope="col">Nama Customer</th>
                                             <th scope="col">Alamat Customer</th>
@@ -64,7 +63,6 @@
                                             @foreach ($dtkunjungan as $item)
                                                 <tr>
                                                     <td>{{ $rowNumber }}</td>
-                                                    <td>{{ $item->customer->depo_id}}</td>
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer->customer_nama }}</td>
                                                     <td>{{ $item->customer->customer_alamat }}</td>

@@ -88,6 +88,7 @@ class ListDataKunjunganController extends Controller
         $paddedId = str_pad($nextId, $length, '0', STR_PAD_LEFT);
         $transaksiCode = $prefix . $paddedId;
 
+        // dd($dtpesan);
         return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'dtpesan', 'transaksi', 'today'));
     }
 

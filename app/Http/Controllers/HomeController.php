@@ -9,7 +9,9 @@ use App\Models\DataPoli;
 use App\Models\DataUser;
 use App\Models\DataBarang;
 use App\Models\DataPasien;
+use App\Models\DataProduk;
 use App\Models\Verifytoken;
+use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use App\Models\DataSupplier;
 use Illuminate\Http\Request;
@@ -46,7 +48,17 @@ class HomeController extends Controller
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
-        return view('home', compact('roleuser', 'menu'));
+
+        $distributor = DataUser::where('Role_id', 3)->count();
+        $depo = DataUser::where('Role_id', 2)->count();
+        $produk = DataProduk::count();
+        $kunjungan = DataKunjungan::whereDate('kunjungan_tanggal', today())->count();
+        $sales = DataUser::where('Role_id', 4)->count();
+        $admin = DataUser::where('Role_id', 1)->count();
+        $customer = DataCustomer::count();
+        $pengguna = DataUser::count();
+
+        return view('home', compact('roleuser', 'menu', 'distributor', 'depo', 'produk', 'kunjungan', 'sales', 'admin', 'customer', 'pengguna'));
     }
 
     public function sales()
@@ -113,7 +125,7 @@ class HomeController extends Controller
             ->where('data_detail_rute.status', '=', 'Selesai')
             ->with('rute', 'customer')
             ->count();
-            
+
         return view('home-depo', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
     }
 
