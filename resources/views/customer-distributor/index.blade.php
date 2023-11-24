@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-2">
-                                    <a href="{{ route('customer-distributor.create') }}" class="btn btn-primary mb-2"><i
+                                    <a href="{{ route('customer-depo.create') }}" class="btn btn-primary mb-2"><i
                                             class="mdi mdi-plus-circle me-2"></i> Add customer</a>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -131,7 +131,7 @@
 
             function performSearch(searchTerm) {
                 $.ajax({
-                    url: "{{ route('search.customer-depo') }}",
+                    url: "{{ route('search.customer-distributor') }}",
                     type: 'GET',
                     dataType: "json",
                     data: {
@@ -152,7 +152,7 @@
 
                 if (data.length > 0) {
                     data.forEach(function(item) {
-                        console.log(item.kategori),
+                        console.log(item),
                             resultList += "<tr id='item.customer_id'>" +
                             "<td>" + rowNumber + "</td>" +
                             "<td>" + item.customer_kode + "</td>" +
@@ -164,7 +164,7 @@
                             "<td>" + item.longtitude + "</td>" +
                             "<td>" + item.distributor.distributor_nama + "</td>" +
                             "<td>" + item.depo.depo_nama + "</td>" +
-                            "<td><a href='customer-depo/edit/" + item.customer_id + "' class='action-icon'>" +
+                            "<td><a href='customer-distributor/edit/" + item.customer_id + "' class='action-icon'>" +
                             "<i class='mdi mdi-square-edit-outline'></i></a>" +
                             "<a href='javascript:void(0);' class='action-icon delete-customer' data-customer-id='" +
                             item.customer_id + "'>" +
@@ -192,7 +192,7 @@
                 function deletecustomer(customerId, deleteButton) {
                     console.log('Mengirim permintaan DELETE untuk customerId: ' + customerId);
                     $.ajax({
-                        url: '/admin/customer-depo/destroysearch/' + customerId,
+                        url: '/admin/customer-distributor/destroysearch/' + customerId,
                         type: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

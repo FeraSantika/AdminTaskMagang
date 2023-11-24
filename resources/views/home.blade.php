@@ -33,7 +33,7 @@
                                         <div class="float-end">
                                             <i class="mdi mdi-account-multiple widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">
+                                        <h5 class="text-muted fw-normal mt-0" title="Jumlah Distributor">
                                             Distributor</h5>
                                         <h3 class="mt-3 mb-3">{{$distributor}}</h3>
                                     </a>
@@ -48,7 +48,7 @@
                                         <div class="float-end">
                                             <i class="mdi mdi-doctor widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Depo
+                                        <h5 class="text-muted fw-normal mt-0" title="Jumlah Depo">Depo
                                         </h5>
                                         <h3 class="mt-3 mb-3">{{$depo}}</h3>
                                     </a>
@@ -65,7 +65,7 @@
                                         <div class="float-end">
                                             <i class="mdi mdi-pill widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Produk
+                                        <h5 class="text-muted fw-normal mt-0" title="Jumlah Produk">Produk
                                         </h5>
                                         <h3 class="mt-3 mb-3">{{$produk}}</h3>
                                     </a>
@@ -80,7 +80,7 @@
                                         <div class="float-end">
                                             <i class="mdi mdi-hospital-building widget-icon"></i>
                                         </div>
-                                        <h5 class="text-muted fw-normal mt-0" title="Growth">Kunjungan</h5>
+                                        <h5 class="text-muted fw-normal mt-0" title="Kunjungan hari ini">Kunjungan</h5>
                                         <h3 class="mt-3 mb-3">{{$kunjungan}}</h3>
                                     </a>
                                 </div> <!-- end card-body-->

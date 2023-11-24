@@ -7,6 +7,8 @@
             <a href="{{ route('sales.home') }}" class="logo logo-light">
         @elseif (Auth::user()->isDepo())
             <a href="{{ route('depo.home') }}" class="logo logo-light">
+        @elseif (Auth::user()->isDistributor())
+            <a href="{{ route('distributor.home') }}" class="logo logo-light">
     @endif
     <span class="logo-lg">
         <img src="{{ asset('assets/images/logo.png') }}" alt="logo">

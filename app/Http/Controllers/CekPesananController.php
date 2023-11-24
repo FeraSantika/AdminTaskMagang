@@ -16,6 +16,44 @@ use App\Exports\laporanpesananExport;
 
 class CekPesananController extends Controller
 {
+    // public function index()
+    // {
+    //     $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+    //     $user = auth()->user()->role;
+    //     $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
+
+    //     $today = now()->format('Y-m-d');
+
+    //     $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+    //         ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+    //         ->with('rute', 'customer', 'transaksi.listproduk.produk')
+    //         ->get();
+
+    //     foreach ($dtkunjungan as $kunjungan) {
+    //         $customer = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+    //             ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
+    //             ->where('data_detail_rute.rute_id', $kunjungan->rute_id)
+    //             ->with('rute', 'customer', 'transaksi.listproduk.produk')
+    //             ->pluck('customer_kode');
+    //     }
+
+    //     if ($customer) {
+    //         $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+    //             ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
+    //             ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', 'transaksi_data_produk.created_at', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
+    //             ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
+    //             ->whereIn('list_data_produk.customer_kode', $customer)
+    //             ->where('transaksi_data_produk.status', '=', 'Pesan')
+    //             ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
+    //             ->with('produk', 'satuan')
+    //             ->get();
+    //     }
+
+
+    //     // dd($dtpesan);
+    //     return view('cek_pesanan.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtpesan'));
+    // }
+
     public function index()
     {
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
@@ -29,27 +67,35 @@ class CekPesananController extends Controller
             ->with('rute', 'customer', 'transaksi.listproduk.produk')
             ->get();
 
+        $customers = [];
+
         foreach ($dtkunjungan as $kunjungan) {
-            $customer = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
+            $customerCodes = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
                 ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
                 ->where('data_detail_rute.rute_id', $kunjungan->rute_id)
                 ->with('rute', 'customer', 'transaksi.listproduk.produk')
                 ->pluck('customer_kode');
+
+            $customers = array_merge($customers, $customerCodes->toArray());
         }
 
-        $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
-            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
-            ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', 'transaksi_data_produk.created_at', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
-            ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
-            ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('transaksi_data_produk.status', '=', 'Pesan')
-            ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
-            ->with('produk', 'satuan')
-            ->get();
+        $dtpesan = null;
+        if ($customers) {
+            $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+                ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
+                ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', 'transaksi_data_produk.created_at', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
+                ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
+                ->whereIn('list_data_produk.customer_kode', $customers)
+                ->where('transaksi_data_produk.status', '=', 'Pesan')
+                ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
+                ->with('produk', 'satuan')
+                ->get();
+        }
 
         // dd($dtpesan);
         return view('cek_pesanan.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtpesan'));
     }
+
 
     public function exportPDF(Request $request)
     {
@@ -109,15 +155,17 @@ class CekPesananController extends Controller
             ->with('rute', 'customer', 'transaksi.listproduk.produk')
             ->pluck('customer_kode');
 
-        $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
-            ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
-            ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
-            ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
-            ->whereIn('list_data_produk.customer_kode', $customer)
-            ->where('transaksi_data_produk.status', '=', 'Pesan')
-            ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
-            ->with('produk', 'satuan')
-            ->get();
+        if ($customer) {
+            $dtpesan = ListDataProduk::join('data_detail_rute', 'list_data_produk.customer_kode', '=', 'data_detail_rute.customer_kode')
+                ->join('transaksi_data_produk', 'list_data_produk.transaksi_kode', '=', 'transaksi_data_produk.transaksi_kode')
+                ->select('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id', 'list_data_produk.transaksi_kode', DB::raw('SUM(list_data_produk.jumlah) as total_jumlah'))
+                ->groupBy('list_data_produk.customer_kode', 'list_data_produk.produk_kode', 'list_data_produk.satuan_id')
+                ->whereIn('list_data_produk.customer_kode', $customer)
+                ->where('transaksi_data_produk.status', '=', 'Pesan')
+                ->whereRaw('DATE(transaksi_data_produk.created_at) = ?', $today)
+                ->with('produk', 'satuan')
+                ->get();
+        }
 
         $printedDate = now()->format('d-m-Y');
 

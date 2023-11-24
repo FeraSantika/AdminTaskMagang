@@ -64,6 +64,8 @@ class LoginController extends Controller
                 return redirect()->route('sales.home');
             } elseif ($user->role->Role_name === 'Depo') {
                 return redirect()->route('depo.home');
+            } elseif ($user->role->Role_name === 'Distributor') {
+                return redirect()->route('distributor.home');
             }
         }
 

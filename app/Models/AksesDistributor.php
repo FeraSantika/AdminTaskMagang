@@ -19,8 +19,14 @@ class AksesDistributor extends Model
     {
         return $this->belongsTo(DataUser::class, 'user_id', 'User_id');
     }
+
     public function distributor()
     {
         return $this->belongsTo(DataDistributor::class, 'distributor_id', 'distributor_id');
+    }
+
+    public function depo()
+    {
+        return $this->belongsTo(DataDepo::class, 'distributor_id', 'distributor_id');
     }
 }

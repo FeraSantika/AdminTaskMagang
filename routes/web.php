@@ -30,6 +30,10 @@ use App\Http\Controllers\LaporanProdukDepoController;
 use App\Http\Controllers\ListDataKunjunganController;
 use App\Http\Controllers\DataKategoriCustomerController;
 use App\Http\Controllers\LaporanKunjunganDepoController;
+use App\Http\Controllers\CekPesananDistributorController;
+use App\Http\Controllers\DataCustomerDistributorController;
+use App\Http\Controllers\LaporanProdukDistributorController;
+use App\Http\Controllers\LaporanKunjunganDistributorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +59,7 @@ Route::get('/admin/register', [RegisterController::class, 'showRegisterForm'])->
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('sales.home');
 Route::get('/admin/home-depo', [HomeController::class, 'depo'])->name('depo.home');
+Route::get('/admin/home-distributor', [HomeController::class, 'distributor'])->name('distributor.home');
 
 Route::get('/tampil', [App\Http\Controllers\HomeController::class, 'tampil'])->name('tampil');
 Route::get('/admin/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -115,7 +120,6 @@ Route::post('/admin/customer-depo/update/{id}', [DataCustomerDepoController::cla
 Route::delete('/admin/customer-depo/destroy/{id}', [DataCustomerDepoController::class, 'destroy'])->name('customer-depo.destroy');
 Route::delete('/admin/customer-depo/destroysearch/{id}', [DataCustomerDepoController::class, 'destroysearch'])->name('customer-depo.destroysearch');
 Route::get('/search/customer-depo', [DataCustomerDepoController::class, 'search'])->name('search.customer-depo');
-Route::get('/search/autocomplete_customer-depo', [DataCustomerDepoController::class, 'autocomplete'])->name('autocomplete_customer-depo');
 
 Route::get('/admin/kategori_customer', [DataKategoriCustomerController::class, 'index'])->name('kategori_customer');
 Route::get('/admin/kategori_customer/create', [DataKategoriCustomerController::class, 'create'])->name('kategori_customer.create');
@@ -207,4 +211,25 @@ Route::get('/admin/cek-pesanan/export-excel', [CekPesananController::class, 'exp
 Route::get('/admin/cek-pesanan-depo', [CekPesananDepoController::class, 'index'])->name('cek-pesanan-depo');
 Route::get('/admin/cek-pesanan-depo/export-pdf', [CekPesananDepoController::class, 'exportPDF'])->name('cek-pesanan-depo.export-pdf');
 Route::get('/admin/cek-pesanan-depo/export-excel', [CekPesananDepoController::class, 'exportExcel'])->name('cek-pesanan-depo.export-excel');
+
+Route::get('/admin/laporan-kunjungan-distributor', [LaporanKunjunganDistributorController::class, 'index'])->name('laporan-kunjungan-distributor');
+Route::get('/admin/laporan-kunjungan-distributor/get_data', [LaporanKunjunganDistributorController::class, 'getData'])->name('laporan-kunjungan-distributor.get_data');
+
+Route::get('/admin/laporan-produk-distributor', [LaporanProdukDistributorController::class, 'index'])->name('laporan-produk-distributor');
+Route::get('/admin/laporan-produk-distributor/get_data', [LaporanProdukDistributorController::class, 'getData'])->name('laporan-produk-distributor.get_data');
+Route::get('/admin/laporan-produk-distributor/export-pdf', [LaporanProdukDistributorController::class, 'exportPDF'])->name('laporan-produk-distributor.export-pdf');
+Route::get('/admin/laporan-produk-distributor/export-excel', [LaporanProdukDistributorController::class, 'exportExcel'])->name('laporan-produk-distributor.export-excel');
+
+Route::get('/admin/cek-pesanan-distributor', [CekPesananDistributorController::class, 'index'])->name('cek-pesanan-distributor');
+Route::get('/admin/cek-pesanan-distributor/export-pdf', [CekPesananDistributorController::class, 'exportPDF'])->name('cek-pesanan-distributor.export-pdf');
+Route::get('/admin/cek-pesanan-distributor/export-excel', [CekPesananDistributorController::class, 'exportExcel'])->name('cek-pesanan-distributor.export-excel');
+
+Route::get('/admin/customer-distributor', [DataCustomerDistributorController::class, 'index'])->name('customer-distributor');
+Route::get('/admin/customer-distributor/create', [DataCustomerDistributorController::class, 'create'])->name('customer-distributor.create');
+Route::post('/admin/customer-distributor/store', [DataCustomerDistributorController::class, 'store'])->name('customer-distributor.store');
+Route::get('/admin/customer-distributor/edit/{id}', [DataCustomerDistributorController::class, 'edit'])->name('customer-distributor.edit');
+Route::post('/admin/customer-distributor/update/{id}', [DataCustomerDistributorController::class, 'update'])->name('customer-distributor.update');
+Route::delete('/admin/customer-distributor/destroy/{id}', [DataCustomerDistributorController::class, 'destroy'])->name('customer-distributor.destroy');
+Route::delete('/admin/customer-distributor/destroysearch/{id}', [DataCustomerDistributorController::class, 'destroysearch'])->name('customer-distributor.destroysearch');
+Route::get('/search/customer-distributor', [DataCustomerDistributorController::class, 'search'])->name('search.customer-distributor');
 
