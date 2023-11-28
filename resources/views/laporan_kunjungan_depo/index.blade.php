@@ -55,6 +55,13 @@
                                             onclick="tampilkanData()">Filter</button>
                                     </div>
                                     <input type="hidden" id="depo" value="{{ $depo_id }}">
+                                    <div class="col-sm-2 mt-3">
+                                        <a href="#" type="submit" class="btn btn-light mb-2 me-1"
+                                            onclick="exportExcel()"><i class="uil-print"></i>
+                                            Excel</a>
+                                        <a href="#" class="btn btn-primary mb-2 me-1"
+                                            onclick="exportPDFWithDates()"><i class="uil-print"></i> PDF</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -80,21 +87,11 @@
                                                     <td>
                                                         {{ $rowNumber }}
                                                     </td>
-                                                    <td>
-                                                        @foreach ($item->detailrute as $status)
-                                                            @if ($status->status == $item->detailrute->first()->status)
-                                                                {{ $status->updated_at->format('d-m-Y') }}
-                                                            @endif
-                                                        @endforeach
-                                                    </td>
+                                                    <td>{{ $item->kunjungan_tanggal }}</td>
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer_nama }}</td>
                                                     <td>{{ $item->customer_alamat }}</td>
-                                                    <td>
-                                                        @foreach ($item->detailrute as $status)
-                                                            {{ $status->status }}
-                                                        @endforeach
-                                                    </td>
+                                                    <td>{{ $item->status }}</td>
                                                 </tr>
                                                 @php
                                                     $rowNumber++;
@@ -111,7 +108,7 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                     <div class="mt-3 text-center">
-                        {{-- <div class="pagination">{{ $dtkunjungan->links('pagination::bootstrap-4') }}</div> --}}
+                        <div class="pagination">{{ $customerDepo->links('pagination::bootstrap-4') }}</div>
                     </div>
                 </div> <!-- end col -->
             </div>
@@ -141,9 +138,11 @@
                         let tableHTML = '<table class="table table-centered w-100 dt-responsive nowrap">';
                         tableHTML += '<thead>';
                         tableHTML += '<tr>';
+                        tableHTML += '<th>Tanggal</th>';
                         tableHTML += '<th>Kode Customer</th>';
                         tableHTML += '<th>Nama Customer</th>';
                         tableHTML += '<th>Alamat Customer</th>';
+                        tableHTML += '<th>Status</th>';
                         tableHTML += '</tr>';
                         tableHTML += '</thead>';
                         tableHTML += '<tbody>';
@@ -151,9 +150,11 @@
                         dataTerfilter.forEach(item => {
                             console.log(item)
                             tableHTML += '<tr>';
+                            tableHTML += `<td>${item.kunjungan_tanggal}</td>`;
                             tableHTML += `<td>${item.customer_kode}</td>`;
                             tableHTML += `<td>${item.customer_nama}</td>`;
                             tableHTML += `<td>${item.customer_alamat}</td>`;
+                            tableHTML += `<td>${item.status}</td>`;
                             tableHTML += '</tr>';
                         });
 
@@ -181,15 +182,10 @@
         function exportPDFWithDates() {
             var tanggalAwal = document.getElementById('tanggalAwal').value;
             var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
+            var pilihStatus = document.getElementById('pilihStatus').value;
 
-            var pdfURL = "{{ route('cek-kunjungan.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
-                "&tanggalAkhir=" +
-                tanggalAkhir;
-
-            if (pilihSales) {
-                pdfURL += "&pilihSales=" + pilihSales;
-            }
+            var pdfURL = "{{ route('laporan-kunjungan-depo.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
+                "&tanggalAkhir=" + tanggalAkhir + "&pilihStatus=" + pilihStatus; // Remove $ sign here
 
             window.location.href = pdfURL;
         }
@@ -197,14 +193,10 @@
         function exportExcel() {
             var tanggalAwal = document.getElementById('tanggalAwal').value;
             var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
+            var pilihStatus = document.getElementById('pilihStatus').value;
 
-            var excelURL = "{{ route('cek-kunjungan.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
-                "&tanggalAkhir=" + tanggalAkhir;
-
-            if (pilihSales) {
-                excelURL += "&pilihSales=" + pilihSales;
-            }
+            var excelURL = "{{ route('laporan-kunjungan-depo.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
+                "&tanggalAkhir=" + tanggalAkhir + "&pilihStatus=" + pilihStatus; // Remove $ sign here
 
             window.location.href = excelURL;
         }

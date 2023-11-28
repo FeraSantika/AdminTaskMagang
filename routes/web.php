@@ -190,9 +190,13 @@ Route::delete('/admin/akses-distributor/destroy/{id}', [AksesDistributorControll
 
 Route::get('/admin/laporan-kunjungan', [LaporanKunjunganController::class, 'index'])->name('laporan-kunjungan');
 Route::get('/admin/laporan-kunjungan/get_data', [LaporanKunjunganController::class, 'getData'])->name('laporan-kunjungan.get_data');
+Route::get('/admin/laporan-kunjungan/export-pdf', [LaporanKunjunganController::class, 'exportPDF'])->name('laporan-kunjungan.export-pdf');
+Route::get('/admin/laporan-kunjungan/export-excel', [LaporanKunjunganController::class, 'exportExcel'])->name('laporan-kunjungan.export-excel');
 
 Route::get('/admin/laporan-kunjungan-depo', [LaporanKunjunganDepoController::class, 'index'])->name('laporan-kunjungan-depo');
 Route::get('/admin/laporan-kunjungan-depo/get_data', [LaporanKunjunganDepoController::class, 'getData'])->name('laporan-kunjungan-depo.get_data');
+Route::get('/admin/laporan-kunjungan-depo/export-pdf', [LaporanKunjunganDepoController::class, 'exportPDF'])->name('laporan-kunjungan-depo.export-pdf');
+Route::get('/admin/laporan-kunjungan-depo/export-excel', [LaporanKunjunganDepoController::class, 'exportExcel'])->name('laporan-kunjungan-depo.export-excel');
 
 Route::get('/admin/laporan-produk', [LaporanProdukController::class, 'index'])->name('laporan-produk');
 Route::get('/admin/laporan-produk/get_data', [LaporanProdukController::class, 'getData'])->name('laporan-produk.get_data');
@@ -214,6 +218,8 @@ Route::get('/admin/cek-pesanan-depo/export-excel', [CekPesananDepoController::cl
 
 Route::get('/admin/laporan-kunjungan-distributor', [LaporanKunjunganDistributorController::class, 'index'])->name('laporan-kunjungan-distributor');
 Route::get('/admin/laporan-kunjungan-distributor/get_data', [LaporanKunjunganDistributorController::class, 'getData'])->name('laporan-kunjungan-distributor.get_data');
+Route::get('/admin/laporan-kunjungan-distributor/export-pdf', [LaporanKunjunganDistributorController::class, 'exportPDF'])->name('laporan-kunjungan-distributor.export-pdf');
+Route::get('/admin/laporan-kunjungan-distributor/export-excel', [LaporanKunjunganDistributorController::class, 'exportExcel'])->name('laporan-kunjungan-distributor.export-excel');
 
 Route::get('/admin/laporan-produk-distributor', [LaporanProdukDistributorController::class, 'index'])->name('laporan-produk-distributor');
 Route::get('/admin/laporan-produk-distributor/get_data', [LaporanProdukDistributorController::class, 'getData'])->name('laporan-produk-distributor.get_data');

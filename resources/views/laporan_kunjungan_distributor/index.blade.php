@@ -56,6 +56,13 @@
                                             onclick="tampilkanData()">Filter</button>
                                     </div>
                                     <input type="hidden" id="distributor" value="{{ $distributor_id }}">
+                                    <div class="col-sm-2 mt-3">
+                                        <a href="#" type="submit" class="btn btn-light mb-2 me-1"
+                                            onclick="exportExcel()"><i class="uil-print"></i>
+                                            Excel</a>
+                                        <a href="#" class="btn btn-primary mb-2 me-1"
+                                            onclick="exportPDFWithDates()"><i class="uil-print"></i> PDF</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -75,31 +82,25 @@
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @if ($customerDepo->count() > 0)
-                                            @foreach ($customerDepo as $item)
-                                                @if ($item->detailrute->count() > 0)
-                                                    <tr>
-                                                        <td>
-                                                            {{ $rowNumber }}
-                                                        </td>
-                                                        <td>
-                                                            @foreach ($item->detailrute as $status)
-                                                                {{ $status->updated_at->format('d-m-Y') }}
-                                                            @endforeach
-                                                        </td>
-                                                        <td>{{ $item->customer_kode }}</td>
-                                                        <td>{{ $item->customer_nama }}</td>
-                                                        <td>{{ $item->customer_alamat }}</td>
-                                                        <td>
-                                                            @foreach ($item->detailrute as $status)
-                                                                {{ $status->status }}
-                                                            @endforeach
-                                                        </td>
-                                                    </tr>
-                                                    @php
-                                                        $rowNumber++;
-                                                    @endphp
-                                                @endif
+                                        @if ($customerDistributor->count() > 0)
+                                            @foreach ($customerDistributor as $item)
+                                                <tr>
+                                                    <td>
+                                                        {{ $rowNumber }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->kunjungan_tanggal }}
+                                                    </td>
+                                                    <td>{{ $item->customer_kode }}</td>
+                                                    <td>{{ $item->customer_nama }}</td>
+                                                    <td>{{ $item->customer_alamat }}</td>
+                                                    <td>
+                                                        {{ $item->status }}
+                                                    </td>
+                                                </tr>
+                                                @php
+                                                    $rowNumber++;
+                                                @endphp
                                             @endforeach
                                         @else
                                             <tr>
@@ -112,7 +113,7 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                     <div class="mt-3 text-center">
-                        {{-- <div class="pagination">{{ $dtkunjungan->links('pagination::bootstrap-4') }}</div> --}}
+                        <div class="pagination">{{ $customerDistributor->links('pagination::bootstrap-4') }}</div>
                     </div>
                 </div> <!-- end col -->
             </div>
@@ -142,9 +143,11 @@
                         let tableHTML = '<table class="table table-centered w-100 dt-responsive nowrap">';
                         tableHTML += '<thead>';
                         tableHTML += '<tr>';
+                        tableHTML += '<th>Tanggal</th>';
                         tableHTML += '<th>Kode Customer</th>';
                         tableHTML += '<th>Nama Customer</th>';
                         tableHTML += '<th>Alamat Customer</th>';
+                        tableHTML += '<th>Status</th>';
                         tableHTML += '</tr>';
                         tableHTML += '</thead>';
                         tableHTML += '<tbody>';
@@ -152,9 +155,11 @@
                         dataTerfilter.forEach(item => {
                             console.log(item)
                             tableHTML += '<tr>';
+                            tableHTML += `<td>${item.kunjungan_tanggal}</td>`;
                             tableHTML += `<td>${item.customer_kode}</td>`;
                             tableHTML += `<td>${item.customer_nama}</td>`;
                             tableHTML += `<td>${item.customer_alamat}</td>`;
+                            tableHTML += `<td>${item.status}</td>`;
                             tableHTML += '</tr>';
                         });
 
@@ -182,32 +187,34 @@
         function exportPDFWithDates() {
             var tanggalAwal = document.getElementById('tanggalAwal').value;
             var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
+            var pilihStatus = document.getElementById('pilihStatus').value;
 
-            var pdfURL = "{{ route('cek-kunjungan.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
+            var pdfURL = "{{ route('laporan-kunjungan-distributor.export-pdf') }}" + "?tanggalAwal=" + tanggalAwal +
                 "&tanggalAkhir=" +
-                tanggalAkhir;
-
-            if (pilihSales) {
-                pdfURL += "&pilihSales=" + pilihSales;
-            }
+                tanggalAkhir + "&pilihStatus=" + pilihStatus;
 
             window.location.href = pdfURL;
         }
 
         function exportExcel() {
-            var tanggalAwal = document.getElementById('tanggalAwal').value;
-            var tanggalAkhir = document.getElementById('tanggalAkhir').value;
-            var pilihSales = document.getElementById('pilihSales').value;
+            var tanggalAwalElement = document.getElementById('tanggalAwal');
+            var tanggalAkhirElement = document.getElementById('tanggalAkhir');
+            var pilihStatusElement = document.getElementById('pilihStatus');
 
-            var excelURL = "{{ route('cek-kunjungan.export-excel') }}" + "?tanggalAwal=" + tanggalAwal +
-                "&tanggalAkhir=" + tanggalAkhir;
+            if (tanggalAwalElement && tanggalAkhirElement && pilihStatusElement) {
+                var tanggalAwal = tanggalAwalElement.value;
+                var tanggalAkhir = tanggalAkhirElement.value;
+                var pilihStatus = pilihStatusElement.value;
 
-            if (pilihSales) {
-                excelURL += "&pilihSales=" + pilihSales;
+                var excelURL = "{{ route('laporan-kunjungan-distributor.export-excel') }}" +
+                    "?tanggalAwal=" + tanggalAwal +
+                    "&tanggalAkhir=" + tanggalAkhir +
+                    "&pilihStatus=" + pilihStatus;
+
+                window.location.href = excelURL;
+            } else {
+                console.error('Error: One or more elements not found.');
             }
-
-            window.location.href = excelURL;
         }
     </script>
 @endsection
