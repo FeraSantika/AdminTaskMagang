@@ -10,7 +10,7 @@
                         <!-- Logo -->
                         <div class="card-header py-4 text-center bg-primary">
                             <a href="index-2.html">
-                                <span><img src="{{ asset('assets/images/logo.png') }}" alt="logo" height="22"></span>
+                                <span><img src="{{ asset('assets/images/logo.png') }}" alt="logo" height="42"></span>
                             </a>
                         </div>
 
@@ -26,8 +26,8 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
-                                    <input class="form-control" name="User_name" type="text" id="username" required=""
-                                        placeholder="Enter your username">
+                                    <input class="form-control" name="User_name" type="text" id="username"
+                                        required="" placeholder="Enter your username">
                                 </div>
 
                                 <div class="mb-3">

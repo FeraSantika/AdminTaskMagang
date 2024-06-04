@@ -132,7 +132,7 @@
                                 </div>
 
                                 <div class="mb-3 text-center">
-                                    <button class="btn btn-primary" type="submit"> Sign Up </button>
+                                    <button class="btn btn-warning" type="submit"> Sign Up </button>
                                 </div>
 
                             </form>

@@ -13,14 +13,14 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <div class="col-md-4 ">
                         <label for="simpleinput" class="form-label"> Rute ID </label>
                     </div>
                     <div class="col-md-8">
                         <label for="simpleinput" class="form-label">: {{ $dtkunjungan->rute_id }}</label>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row mb-3">
                     <div class="col-md-4 ">
@@ -84,7 +84,7 @@
                                             <div class="input-group">
                                                 <input type="text" class="typeahead form-control" name="search"
                                                     id="search" placeholder="Cari Produk">
-                                                <button class="input-group-text btn btn-primary btn-sm" type="button"
+                                                <button class="input-group-text btn btn-warning btn-sm" type="button"
                                                     id="add"><i class="mdi mdi-magnify search-icon"></i></button>
                                             </div>
                                         </div>
@@ -107,7 +107,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <a href="" class="btn btn-primary mb-2" id="submit-produk"><i
+                                        <a href="" class="btn btn-warning mb-2" id="submit-produk"><i
                                                 class="mdi mdi-plus-circle me-2"></i> Tambah</a>
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@
                                         <div class="input-group">
                                             <input type="text" class="typeahead form-control" name="search"
                                                 id="search" placeholder="Cari Produk">
-                                            <button class="input-group-text btn btn-primary btn-sm" type="button"
+                                            <button class="input-group-text btn btn-warning btn-sm" type="button"
                                                 id="add"><i class="mdi mdi-magnify search-icon"></i></button>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="" class="btn btn-primary mb-2" id="submit-produk"><i
+                                    <a href="" class="btn btn-warning mb-2" id="submit-produk"><i
                                             class="mdi mdi-plus-circle me-2"></i> Tambah</a>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@
                                                 value="{{ $dtkunjungan->customer->customer_kode }}"readonly>
                                             <input type="hidden" class="form-control" name="transaksi_kode"
                                                 id="transaksi_kode" value="{{ $pesan->transaksi_kode ?? '' }}" readonly>
-                                            <button type="button" class="btn btn-primary"
+                                            <button type="button" class="btn btn-warning"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-success" name="status"
                                                 value="Selesai">Simpan</button>

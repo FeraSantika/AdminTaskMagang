@@ -59,7 +59,6 @@
     </div>
     @yield('content')
     <footer class="footer footer-alt">
-        2018 -
         <script>
             document.write(new Date().getFullYear())
         </script>
@@ -68,8 +67,6 @@
         <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
         <script src="https://www.jsdelivr.com/package/npm/jquery"></script>
-
-
 </body>
 
 <!-- Mirrored from coderthemes.com/hyper_2/saas/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Jul 2023 09:25:38 GMT -->

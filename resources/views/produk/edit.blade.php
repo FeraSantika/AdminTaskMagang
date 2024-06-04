@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="mt-3 text-center">
                             <a class="btn btn-danger" href="javascript:void(0);" onclick="history.back();">Kembali</a>
-                            <button class="btn btn-primary" id="submit" type="submit">Edit</button>
+                            <button class="btn btn-warning" id="submit" type="submit">Edit</button>
                         </div>
                     </div>
                 </form>

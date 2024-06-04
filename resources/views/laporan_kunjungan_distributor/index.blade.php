@@ -11,8 +11,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Laporan Kunjungan Distributor</a>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Laporan Kunjungan Distributor</a>
                                 </li>
                             </ol>
                         </div>

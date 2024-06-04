@@ -11,8 +11,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Cek Pesanan</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Cek Pesanan</a></li>
                             </ol>
                         </div>
                         <h4 class="page-title">Cek Pesanan Distributor</h4>

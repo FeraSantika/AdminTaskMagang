@@ -86,7 +86,7 @@
                         <div class="mt-3 text-center">
                             <a class="btn btn-danger" href="javascript:void(0);"
                                 onclick="window.history.back();">Kembali</a>
-                            <button class="btn btn-primary" id="submit" type="submit">Tambah</button>
+                            <button class="btn btn-warning" id="submit" type="submit">Tambah</button>
                         </div>
                     </div>
                 </form>

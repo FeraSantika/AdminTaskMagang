@@ -22,7 +22,6 @@
             color: #F4E869;
             font-weight: 500;
         }
-
     </style>
 </head>
 

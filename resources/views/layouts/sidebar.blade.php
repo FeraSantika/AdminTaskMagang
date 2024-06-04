@@ -11,7 +11,7 @@
             <a href="{{ route('distributor.home') }}" class="logo logo-light">
     @endif
     <span class="logo-lg">
-        <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
+        <img src="{{ asset('assets/images/logo.png') }}" alt="logo" width="120" height="120">
     </span>
     <span class="logo-sm">
         <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo">

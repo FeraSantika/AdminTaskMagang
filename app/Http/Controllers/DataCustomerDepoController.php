@@ -15,7 +15,7 @@ class DataCustomerDepoController extends Controller
 {
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 

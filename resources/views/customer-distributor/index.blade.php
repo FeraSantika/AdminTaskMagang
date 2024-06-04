@@ -11,7 +11,7 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
                                 <li class="breadcrumb-item active">Customer</li>
                             </ol>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-2">
-                                    <a href="{{ route('customer-depo.create') }}" class="btn btn-primary mb-2"><i
+                                    <a href="{{ route('customer-depo.create') }}" class="btn btn-warning mb-2"><i
                                             class="mdi mdi-plus-circle me-2"></i> Add customer</a>
                                 </div>
                                 <div class="col-sm-5"></div>
@@ -40,7 +40,7 @@
                                     <div class="input-group">
                                         <input type="text" class="typeahead form-control" name="search" id="search"
                                             placeholder="Cari customer">
-                                        <button class="input-group-text btn btn-primary btn-sm" type="button"
+                                        <button class="input-group-text btn btn-warning btn-sm" type="button"
                                             id="search-btn"><i class="uil-search-alt"></i></button>
                                     </div>
                                 </div><!-- end col-->

@@ -22,7 +22,7 @@ class ListDataKunjunganController extends Controller
         $today = now()->format('Y-m-d');
         $sales = auth()->user()->User_id;
         $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')->where('data_kunjungan.user_id', $sales)->whereDate('data_kunjungan.kunjungan_tanggal', $today)->with('rute', 'customer')->get();
-        // dd($sales);
+        // dd($dtkunjungan);
         return view('list_kunjungan.index', compact('menu', 'roleuser', 'dtkunjungan'));
     }
 

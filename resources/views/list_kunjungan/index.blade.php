@@ -11,8 +11,8 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">List Kunjungan</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">List Kunjungan</a></li>
                             </ol>
                         </div>
                         <h4 class="page-title">List Kunjungan</h4>
@@ -53,7 +53,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th>Depo ID</th>
+                                            {{-- <th>Depo ID</th> --}}
                                             <th scope="col">Kode Customer</th>
                                             <th scope="col">Nama Customer</th>
                                             <th scope="col">Alamat Customer</th>
@@ -68,7 +68,7 @@
                                             @foreach ($dtkunjungan as $item)
                                                 <tr>
                                                     <td>{{ $rowNumber }}</td>
-                                                    <td>{{ $item->customer->depo_id }}</td>
+                                                    {{-- <td>{{ $item->customer->depo_id }}</td> --}}
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer->customer_nama }}</td>
                                                     <td>{{ $item->customer->customer_alamat }}</td>

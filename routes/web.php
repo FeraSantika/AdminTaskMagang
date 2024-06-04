@@ -46,10 +46,11 @@ use App\Http\Controllers\LaporanKunjunganDistributorController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/', [LoginController::class, 'showLoginForm']);
 Auth::routes(['verify' => true]);
 
 Route::get('logout', [LoginController::class, 'logout']);
@@ -238,4 +239,3 @@ Route::post('/admin/customer-distributor/update/{id}', [DataCustomerDistributorC
 Route::delete('/admin/customer-distributor/destroy/{id}', [DataCustomerDistributorController::class, 'destroy'])->name('customer-distributor.destroy');
 Route::delete('/admin/customer-distributor/destroysearch/{id}', [DataCustomerDistributorController::class, 'destroysearch'])->name('customer-distributor.destroysearch');
 Route::get('/search/customer-distributor', [DataCustomerDistributorController::class, 'search'])->name('search.customer-distributor');
-
