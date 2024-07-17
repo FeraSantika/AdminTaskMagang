@@ -9,6 +9,7 @@ class AksesDepo extends Model
 {
     use HasFactory;
     protected $table = 'akses_depo';
+    protected $primaryKey = 'akses_depo_id';
     protected $fillable = [
         'akses_depo_id',
         'user_id',

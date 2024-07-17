@@ -22,11 +22,9 @@ class LaporanKunjunganDepoController extends Controller
 
         $user_id =  auth()->user()->User_id;
         $depo_id = AksesDepo::where('user_id', $user_id)->value('depo_id');
-
         $customerDepo = DataDetailRute::join('data_customer', 'data_detail_rute.customer_kode', 'data_customer.customer_kode')
             ->join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
             ->where('data_customer.depo_id', $depo_id)->paginate(10);
-
         return view('laporan_kunjungan_depo.index', compact('menu', 'roleuser', 'customerDepo', 'depo_id'));
     }
 

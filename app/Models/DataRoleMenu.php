@@ -9,6 +9,7 @@ class DataRoleMenu extends Model
 {
     use HasFactory;
     public $table = 'data_role_menu';
+    protected $primaryKey = 'Role_menu_id';
     protected $fillable = [
         'Role_menu_id',
         'Role_id',

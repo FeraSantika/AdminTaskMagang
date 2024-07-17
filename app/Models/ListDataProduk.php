@@ -9,6 +9,7 @@ class ListDataProduk extends Model
 {
     use HasFactory;
     protected $table = 'list_data_produk';
+    protected $primaryKey = 'list_id';
     protected $fillable = [
         'list_id',
         'produk_kode',

@@ -30,7 +30,7 @@
                             <label for="password" class="form-label-md-6">Password</label>
                         </div>
                         <div class="col-md-10">
-                            <input type="password" name="password" id="password" class="form-control">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password min 8 characters">
                         </div>
                     </div>
 
@@ -49,7 +49,7 @@
                         <div class="col-md-10 {{ $errors->has('role') ? 'has-error' : '' }}">
                             <select name="role" id="role" class="form-select">
                                 @foreach ($dtRole as $item)
-                                    <option value="{{ $item->Role_id }}">{{ $item->Role_name }}</option>
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\DataDepo;
 use App\Models\DataMenu;
 use App\Models\DataPoli;
 use App\Models\DataUser;
+use App\Models\AksesDepo;
 use App\Models\DataBarang;
 use App\Models\DataPasien;
 use App\Models\DataProduk;
@@ -18,6 +20,7 @@ use Illuminate\Http\Request;
 use App\Models\DataKunjungan;
 use App\Models\DataDetailRute;
 use App\Models\ListDaftarObat;
+use App\Models\DataDistributor;
 use App\Models\PendaftaranPasien;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransaksiDataProduk;
@@ -45,12 +48,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')
+            ->with('menu', 'rolemenu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
+        // $menus = DataRoleMenu::join('data_menu','data_role_menu.menu_id','data_menu.menu_id')
+        //->where('Role_id', $user->Role_id)
+        // ->where('data_menu.Menu_category','Master Menu')->get();
+        // $menu = $menus->pluck('menu');
+        // dd($menu);
 
-        $distributor = DataUser::where('Role_id', 3)->count();
-        $depo = DataUser::where('Role_id', 2)->count();
+        $distributor = DataDistributor::count();
+        $depo = DataDepo::count();
         $produk = DataProduk::count();
         $kunjungan = DataKunjungan::whereDate('kunjungan_tanggal', today())->count();
         $sales = DataUser::where('Role_id', 4)->count();
@@ -63,7 +72,7 @@ class HomeController extends Controller
 
     public function sales()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $menu = DataMenu::with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
@@ -91,7 +100,6 @@ class HomeController extends Controller
             ->where('data_detail_rute.status', '=', 'Selesai')
             ->with('rute', 'customer')
             ->count();
-        // dd($pesanan);
         return view('home-sales', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
     }
 
@@ -125,7 +133,6 @@ class HomeController extends Controller
             ->where('data_detail_rute.status', '=', 'Selesai')
             ->with('rute', 'customer')
             ->count();
-
         return view('home-depo', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
     }
 

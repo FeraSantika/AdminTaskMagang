@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 
 class DataUser extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasRoles;
     protected $table = 'data_user';
+    protected $primaryKey = 'User_id';
     protected $fillable = [
         'User_id',
         'User_name',
@@ -41,15 +43,15 @@ class DataUser extends Authenticatable
         return $this->belongsTo(DataRole::class, 'Role_id', 'Role_id');
     }
 
-    public function transaksibarangkeluar()
-    {
-        return $this->hasMany(Transaksi_barang_keluar::class, 'kode_kasir', 'User_id');
-    }
+    // public function transaksibarangkeluar()
+    // {
+    //     return $this->hasMany(Transaksi_barang_keluar::class, 'kode_kasir', 'User_id');
+    // }
 
-    public function poliakses()
-    {
-        return $this->hasMany(DataAksesPoli::class, 'id_user', 'User_id');
-    }
+    // public function poliakses()
+    // {
+    //     return $this->hasMany(DataAksesPoli::class, 'id_user', 'User_id');
+    // }
 
     public function isAdmin()
     {

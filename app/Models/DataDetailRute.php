@@ -9,6 +9,7 @@ class DataDetailRute extends Model
 {
     use HasFactory;
     protected $table = 'data_detail_rute';
+    protected $primaryKey = 'detail_rute_id';
     protected $fillable = [
         'detail_rute_id',
         'rute_id',

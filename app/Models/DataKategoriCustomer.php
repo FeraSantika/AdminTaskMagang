@@ -9,6 +9,7 @@ class DataKategoriCustomer extends Model
 {
     use HasFactory;
     protected $table = 'data_kategori_customer';
+    protected $primaryKey = 'kategori_customer_id';
     protected $fillable = [
         'kategori_customer_id',
         'kategori_customer_nama',

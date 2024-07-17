@@ -9,6 +9,7 @@ class DataCustomer extends Model
 {
     use HasFactory;
     protected $table = 'data_customer';
+    protected $primaryKey = 'customer_id';
     protected $fillable = [
         'customer_id',
         'customer_kode',

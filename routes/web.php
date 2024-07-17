@@ -57,11 +57,9 @@ Route::get('logout', [LoginController::class, 'logout']);
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('Adminlogin');
 Route::get('/admin/register', [RegisterController::class, 'showRegisterForm'])->name('Adminregister');
 
-Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
-Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('sales.home');
-Route::get('/admin/home-depo', [HomeController::class, 'depo'])->name('depo.home');
-Route::get('/admin/home-distributor', [HomeController::class, 'distributor'])->name('distributor.home');
+// Route::group(['middleware' => ['auth', 'role:Admin']], function () {
 
+Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 Route::get('/tampil', [App\Http\Controllers\HomeController::class, 'tampil'])->name('tampil');
 Route::get('/admin/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/admin/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -113,15 +111,6 @@ Route::delete('/admin/customer/destroysearch/{id}', [DataCustomerController::cla
 Route::get('/search/customer', [DataCustomerController::class, 'search'])->name('search.customer');
 Route::get('/search/autocomplete_customer', [DataCustomerController::class, 'autocomplete'])->name('autocomplete_customer');
 
-Route::get('/admin/customer-depo', [DataCustomerDepoController::class, 'index'])->name('customer-depo');
-Route::get('/admin/customer-depo/create', [DataCustomerDepoController::class, 'create'])->name('customer-depo.create');
-Route::post('/admin/customer-depo/store', [DataCustomerDepoController::class, 'store'])->name('customer-depo.store');
-Route::get('/admin/customer-depo/edit/{id}', [DataCustomerDepoController::class, 'edit'])->name('customer-depo.edit');
-Route::post('/admin/customer-depo/update/{id}', [DataCustomerDepoController::class, 'update'])->name('customer-depo.update');
-Route::delete('/admin/customer-depo/destroy/{id}', [DataCustomerDepoController::class, 'destroy'])->name('customer-depo.destroy');
-Route::delete('/admin/customer-depo/destroysearch/{id}', [DataCustomerDepoController::class, 'destroysearch'])->name('customer-depo.destroysearch');
-Route::get('/search/customer-depo', [DataCustomerDepoController::class, 'search'])->name('search.customer-depo');
-
 Route::get('/admin/kategori_customer', [DataKategoriCustomerController::class, 'index'])->name('kategori_customer');
 Route::get('/admin/kategori_customer/create', [DataKategoriCustomerController::class, 'create'])->name('kategori_customer.create');
 Route::post('/admin/kategori_customer/store', [DataKategoriCustomerController::class, 'store'])->name('kategori_customer.store');
@@ -160,14 +149,6 @@ Route::get('/admin/cek-kunjungan/get_data', [CekDataKunjunganController::class, 
 Route::get('/admin/cek-kunjungan/export-excel', [CekDataKunjunganController::class, 'exportExcel'])->name('cek-kunjungan.export-excel');
 Route::get('/admin/cek-kunjungan/export-pdf', [CekDataKunjunganController::class, 'exportPDF'])->name('cek-kunjungan.export-pdf');
 
-Route::get('/admin/list-kunjungan', [ListDataKunjunganController::class, 'index'])->name('list-kunjungan');
-Route::get('/admin/list-kunjungan/detail/{id}', [ListDataKunjunganController::class, 'detail'])->name('list-kunjungan.detail');
-Route::get('/admin/list-kunjungan/auto-complete', [ListDataKunjunganController::class, 'autocomplete'])->name('list-kunjungan.autocomplete');
-Route::post('/admin/list-kunjungan/insert-list', [ListDataKunjunganController::class, 'insertlist'])->name('list-kunjungan.insert-list');
-Route::get('/admin/list-kunjungan/destroy/{id}', [ListDataKunjunganController::class, 'destroy'])->name('list-kunjungan.destroy');
-Route::post('/admin/list-kunjungan/store-list', [ListDataKunjunganController::class, 'storelist'])->name('list-kunjungan.store-list');
-Route::post('/admin/list-kunjungan/update-list', [ListDataKunjunganController::class, 'updatelist'])->name('list-kunjungan.update-list');
-
 Route::get('/admin/satuan', [DataSatuanController::class, 'index'])->name('satuan');
 Route::get('/admin/satuan/create', [DataSatuanController::class, 'create'])->name('satuan.create');
 Route::post('/admin/satuan/store', [DataSatuanController::class, 'store'])->name('satuan.store');
@@ -194,48 +175,75 @@ Route::get('/admin/laporan-kunjungan/get_data', [LaporanKunjunganController::cla
 Route::get('/admin/laporan-kunjungan/export-pdf', [LaporanKunjunganController::class, 'exportPDF'])->name('laporan-kunjungan.export-pdf');
 Route::get('/admin/laporan-kunjungan/export-excel', [LaporanKunjunganController::class, 'exportExcel'])->name('laporan-kunjungan.export-excel');
 
-Route::get('/admin/laporan-kunjungan-depo', [LaporanKunjunganDepoController::class, 'index'])->name('laporan-kunjungan-depo');
-Route::get('/admin/laporan-kunjungan-depo/get_data', [LaporanKunjunganDepoController::class, 'getData'])->name('laporan-kunjungan-depo.get_data');
-Route::get('/admin/laporan-kunjungan-depo/export-pdf', [LaporanKunjunganDepoController::class, 'exportPDF'])->name('laporan-kunjungan-depo.export-pdf');
-Route::get('/admin/laporan-kunjungan-depo/export-excel', [LaporanKunjunganDepoController::class, 'exportExcel'])->name('laporan-kunjungan-depo.export-excel');
-
 Route::get('/admin/laporan-produk', [LaporanProdukController::class, 'index'])->name('laporan-produk');
 Route::get('/admin/laporan-produk/get_data', [LaporanProdukController::class, 'getData'])->name('laporan-produk.get_data');
 Route::get('/admin/laporan-produk/export-pdf', [LaporanProdukController::class, 'exportPDF'])->name('laporan-produk.export-pdf');
 Route::get('/admin/laporan-produk/export-excel', [LaporanProdukController::class, 'exportExcel'])->name('laporan-produk.export-excel');
 
-Route::get('/admin/laporan-produk-depo', [LaporanProdukDepoController::class, 'index'])->name('laporan-produk-depo');
-Route::get('/admin/laporan-produk-depo/get_data', [LaporanProdukDepoController::class, 'getData'])->name('laporan-produk-depo.get_data');
-Route::get('/admin/laporan-produk-depo/export-pdf', [LaporanProdukDepoController::class, 'exportPDF'])->name('laporan-produk-depo.export-pdf');
-Route::get('/admin/laporan-produk-depo/export-excel', [LaporanProdukDepoController::class, 'exportExcel'])->name('laporan-produk-depo.export-excel');
-
 Route::get('/admin/cek-pesanan', [CekPesananController::class, 'index'])->name('cek-pesanan');
 Route::get('/admin/cek-pesanan/export-pdf', [CekPesananController::class, 'exportPDF'])->name('cek-pesanan.export-pdf');
 Route::get('/admin/cek-pesanan/export-excel', [CekPesananController::class, 'exportExcel'])->name('cek-pesanan.export-excel');
+// });
 
-Route::get('/admin/cek-pesanan-depo', [CekPesananDepoController::class, 'index'])->name('cek-pesanan-depo');
-Route::get('/admin/cek-pesanan-depo/export-pdf', [CekPesananDepoController::class, 'exportPDF'])->name('cek-pesanan-depo.export-pdf');
-Route::get('/admin/cek-pesanan-depo/export-excel', [CekPesananDepoController::class, 'exportExcel'])->name('cek-pesanan-depo.export-excel');
+Route::group(['middleware' => ['auth', 'role:Depo']], function () {
+    Route::get('/admin/home-depo', [HomeController::class, 'depo'])->name('depo.home');
+    Route::get('/admin/laporan-kunjungan-depo', [LaporanKunjunganDepoController::class, 'index'])->name('laporan-kunjungan-depo');
+    Route::get('/admin/laporan-kunjungan-depo/get_data', [LaporanKunjunganDepoController::class, 'getData'])->name('laporan-kunjungan-depo.get_data');
+    Route::get('/admin/laporan-kunjungan-depo/export-pdf', [LaporanKunjunganDepoController::class, 'exportPDF'])->name('laporan-kunjungan-depo.export-pdf');
+    Route::get('/admin/laporan-kunjungan-depo/export-excel', [LaporanKunjunganDepoController::class, 'exportExcel'])->name('laporan-kunjungan-depo.export-excel');
 
-Route::get('/admin/laporan-kunjungan-distributor', [LaporanKunjunganDistributorController::class, 'index'])->name('laporan-kunjungan-distributor');
-Route::get('/admin/laporan-kunjungan-distributor/get_data', [LaporanKunjunganDistributorController::class, 'getData'])->name('laporan-kunjungan-distributor.get_data');
-Route::get('/admin/laporan-kunjungan-distributor/export-pdf', [LaporanKunjunganDistributorController::class, 'exportPDF'])->name('laporan-kunjungan-distributor.export-pdf');
-Route::get('/admin/laporan-kunjungan-distributor/export-excel', [LaporanKunjunganDistributorController::class, 'exportExcel'])->name('laporan-kunjungan-distributor.export-excel');
+    Route::get('/admin/laporan-produk-depo', [LaporanProdukDepoController::class, 'index'])->name('laporan-produk-depo');
+    Route::get('/admin/laporan-produk-depo/get_data', [LaporanProdukDepoController::class, 'getData'])->name('laporan-produk-depo.get_data');
+    Route::get('/admin/laporan-produk-depo/export-pdf', [LaporanProdukDepoController::class, 'exportPDF'])->name('laporan-produk-depo.export-pdf');
+    Route::get('/admin/laporan-produk-depo/export-excel', [LaporanProdukDepoController::class, 'exportExcel'])->name('laporan-produk-depo.export-excel');
 
-Route::get('/admin/laporan-produk-distributor', [LaporanProdukDistributorController::class, 'index'])->name('laporan-produk-distributor');
-Route::get('/admin/laporan-produk-distributor/get_data', [LaporanProdukDistributorController::class, 'getData'])->name('laporan-produk-distributor.get_data');
-Route::get('/admin/laporan-produk-distributor/export-pdf', [LaporanProdukDistributorController::class, 'exportPDF'])->name('laporan-produk-distributor.export-pdf');
-Route::get('/admin/laporan-produk-distributor/export-excel', [LaporanProdukDistributorController::class, 'exportExcel'])->name('laporan-produk-distributor.export-excel');
+    Route::get('/admin/cek-pesanan-depo', [CekPesananDepoController::class, 'index'])->name('cek-pesanan-depo');
+    Route::get('/admin/cek-pesanan-depo/export-pdf', [CekPesananDepoController::class, 'exportPDF'])->name('cek-pesanan-depo.export-pdf');
+    Route::get('/admin/cek-pesanan-depo/export-excel', [CekPesananDepoController::class, 'exportExcel'])->name('cek-pesanan-depo.export-excel');
 
-Route::get('/admin/cek-pesanan-distributor', [CekPesananDistributorController::class, 'index'])->name('cek-pesanan-distributor');
-Route::get('/admin/cek-pesanan-distributor/export-pdf', [CekPesananDistributorController::class, 'exportPDF'])->name('cek-pesanan-distributor.export-pdf');
-Route::get('/admin/cek-pesanan-distributor/export-excel', [CekPesananDistributorController::class, 'exportExcel'])->name('cek-pesanan-distributor.export-excel');
+    Route::get('/admin/customer-depo', [DataCustomerDepoController::class, 'index'])->name('customer-depo');
+    Route::get('/admin/customer-depo/create', [DataCustomerDepoController::class, 'create'])->name('customer-depo.create');
+    Route::post('/admin/customer-depo/store', [DataCustomerDepoController::class, 'store'])->name('customer-depo.store');
+    Route::get('/admin/customer-depo/edit/{id}', [DataCustomerDepoController::class, 'edit'])->name('customer-depo.edit');
+    Route::post('/admin/customer-depo/update/{id}', [DataCustomerDepoController::class, 'update'])->name('customer-depo.update');
+    Route::delete('/admin/customer-depo/destroy/{id}', [DataCustomerDepoController::class, 'destroy'])->name('customer-depo.destroy');
+    Route::delete('/admin/customer-depo/destroysearch/{id}', [DataCustomerDepoController::class, 'destroysearch'])->name('customer-depo.destroysearch');
+    Route::get('/search/customer-depo', [DataCustomerDepoController::class, 'search'])->name('search.customer-depo');
+});
 
-Route::get('/admin/customer-distributor', [DataCustomerDistributorController::class, 'index'])->name('customer-distributor');
-Route::get('/admin/customer-distributor/create', [DataCustomerDistributorController::class, 'create'])->name('customer-distributor.create');
-Route::post('/admin/customer-distributor/store', [DataCustomerDistributorController::class, 'store'])->name('customer-distributor.store');
-Route::get('/admin/customer-distributor/edit/{id}', [DataCustomerDistributorController::class, 'edit'])->name('customer-distributor.edit');
-Route::post('/admin/customer-distributor/update/{id}', [DataCustomerDistributorController::class, 'update'])->name('customer-distributor.update');
-Route::delete('/admin/customer-distributor/destroy/{id}', [DataCustomerDistributorController::class, 'destroy'])->name('customer-distributor.destroy');
-Route::delete('/admin/customer-distributor/destroysearch/{id}', [DataCustomerDistributorController::class, 'destroysearch'])->name('customer-distributor.destroysearch');
-Route::get('/search/customer-distributor', [DataCustomerDistributorController::class, 'search'])->name('search.customer-distributor');
+Route::group(['middleware' => ['auth', 'role:Distributor']], function () {
+    Route::get('/admin/home-distributor', [HomeController::class, 'distributor'])->name('distributor.home');
+    Route::get('/admin/laporan-kunjungan-distributor', [LaporanKunjunganDistributorController::class, 'index'])->name('laporan-kunjungan-distributor');
+    Route::get('/admin/laporan-kunjungan-distributor/get_data', [LaporanKunjunganDistributorController::class, 'getData'])->name('laporan-kunjungan-distributor.get_data');
+    Route::get('/admin/laporan-kunjungan-distributor/export-pdf', [LaporanKunjunganDistributorController::class, 'exportPDF'])->name('laporan-kunjungan-distributor.export-pdf');
+    Route::get('/admin/laporan-kunjungan-distributor/export-excel', [LaporanKunjunganDistributorController::class, 'exportExcel'])->name('laporan-kunjungan-distributor.export-excel');
+
+    Route::get('/admin/laporan-produk-distributor', [LaporanProdukDistributorController::class, 'index'])->name('laporan-produk-distributor');
+    Route::get('/admin/laporan-produk-distributor/get_data', [LaporanProdukDistributorController::class, 'getData'])->name('laporan-produk-distributor.get_data');
+    Route::get('/admin/laporan-produk-distributor/export-pdf', [LaporanProdukDistributorController::class, 'exportPDF'])->name('laporan-produk-distributor.export-pdf');
+    Route::get('/admin/laporan-produk-distributor/export-excel', [LaporanProdukDistributorController::class, 'exportExcel'])->name('laporan-produk-distributor.export-excel');
+
+    Route::get('/admin/cek-pesanan-distributor', [CekPesananDistributorController::class, 'index'])->name('cek-pesanan-distributor');
+    Route::get('/admin/cek-pesanan-distributor/export-pdf', [CekPesananDistributorController::class, 'exportPDF'])->name('cek-pesanan-distributor.export-pdf');
+    Route::get('/admin/cek-pesanan-distributor/export-excel', [CekPesananDistributorController::class, 'exportExcel'])->name('cek-pesanan-distributor.export-excel');
+
+    Route::get('/admin/customer-distributor', [DataCustomerDistributorController::class, 'index'])->name('customer-distributor');
+    Route::get('/admin/customer-distributor/create', [DataCustomerDistributorController::class, 'create'])->name('customer-distributor.create');
+    Route::post('/admin/customer-distributor/store', [DataCustomerDistributorController::class, 'store'])->name('customer-distributor.store');
+    Route::get('/admin/customer-distributor/edit/{id}', [DataCustomerDistributorController::class, 'edit'])->name('customer-distributor.edit');
+    Route::post('/admin/customer-distributor/update/{id}', [DataCustomerDistributorController::class, 'update'])->name('customer-distributor.update');
+    Route::delete('/admin/customer-distributor/destroy/{id}', [DataCustomerDistributorController::class, 'destroy'])->name('customer-distributor.destroy');
+    Route::delete('/admin/customer-distributor/destroysearch/{id}', [DataCustomerDistributorController::class, 'destroysearch'])->name('customer-distributor.destroysearch');
+    Route::get('/search/customer-distributor', [DataCustomerDistributorController::class, 'search'])->name('search.customer-distributor');
+});
+
+Route::group(['middleware' => ['auth', 'role:Sales']], function () {
+    Route::get('/admin/home-sales', [HomeController::class, 'sales'])->name('sales.home');
+    Route::get('/admin/list-kunjungan', [ListDataKunjunganController::class, 'index'])->name('list-kunjungan');
+    Route::get('/admin/list-kunjungan/detail/{id}', [ListDataKunjunganController::class, 'detail'])->name('list-kunjungan.detail');
+    Route::get('/admin/list-kunjungan/auto-complete', [ListDataKunjunganController::class, 'autocomplete'])->name('list-kunjungan.autocomplete');
+    Route::post('/admin/list-kunjungan/insert-list', [ListDataKunjunganController::class, 'insertlist'])->name('list-kunjungan.insert-list');
+    Route::get('/admin/list-kunjungan/destroy/{id}', [ListDataKunjunganController::class, 'destroy'])->name('list-kunjungan.destroy');
+    Route::post('/admin/list-kunjungan/store-list', [ListDataKunjunganController::class, 'storelist'])->name('list-kunjungan.store-list');
+    Route::post('/admin/list-kunjungan/update-list', [ListDataKunjunganController::class, 'updatelist'])->name('list-kunjungan.update-list');
+});

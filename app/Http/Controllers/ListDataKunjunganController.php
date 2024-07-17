@@ -15,20 +15,22 @@ class ListDataKunjunganController extends Controller
 {
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $menu = DataMenu::with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
+        date_default_timezone_set('Asia/Jakarta');
         $today = now()->format('Y-m-d');
         $sales = auth()->user()->User_id;
         $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')->where('data_kunjungan.user_id', $sales)->whereDate('data_kunjungan.kunjungan_tanggal', $today)->with('rute', 'customer')->get();
-        // dd($dtkunjungan);
+        // dd($today);
+
         return view('list_kunjungan.index', compact('menu', 'roleuser', 'dtkunjungan'));
     }
 
     public function detail($customer_kode)
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
+        $menu = DataMenu::with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 

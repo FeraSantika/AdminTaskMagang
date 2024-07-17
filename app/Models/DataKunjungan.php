@@ -10,6 +10,7 @@ class DataKunjungan extends Model
 {
     use HasFactory;
     protected $table = 'data_kunjungan';
+    protected $primaryKey = 'kunjungan_id';
     protected $fillable = [
         'kunjungan_id',
         'user_id',

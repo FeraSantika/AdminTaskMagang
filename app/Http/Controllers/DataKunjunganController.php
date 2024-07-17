@@ -29,7 +29,7 @@ class DataKunjunganController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        $dtuser = DataUser::where('Role_id', 4)->get();
+        $dtuser = DataUser::where('Role_id', 8)->get();
         $dtrute = DataRute::get();
         return view('kunjungan.create', compact('menu', 'roleuser', 'dtuser', 'dtrute'));
     }

@@ -9,6 +9,7 @@ class DataDistributor extends Model
 {
     use HasFactory;
     public $table = 'data_distributor';
+    protected $primaryKey = 'distributor_id';
     protected $fillable = [
         'distributor_id',
         'distributor_nama'

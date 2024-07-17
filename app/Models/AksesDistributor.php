@@ -9,6 +9,7 @@ class AksesDistributor extends Model
 {
     use HasFactory;
     protected $table = 'akses_distributor';
+    protected $primaryKey = 'akses_distributor_id';
     protected $fillable = [
         'akses_distributor_id',
         'user_id',

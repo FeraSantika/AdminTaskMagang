@@ -57,8 +57,9 @@
                         <label for="role" class="col-md-2 col-form-label text-md-start">Role</label>
                         <div class="col-md-10 {{ $errors->has('role') ? 'has-error' : '' }}">
                             <select name="role" id="role" class="form-select">
+                                <option value="{{ $dtUser->role->Role_id }}">{{ $dtUser->role->Role_name }}</option>
                                 @foreach ($dtRole as $role)
-                                    <option value="{{ $role->Role_id }}">{{ $role->Role_name }}</option>
+                                    <option value="{{ $role->name }}">{{ $role->id }}|{{ $role->name }}</option>
                                 @endforeach
                             </select>
                         </div>
