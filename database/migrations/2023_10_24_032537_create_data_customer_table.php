@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('customer_nama');
             $table->char('customer_nomor_hp');
             $table->char('customer_alamat');
-            $table->boolean('latitude');
-            $table->boolean('longtitude');
+            $table->double('latitude', 10,8);
+            $table->double('longtitude', 10,8);
             $table->timestamps();
         });
     }

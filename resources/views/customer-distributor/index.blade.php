@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-sm-2">
-                                    <a href="{{ route('customer-depo.create') }}" class="btn btn-warning mb-2"><i
+                                    <a href="{{ route('customer-distributor.create') }}" class="btn btn-warning mb-2"><i
                                             class="mdi mdi-plus-circle me-2"></i> Add customer</a>
                                 </div>
                                 <div class="col-sm-5"></div>

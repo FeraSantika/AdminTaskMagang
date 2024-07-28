@@ -55,7 +55,7 @@ class LoginController extends Controller
 
         $credentials['User_name'] = $credentials['User_name'];
         $credentials['password'] = $credentials['User_password'];
-        $a = DataUser::where('User_name', $request->User_name)->first()->assignRole('Depo');
+        // $a = DataUser::where('User_name', $request->User_name)->first()->assignRole('Depo');
         if (Auth::attempt($credentials)) {
             // return redirect()->route('admin.home');
             $user = Auth::user();

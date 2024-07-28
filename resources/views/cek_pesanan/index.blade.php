@@ -108,7 +108,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="4">Tidak ada data kunjungan untuk hari ini</td>
+                                                <td colspan="8">Tidak ada data kunjungan untuk hari ini</td>
                                             </tr>
                                         @endif
                                     </tbody>

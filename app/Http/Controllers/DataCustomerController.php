@@ -16,7 +16,7 @@ class DataCustomerController extends Controller
 {
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
@@ -145,7 +145,7 @@ class DataCustomerController extends Controller
             ->orWhereHas('kategori', function ($query) use ($searchTerm) {
                 $query->where('kategori_customer_nama', 'LIKE', '%' . $searchTerm . '%');
             })
-            ->with('kategori')->get();
+            ->with('kategori', 'depo', 'distributor')->get();
 
         return response()->json($data);
     }

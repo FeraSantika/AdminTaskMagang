@@ -20,7 +20,7 @@ class CekDataKunjunganController extends Controller
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
         $dtkunjungan = DataKunjungan::with('user', 'rute')->paginate(10);
-        $dtsales = DataUser::where('Role_id', 4)->get();
+        $dtsales = DataUser::where('Role_id', 8)->get();
         return view('cek_kunjungan.index', compact('menu', 'roleuser', 'dtkunjungan', 'dtsales'));
     }
 

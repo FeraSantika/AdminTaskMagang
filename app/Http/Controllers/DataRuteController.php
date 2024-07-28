@@ -15,7 +15,7 @@ class DataRuteController extends Controller
 {
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
         $dtdetailrute = DataDetailRute::with('rute', 'customer')->get();
@@ -36,7 +36,7 @@ class DataRuteController extends Controller
 
     public function create()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
@@ -65,7 +65,7 @@ class DataRuteController extends Controller
     public function edit($id)
     {
 
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 

@@ -12,7 +12,8 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Laporan Kunjungan</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Laporan
+                                        Kunjungan</a></li>
                             </ol>
                         </div>
                         <h4 class="page-title">Laporan Kunjungan</h4>
@@ -92,7 +93,11 @@
                                                     <td>{{ $item->customer_kode }}</td>
                                                     <td>{{ $item->customer->customer_nama }}</td>
                                                     <td>{{ $item->customer->customer_alamat }}</td>
-                                                    <td>{{ $item->status }}</td>
+                                                    <td>{{ $item->status }}
+                                                        @if ($item->status == null)
+                                                            -
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                                 @php
                                                     $rowNumber++;

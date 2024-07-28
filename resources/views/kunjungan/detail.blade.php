@@ -50,7 +50,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th scope="col">Kode Customer</th>
-                                <th scope="col">Nama CUstomer</th>
+                                <th scope="col">Nama Customer</th>
                             </tr>
                         </thead>
                         <tbody>

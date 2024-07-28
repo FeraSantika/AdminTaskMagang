@@ -15,7 +15,6 @@
                         </div>
 
                         <div class="card-body p-4">
-
                             <div class="text-center w-75 m-auto">
                                 <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
                                 <p class="text-muted mb-4">Enter your email address and password to access admin panel.
@@ -27,7 +26,10 @@
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
                                     <input class="form-control" name="username" type="text" id="username" required=""
-                                        placeholder="Enter your email">
+                                        placeholder="Enter your username">
+                                    @error('username')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
@@ -38,6 +40,9 @@
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -64,4 +69,13 @@
         </div>
         <!-- end container -->
     </div>
+@endsection
+@section('scripts')
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                alert('{{ $errors->first() }}');
+            });
+        </script>
+    @endif
 @endsection

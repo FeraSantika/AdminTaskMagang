@@ -12,7 +12,7 @@ class DataSatuanController extends Controller
 {
     public function index()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
         $dtsatuan = DataSatuan::get();
@@ -22,7 +22,7 @@ class DataSatuanController extends Controller
 
     public function create()
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
         return view('satuan.create', compact('menu', 'roleuser'));
@@ -38,7 +38,7 @@ class DataSatuanController extends Controller
 
     public function edit($id)
     {
-        $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
+        $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $satuan = Datasatuan::where('satuan_id', $id)->first();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();

@@ -163,6 +163,8 @@
                             "<td>" + item.customer_alamat + "</td>" +
                             "<td>" + item.latitude + "</td>" +
                             "<td>" + item.longtitude + "</td>" +
+                            "<td>" + item.distributor.distributor_nama + "</td>" +
+                            "<td>" + item.depo.depo_nama + "</td>" +
                             "<td><a href='customer/edit/" + item.customer_id + "' class='action-icon'>" +
                             "<i class='mdi mdi-square-edit-outline'></i></a>" +
                             "<a href='javascript:void(0);' class='action-icon delete-customer' data-customer-id='" +

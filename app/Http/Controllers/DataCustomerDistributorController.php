@@ -55,6 +55,7 @@ class DataCustomerDistributorController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
+        // dd($distributor);
         return view('customer-distributor.create', compact('dtcustomer', 'lastcustomer', 'customerCode', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor', 'distributor'));
     }
 

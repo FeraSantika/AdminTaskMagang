@@ -22,7 +22,7 @@ class AksesDistributorController extends Controller
 
     public function create()
     {
-        $dtuser = DataUser::where('Role_id', 3)->get();
+        $dtuser = DataUser::where('Role_id', 7)->get();
         $dtdistributor = DataDistributor::get();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;

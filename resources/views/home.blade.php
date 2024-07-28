@@ -115,7 +115,7 @@
                                                     </h2>
                                                 </a>
                                             </div>
-                                            <div class="col-sm-6 mt-3">
+                                            {{-- <div class="col-sm-6 mt-3">
                                                 <p class="text-start"><small
                                                         class="mdi mdi-checkbox-blank-circle text-info align-middle me-1"></small>Admin
                                                     <b>{{ $admin }}</b></p>
@@ -125,7 +125,7 @@
                                                 <p class="text-start"><small
                                                         class="mdi mdi-checkbox-blank-circle text-warning align-middle me-1"></small>Customer
                                                     <b>{{ $customer }}</b></p>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
