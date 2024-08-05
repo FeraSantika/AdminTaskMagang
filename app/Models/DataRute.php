@@ -14,4 +14,9 @@ class DataRute extends Model
         'rute_id',
         'rute_nama',
     ];
+
+    public function detail()
+    {
+        return $this->hasMany(DataDetailRute::class, 'rute_id');
+    }
 }

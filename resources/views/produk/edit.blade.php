@@ -4,7 +4,7 @@
         <h3>Edit Data Produk</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('produk.update', $produk->produk_id ?? '') }}" method="POST" class="mb-3">
+                <form action="{{ route('produk.update', Crypt::encryptString($produk->produk_id)) }}" method="POST" class="mb-3">
                     @csrf
                     <div class="row mb-3">
                         <div class="col-md-2">

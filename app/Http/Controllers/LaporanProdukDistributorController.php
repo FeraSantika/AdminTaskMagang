@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Dompdf\Dompdf;
 use App\Models\DataMenu;
 use App\Models\AksesDepo;
+use App\Models\Notifikasi;
 use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
@@ -27,15 +28,25 @@ class LaporanProdukDistributorController extends Controller
         $distributor_id = AksesDistributor::where('user_id', $user_id)->value('distributor_id');
         $customer = DataCustomer::where('distributor_id', $distributor_id)->pluck('customer_kode');
 
-        $produk = ListDataProduk::whereIn('customer_kode', $customer)->select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
+        $produk = ListDataProduk::whereIn('customer_kode', $customer)
+            ->select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
             ->groupBy('produk_kode')
             ->groupBy('satuan_id')
             ->with('produk', 'satuan')
             ->get();
 
-        // dd($produk);
+        $distributor = auth()->user()->User_id;
+        $today = now()->toDateString();
+        $distributor_login = AksesDistributor::where('user_id', $distributor)->first('distributor_id');
+        if ($distributor_login) {
+            $notif = Notifikasi::where('distributor_id', $distributor_login->distributor_id)
+                ->whereDate('created_at', $today)
+                ->sum('count');
+        } else {
+            $notif = 0;
+        }
 
-        return view('laporan_produk_distributor.index', compact('menu', 'roleuser', 'produk', 'customer'));
+        return view('laporan_produk_distributor.index', compact('menu', 'roleuser', 'produk', 'customer', 'notif'));
     }
 
     public function getData(Request $request)
@@ -95,12 +106,17 @@ class LaporanProdukDistributorController extends Controller
 
     public function exportExcel(Request $request)
     {
+        $user_id =  auth()->user()->User_id;
+        $distributor_id = AksesDistributor::where('user_id', $user_id)->value('distributor_id');
+        $customer = DataCustomer::where('distributor_id', $distributor_id)->pluck('customer_kode');
+
         $tglAwal = $request->input('tanggalAwal');
         $tglAkhir = $request->input('tanggalAkhir');
 
         return Excel::download(new laporanprodukdistributorExport(
             $tglAwal,
             $tglAkhir,
+            $customer,
         ), 'Laporan_Produk_Distributor.xlsx');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Dompdf\Dompdf;
 use App\Models\DataMenu;
 use App\Models\AksesDepo;
+use App\Models\Notifikasi;
 use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
@@ -28,8 +29,18 @@ class LaporanKunjunganDistributorController extends Controller
             ->where('data_customer.distributor_id', $distributor_id)
             ->paginate(10);
 
-        // dd($customerDepo);
-        return view('laporan_kunjungan_distributor.index', compact('menu', 'roleuser', 'customerDistributor', 'distributor_id'));
+            $distributor = auth()->user()->User_id;
+            $today = now()->toDateString();
+            $distributor_login = AksesDistributor::where('user_id', $distributor)->first('distributor_id');
+            if ($distributor_login) {
+                $notif = Notifikasi::where('distributor_id', $distributor_login->distributor_id)
+                    ->whereDate('created_at', $today)
+                    ->sum('count');
+            } else {
+                $notif = 0;
+            }
+
+        return view('laporan_kunjungan_distributor.index', compact('menu', 'roleuser', 'customerDistributor', 'distributor_id', 'notif'));
     }
 
     public function getData(Request $request)

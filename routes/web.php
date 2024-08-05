@@ -32,6 +32,7 @@ use App\Http\Controllers\DataKategoriCustomerController;
 use App\Http\Controllers\LaporanKunjunganDepoController;
 use App\Http\Controllers\CekPesananDistributorController;
 use App\Http\Controllers\DataCustomerDistributorController;
+use App\Http\Controllers\HistoryTransaksiController;
 use App\Http\Controllers\LaporanProdukDistributorController;
 use App\Http\Controllers\LaporanKunjunganDistributorController;
 
@@ -226,6 +227,10 @@ Route::group(['middleware' => ['auth', 'role:Distributor']], function () {
     Route::get('/admin/cek-pesanan-distributor', [CekPesananDistributorController::class, 'index'])->name('cek-pesanan-distributor');
     Route::get('/admin/cek-pesanan-distributor/export-pdf', [CekPesananDistributorController::class, 'exportPDF'])->name('cek-pesanan-distributor.export-pdf');
     Route::get('/admin/cek-pesanan-distributor/export-excel', [CekPesananDistributorController::class, 'exportExcel'])->name('cek-pesanan-distributor.export-excel');
+
+    Route::get('/admin/history-transaksi', [HistoryTransaksiController::class, 'index'])->name('history-transaksi');
+    Route::get('/admin/history-transaksi/export-pdf', [HistoryTransaksiController::class, 'exportPDF'])->name('history-transaksi.export-pdf');
+    Route::get('/admin/history-transaksi/export-excel', [HistoryTransaksiController::class, 'exportExcel'])->name('history-transaksi.export-excel');
 
     Route::get('/admin/customer-distributor', [DataCustomerDistributorController::class, 'index'])->name('customer-distributor');
     Route::get('/admin/customer-distributor/create', [DataCustomerDistributorController::class, 'create'])->name('customer-distributor.create');

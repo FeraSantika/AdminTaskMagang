@@ -16,7 +16,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <div class="col-md-2">
                             <label for="menu" class="form-label">Customer</label>
                         </div>
@@ -28,7 +28,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row">
                         <div class="mt-3 text-center">

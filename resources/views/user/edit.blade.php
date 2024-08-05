@@ -5,7 +5,7 @@
         <div class="content bg-white border">
             <div class="m-5">
 
-                <form action="{{ route('user.update', $dtUser->User_id) }}" method="POST" class="mb-3"
+                <form action="{{ route('user.update', Crypt::encryptString($dtUser->User_id)) }}" method="POST" class="mb-3"
                     enctype="multipart/form-data" id="form-id" name="form-edit-user">
                     @csrf
 

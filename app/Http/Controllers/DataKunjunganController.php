@@ -11,6 +11,7 @@ use App\Models\DataKunjungan;
 use App\Models\DataDetailRute;
 use App\Imports\DataKunjunganImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Crypt;
 
 class DataKunjunganController extends Controller
 {
@@ -44,8 +45,9 @@ class DataKunjunganController extends Controller
         return redirect()->route('kunjungan')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
@@ -56,8 +58,9 @@ class DataKunjunganController extends Controller
         return view('kunjungan.edit', compact('menu', 'kunjungan', 'roleuser', 'dtuser', 'dtrute'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         Datakunjungan::where('kunjungan_id', $id)->update([
             'user_id' => $request->user,
             'rute_id' => $request->rute,
@@ -66,15 +69,17 @@ class DataKunjunganController extends Controller
         return redirect()->route('kunjungan')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $kunjungan = Datakunjungan::where('kunjungan_id', $id);
         $kunjungan->delete();
         return redirect()->route('kunjungan')->with('success', 'Data berhasil dihapus!');
     }
 
-    public function detail($id)
+    public function detail($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\DataDistributor;
 use Illuminate\Support\Facades\DB;
 use App\Models\DataKategoriCustomer;
+use Illuminate\Support\Facades\Crypt;
 
 class DataCustomerController extends Controller
 {
@@ -48,7 +49,6 @@ class DataCustomerController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        // dd($dtdepo);
         return view('customer.create', compact('dtcustomer', 'lastcustomer', 'customerCode', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor'));
     }
 
@@ -96,8 +96,9 @@ class DataCustomerController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer =  Datacustomer::where('customer_id', $id)->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
@@ -109,8 +110,9 @@ class DataCustomerController extends Controller
         return view('customer.edit', compact('dtcustomer', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer = [
             'customer_nama' => $request->nama,
             'customer_kode' => $request->kode,
@@ -122,14 +124,13 @@ class DataCustomerController extends Controller
             'latitude' => $request->latitude,
             'longtitude' => $request->longtitude,
         ];
-
         Datacustomer::where('customer_id', $id)->update($dtcustomer);
-
         return redirect()->route('customer')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dt = Datacustomer::where('customer_id', $id);
         $dt->delete();
         return redirect()->route('customer')->with('success', 'Data berhasil dihapus!');

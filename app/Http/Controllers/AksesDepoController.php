@@ -8,6 +8,7 @@ use App\Models\DataUser;
 use App\Models\AksesDepo;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AksesDepoController extends Controller
 {
@@ -41,8 +42,9 @@ class AksesDepoController extends Controller
         return redirect()->route('akses-depo');
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtuser = DataUser::where('Role_id', 2)->get();
         $dtdepo = Datadepo::get();
         $dtaksesdepo = AksesDepo::where('akses_depo_id', $id)->with('user', 'depo')->first();
@@ -52,8 +54,9 @@ class AksesDepoController extends Controller
         return view('aksesdepo.edit', compact('dtaksesdepo', 'dtuser', 'dtdepo', 'roleuser', 'menu'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         AksesDepo::where('akses_depo_id', $id)->update([
             'depo_id' => $request->depo,
             'user_id' => $request->user
@@ -61,8 +64,9 @@ class AksesDepoController extends Controller
         return redirect()->route('akses-depo');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtaksesdepo = AksesDepo::where('akses_depo_id', $id);
         $dtaksesdepo->delete();
         return redirect()->route('akses-depo');

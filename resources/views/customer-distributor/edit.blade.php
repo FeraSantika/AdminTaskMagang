@@ -5,7 +5,7 @@
         <div class="content bg-white border">
             <div class="m-5">
 
-                <form action="{{ route('customer-distributor.update', $dtcustomer->customer_id) }}" method="POST" class="mb-3"
+                <form action="{{ route('customer-distributor.update', Crypt::encryptString($dtcustomer->customer_id)) }}" method="POST" class="mb-3"
                     id="customer-form" enctype="multipart/form-data">
                     @csrf
 

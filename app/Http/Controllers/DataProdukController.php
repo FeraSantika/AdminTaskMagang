@@ -6,6 +6,7 @@ use App\Models\DataMenu;
 use App\Models\DataProduk;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class DataProdukController extends Controller
 {
@@ -69,18 +70,19 @@ class DataProdukController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $produk =  Dataproduk::where('produk_id', $id)->first();
-
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
         return view('produk.edit', compact('produk', 'menu', 'roleuser'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtproduk = [
             'produk_nama' => $request->nama,
             'produk_kode' => $request->kode,
@@ -91,8 +93,9 @@ class DataProdukController extends Controller
         return redirect()->route('produk')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dt = Dataproduk::where('produk_id', $id);
         $dt->delete();
         return redirect()->route('produk')->with('success', 'Data berhasil dihapus!');

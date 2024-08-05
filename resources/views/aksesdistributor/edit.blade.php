@@ -4,7 +4,7 @@
         <h3>Edit Data Distributor</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('akses-distributor.update', $dtaksesdistributor->akses_distributor_id ?? '') }}"
+                <form action="{{ route('akses-distributor.update', Crypt::encryptString($dtaksesdistributor->akses_distributor_id)) }}"
                     method="POST" class="mb-3">
                     @csrf
                     <div class="row mb-3">

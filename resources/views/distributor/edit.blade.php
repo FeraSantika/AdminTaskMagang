@@ -4,7 +4,7 @@
         <h3>Edit Data Distributor</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('distributor.update', $distributor->distributor_id ?? '') }}" method="POST"
+                <form action="{{ route('distributor.update', Crypt::encryptString($distributor->distributor_id)) }}" method="POST"
                     class="mb-3">
                     @csrf
                     <div class="row mb-3">

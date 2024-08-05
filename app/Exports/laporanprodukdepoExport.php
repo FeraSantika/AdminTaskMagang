@@ -10,12 +10,14 @@ use App\Models\ListDataProduk;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class laporanprodukdepoExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping
+class laporanprodukdepoExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping, WithDrawings
 
 /**
  * @return \Illuminate\Support\Collection
@@ -60,12 +62,12 @@ class laporanprodukdepoExport implements FromCollection, WithHeadings, ShouldAut
 
     public function headings(): array
     {
-        $hospitalName = 'Anonim';
-        $hospitalAddress = 'Anonim';
+        $perusahaanName = 'PT Satya Amarta Prima';
+        $perusahaanAddress = 'Jl. Villa Melati Mas Raya No.5 Blok B8-1, Jelupang, Serpong Utara, South Tangerang City, Banten 15323';
 
         $filterText = [
-            [$hospitalName],
-            [$hospitalAddress],
+            [$perusahaanName],
+            [$perusahaanAddress],
             [],
             ['Laporan Produk'],
             [],
@@ -146,5 +148,18 @@ class laporanprodukdepoExport implements FromCollection, WithHeadings, ShouldAut
             'Jumlah' => $data['Jumlah'],
             'Satuan' => $data['Satuan'],
         ];
+    }
+
+    public function drawings()
+    {
+        $gambar = base_path('public\assets\images\logo.png');
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Presales');
+        $drawing->setPath($gambar);
+        $drawing->setHeight(25);
+        $drawing->setCoordinates('A1');
+
+        return [$drawing];
     }
 }

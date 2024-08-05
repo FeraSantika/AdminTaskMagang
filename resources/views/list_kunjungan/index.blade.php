@@ -75,7 +75,7 @@
                                                     <td>{{ $item->customer->customer_nama }}</td>
                                                     <td>{{ $item->customer->customer_alamat }}</td>
                                                     <td>
-                                                        <a href="{{ route('list-kunjungan.detail', $item->customer_kode) }}"
+                                                        <a href="{{ route('list-kunjungan.detail', Crypt::encryptString($item->customer_kode)) }}"
                                                             class="btn btn-soft-info">Detail</a>
                                                         {{-- @if ($item->status == 'Selesai')
                                                             <span class="badge bg-success">{{ $item->status }}</span>

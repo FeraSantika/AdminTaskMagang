@@ -10,6 +10,7 @@ use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\DataDistributor;
 use App\Models\DataKategoriCustomer;
+use Illuminate\Support\Facades\Crypt;
 
 class DataCustomerDepoController extends Controller
 {
@@ -100,8 +101,9 @@ class DataCustomerDepoController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer =  Datacustomer::where('customer_id', $id)->with('depo', 'distributor')->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
@@ -117,8 +119,9 @@ class DataCustomerDepoController extends Controller
         return view('customer-depo.edit', compact('dtcustomer', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor', 'distributor'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer = [
             'customer_nama' => $request->nama,
             'customer_kode' => $request->kode,
@@ -136,8 +139,9 @@ class DataCustomerDepoController extends Controller
         return redirect()->route('customer-depo')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dt = Datacustomer::where('customer_id', $id);
         $dt->delete();
         return redirect()->route('customer-depo')->with('success', 'Data berhasil dihapus!');

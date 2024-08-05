@@ -4,7 +4,7 @@
         <h3>Edit Kategori Customer</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('kategori_customer.update', $dtkategori->kategori_customer_id) }}" method="POST"
+                <form action="{{ route('kategori_customer.update', Crypt::encryptString($dtkategori->kategori_customer_id)) }}" method="POST"
                     class="mb-3">
                     @csrf
                     <div class="mb-3">

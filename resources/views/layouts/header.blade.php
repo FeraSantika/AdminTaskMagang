@@ -35,3 +35,4 @@
 <!-- Theme Config Js -->
 <script src="{{ asset('assets/js/hyper-config.js') }}"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">

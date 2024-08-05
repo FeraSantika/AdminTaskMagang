@@ -64,7 +64,7 @@
                                                     {{ $item->distributor_nama }}
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('distributor.edit', $item->distributor_id) }}"
+                                                    <a href="{{ route('distributor.edit', Crypt::encryptString($item->distributor_id)) }}"
                                                         class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
@@ -73,7 +73,7 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->distributor_id }}"
-                                                        action="{{ route('distributor.destroy', $item->distributor_id) }}"
+                                                        action="{{ route('distributor.destroy', Crypt::encryptString($item->distributor_id)) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -92,8 +92,6 @@
                 </div> <!-- end col -->
             </div>
             <!-- end row -->
-
         </div> <!-- container -->
-
     </div>
 @endsection

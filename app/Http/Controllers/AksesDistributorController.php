@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataDistributor;
 use App\Models\DataMenu;
 use App\Models\DataUser;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
+use App\Models\DataDistributor;
 use App\Models\AksesDistributor;
+use Illuminate\Support\Facades\Crypt;
 
 class AksesDistributorController extends Controller
 {
@@ -41,8 +42,9 @@ class AksesDistributorController extends Controller
         return redirect()->route('akses-distributor');
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtuser = DataUser::where('Role_id', 3)->get();
         $dtdistributor = Datadistributor::get();
         $dtaksesdistributor = AksesDistributor::where('akses_distributor_id', $id)->with('user', 'distributor')->first();
@@ -52,8 +54,9 @@ class AksesDistributorController extends Controller
         return view('aksesdistributor.edit', compact('dtaksesdistributor', 'dtuser', 'dtdistributor', 'roleuser', 'menu'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         AksesDistributor::where('akses_distributor_id', $id)->update([
             'distributor_id' => $request->distributor,
             'user_id' => $request->user
@@ -61,8 +64,9 @@ class AksesDistributorController extends Controller
         return redirect()->route('akses-distributor');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtAksesDistributor = AksesDistributor::where('akses_distributor_id', $id);
         $dtAksesDistributor->delete();
         return redirect()->route('akses-distributor');

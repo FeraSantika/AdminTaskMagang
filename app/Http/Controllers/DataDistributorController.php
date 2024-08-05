@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataDistributor;
 use App\Models\DataMenu;
-use App\Models\DataRole;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
+use App\Models\DataDistributor;
+use Illuminate\Support\Facades\Crypt;
 
 class DataDistributorController extends Controller
 {
@@ -35,8 +35,9 @@ class DataDistributorController extends Controller
         return redirect()->route('distributor')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $menu = DataMenu::where('Menu_category', 'Master Menu')->get();
         $distributor = DataDistributor::where('distributor_id', $id)->first();
         $user = auth()->user()->role;
@@ -44,16 +45,18 @@ class DataDistributorController extends Controller
         return view('distributor.edit', compact('menu', 'distributor','roleuser'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         DataDistributor::where('distributor_id', $id)->update([
             'distributor_nama' => $request->nama
         ]);
         return redirect()->route('distributor')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $distributor = DataDistributor::where('distributor_id', $id);
         $distributor->delete();
         return redirect()->route('distributor')->with('success', 'Data berhasil dihapus!');

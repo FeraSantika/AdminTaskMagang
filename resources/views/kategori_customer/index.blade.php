@@ -62,7 +62,7 @@
                                                     {{ $item->kategori_customer_nama }}
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('kategori_customer.edit', $item->kategori_customer_id) }}"
+                                                    <a href="{{ route('kategori_customer.edit', Crypt::encryptString($item->kategori_customer_id)) }}"
                                                         class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
@@ -71,7 +71,7 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->kategori_customer_id }}"
-                                                        action="{{ route('kategori_customer.destroy', $item->kategori_customer_id) }}"
+                                                        action="{{ route('kategori_customer.destroy', Crypt::encryptString($item->kategori_customer_id)) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

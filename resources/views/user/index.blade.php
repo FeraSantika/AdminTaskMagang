@@ -88,7 +88,7 @@
                                                     <img src="{{ asset($item->User_photo) }}" width="100px">
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('user.edit', $item->User_id) }}" class="action-icon">
+                                                    <a href="{{ route('user.edit', Crypt::encryptString($item->User_id)) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
@@ -96,7 +96,7 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->User_id }}"
-                                                        action="{{ route('user.destroy', $item->User_id) }}"
+                                                        action="{{ route('user.destroy', Crypt::encryptString($item->User_id)) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -113,10 +113,7 @@
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->
                 </div> <!-- end col -->
-            </div>
-            <!-- end row -->
-
+            </div><!-- end row -->
         </div> <!-- container -->
-
     </div>
 @endsection

@@ -36,7 +36,21 @@
                         <label for="simpleinput" class="form-label">Alamat Customer </label>
                     </div>
                     <div class="col-md-8">
-                        <label for="simpleinput" class="form-label">: {{ $dtkunjungan->customer->customer_alamat }}</label>
+                        <label for="simpleinput" class="form-label">: {{ $dtkunjungan->customer->customer_alamat }},</label>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">: ({{ $dtkunjungan->customer->latitude }}, {{ $dtkunjungan->customer->longtitude }})</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 ">
+                        <label for="simpleinput" class="form-label">Nomor HP Customer </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="simpleinput" class="form-label">: {{ $dtkunjungan->customer->customer_nomor_hp }}</label>
                     </div>
                 </div>
             </div>

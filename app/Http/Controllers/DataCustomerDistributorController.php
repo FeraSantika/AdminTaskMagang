@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\DataDepo;
 use App\Models\DataMenu;
 use App\Models\AksesDepo;
-use App\Models\AksesDistributor;
+use App\Models\Notifikasi;
 use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\DataDistributor;
+use App\Models\AksesDistributor;
 use App\Models\DataKategoriCustomer;
+use Illuminate\Support\Facades\Crypt;
 
 class DataCustomerDistributorController extends Controller
 {
@@ -22,10 +24,20 @@ class DataCustomerDistributorController extends Controller
 
         $user_id =  auth()->user()->User_id;
         $distributor = AksesDistributor::where('user_id', $user_id)->value('distributor_id');
-
         $dtcustomer = DataCustomer::with('kategori', 'depo', 'distributor')->where('distributor_id', $distributor)->paginate(10);
 
-        return view('customer-distributor.index', compact('menu', 'roleuser', 'dtcustomer'));
+        $distributor = auth()->user()->User_id;
+        $today = now()->toDateString();
+        $distributor_login = AksesDistributor::where('user_id', $distributor)->first('distributor_id');
+        if ($distributor_login) {
+            $notif = Notifikasi::where('distributor_id', $distributor_login->distributor_id)
+                ->whereDate('created_at', $today)
+                ->sum('count');
+        } else {
+            $notif = 0;
+        }
+
+        return view('customer-distributor.index', compact('menu', 'roleuser', 'dtcustomer', 'notif'));
     }
 
     public function create()
@@ -103,8 +115,9 @@ class DataCustomerDistributorController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer =  Datacustomer::where('customer_id', $id)->with('depo', 'distributor')->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
@@ -120,8 +133,9 @@ class DataCustomerDistributorController extends Controller
         return view('customer-distributor.edit', compact('dtcustomer', 'menu', 'roleuser', 'dtkategori', 'dtdepo', 'dtdistributor', 'distributor'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtcustomer = [
             'customer_nama' => $request->nama,
             'customer_kode' => $request->kode,
@@ -139,8 +153,9 @@ class DataCustomerDistributorController extends Controller
         return redirect()->route('customer-distributor')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dt = Datacustomer::where('customer_id', $id);
         $dt->delete();
         return redirect()->route('customer-distributor')->with('success', 'Data berhasil dihapus!');

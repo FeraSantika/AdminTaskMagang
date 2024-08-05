@@ -64,7 +64,7 @@
                                                 <td>{{$item->user->User_name ?? ''}}</td>
                                                 <td>{{$item->distributor->distributor_nama ?? ''}}</td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('akses-distributor.edit', $item->akses_distributor_id) }}" class="action-icon">
+                                                    <a href="{{ route('akses-distributor.edit', Crypt::encryptString($item->akses_distributor_id)) }}" class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
@@ -72,7 +72,7 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->akses_distributor_id }}"
-                                                        action="{{ route('akses-distributor.destroy', $item->akses_distributor_id) }}" method="POST">
+                                                        action="{{ route('akses-distributor.destroy', Crypt::encryptString($item->akses_distributor_id)) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

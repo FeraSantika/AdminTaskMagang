@@ -9,9 +9,11 @@ use App\Models\DataMenu;
 use App\Models\DataPoli;
 use App\Models\DataUser;
 use App\Models\AksesDepo;
+use App\Models\AksesDistributor;
 use App\Models\DataBarang;
 use App\Models\DataPasien;
 use App\Models\DataProduk;
+use App\Models\Notifikasi;
 use App\Models\Verifytoken;
 use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
@@ -142,11 +144,19 @@ class HomeController extends Controller
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
 
-        $depo = auth()->user()->User_id;
-        $today = now()->format('Y-m-d');
+        $distributor = auth()->user()->User_id;
+        $today = now()->toDateString();
+        $distributor_login = AksesDistributor::where('user_id', $distributor)->first('distributor_id');
+        if ($distributor_login) {
+            $notif = Notifikasi::where('distributor_id', $distributor_login->distributor_id)
+                ->whereDate('created_at', $today)
+                ->sum('count');
+        } else {
+            $notif = 0;
+        }
 
         $kunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
-            ->where('data_kunjungan.user_id', $depo)
+            ->where('data_kunjungan.user_id', $distributor)
             ->whereDate('data_kunjungan.kunjungan_tanggal', $today)
             ->with('rute', 'customer')
             ->count();
@@ -161,14 +171,17 @@ class HomeController extends Controller
             ->with('rute', 'customer')
             ->count();
         $transaksiSelesai = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')
-            ->where('data_kunjungan.user_id', $depo)
+            ->where('data_kunjungan.user_id', $distributor)
             ->whereDate('data_detail_rute.updated_at', $today)
             ->where('data_detail_rute.status', '=', 'Selesai')
             ->with('rute', 'customer')
             ->count();
 
-        return view('home-distributor', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai'));
+        return view('home-distributor', compact('roleuser', 'menu', 'kunjungan', 'pesanan', 'tokoTutup', 'transaksiSelesai', 'notif'));
     }
+
+    //     return view('layouts.navbar', compact('notif', 'today'));
+    // }
 
     // public function verifyaccount(){
     //     return view('otp_verification');

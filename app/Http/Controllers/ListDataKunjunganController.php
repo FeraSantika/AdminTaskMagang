@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\DataMenu;
 use App\Models\DataProduk;
 use App\Models\DataSatuan;
+use App\Models\Notifikasi;
+use App\Models\DataCustomer;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use App\Models\DataDetailRute;
 use App\Models\ListDataProduk;
+use Illuminate\Support\Facades\DB;
 use App\Models\TransaksiDataProduk;
+use Illuminate\Support\Facades\Crypt;
 
 class ListDataKunjunganController extends Controller
 {
@@ -23,13 +27,13 @@ class ListDataKunjunganController extends Controller
         $today = now()->format('Y-m-d');
         $sales = auth()->user()->User_id;
         $dtkunjungan = DataDetailRute::join('data_kunjungan', 'data_detail_rute.rute_id', 'data_kunjungan.rute_id')->where('data_kunjungan.user_id', $sales)->whereDate('data_kunjungan.kunjungan_tanggal', $today)->with('rute', 'customer')->get();
-        // dd($today);
 
         return view('list_kunjungan.index', compact('menu', 'roleuser', 'dtkunjungan'));
     }
 
-    public function detail($customer_kode)
+    public function detail($encryptedId)
     {
+        $customer_kode = Crypt::decryptString($encryptedId);
         $menu = DataMenu::with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
         $roleuser = DataRoleMenu::where('Role_id', $user->Role_id)->get();
@@ -90,7 +94,6 @@ class ListDataKunjunganController extends Controller
         $paddedId = str_pad($nextId, $length, '0', STR_PAD_LEFT);
         $transaksiCode = $prefix . $paddedId;
 
-        // dd($dtpesan);
         return view('list_kunjungan.detail', compact('menu', 'roleuser', 'dtkunjungan', 'dtproduk', 'dtlistproduk', 'dtsatuan', 'transaksiCode', 'dttransaksi', 'dtpesan', 'transaksi', 'today'));
     }
 
@@ -142,21 +145,42 @@ class ListDataKunjunganController extends Controller
 
     public function storelist(Request $request)
     {
-        $data = TransaksiDataProduk::create([
-            'transaksi_kode' => $request->transaksi_kode,
-            'customer_kode' => $request->customer_kode,
-            'status' => $request->action
-        ]);
 
-        ListDataProduk::where('customer_kode', $request->customer_kode)->where('transaksi_kode', null)->update([
-            'transaksi_kode' => $request->transaksi_kode,
-        ]);
+        $customer = DataCustomer::where('customer_kode', $request->customer_kode)->first(['depo_id', 'distributor_id']);
+        // dd($customer->distributor_id);
 
-        DataDetailRute::where('detail_rute_id', $request->detail_rute_id)->update([
-            'status' => $request->action
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->back()->with('success', 'Data Berhasil Disimpan!');
+        try {
+            TransaksiDataProduk::create([
+                'transaksi_kode' => $request->transaksi_kode,
+                'customer_kode' => $request->customer_kode,
+                'status' => $request->action
+            ]);
+
+            ListDataProduk::where('customer_kode', $request->customer_kode)->where('transaksi_kode', null)->update([
+                'transaksi_kode' => $request->transaksi_kode,
+            ]);
+
+            DataDetailRute::where('detail_rute_id', $request->detail_rute_id)->update([
+                'status' => $request->action
+            ]);
+
+            Notifikasi::create([
+                'count' => 1,
+                'customer_kode' => $request->customer_kode,
+                'depo_id' => $customer->depo_id,
+                'distributor_id' => $customer->distributor_id,
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Data Berhasil Disimpan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Data Gagal Disimpan!');
+        }
     }
 
     public function updatelist(Request $request)

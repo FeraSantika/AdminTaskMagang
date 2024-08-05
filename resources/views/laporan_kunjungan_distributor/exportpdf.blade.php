@@ -52,11 +52,13 @@
         <div class="d-flex align-items-center mb-3">
             <div class="d-flex align-items-center">
                 <div class="text-center">
-                    {{-- <img src="{{ 'data:image/png;base64,' . base64_encode(file_get_contents($rs->logo_rumahsakit)) }}"
-                        alt="image" width="35px"
-                        style="display: inline-block; vertical-align: middle; margin-right: 10px;"> --}}
-                    <h1 style="display: inline-block; vertical-align: middle; margin-right: 10px;"></h1>
-                    <h5 style="margin-bottom: 5px; margin-top: 2px"></h5>
+                    <img src="{{ 'data:image/png;base64,' . base64_encode(file_get_contents(base_path('public/assets/images/logo.png'))) }}"
+                        alt="image" width="80px"
+                        style="display: inline-block; vertical-align: middle; margin-right: 10px;">
+                    <h1 style="display: inline-block; vertical-align: middle; margin-right: 10px;">PT Satya Amarta Prima
+                    </h1>
+                    <h5 style="margin-bottom: 5px; margin-top: 2px">Jl. Villa Melati Mas Raya No.5 Blok B8-1, Jelupang,
+                        Serpong Utara, South Tangerang City, Banten 15323</h5>
                     <hr class="my-1" style="height: 2px; background-color: black; width: 100%; margin: 5px 0;">
                     <hr class="my-1">
                 </div>

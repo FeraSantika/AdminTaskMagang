@@ -91,11 +91,11 @@
                                                     {{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}
                                                 </td>
                                                 <td class="text-end">
-                                                    <a href="{{ route('kunjungan.detail', $item->kunjungan_id) }}"
+                                                    <a href="{{ route('kunjungan.detail', Crypt::encryptString($item->kunjungan_id)) }}"
                                                         class="action-icon">
                                                         <i class="uil-file-search-alt"></i>
                                                     </a>
-                                                    <a href="{{ route('kunjungan.edit', $item->kunjungan_id) }}"
+                                                    <a href="{{ route('kunjungan.edit', Crypt::encryptString($item->kunjungan_id)) }}"
                                                         class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
@@ -104,7 +104,7 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->kunjungan_id }}"
-                                                        action="{{ route('kunjungan.destroy', $item->kunjungan_id) }}"
+                                                        action="{{ route('kunjungan.destroy', Crypt::encryptString($item->kunjungan_id)) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

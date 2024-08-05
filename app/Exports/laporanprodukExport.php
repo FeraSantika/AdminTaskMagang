@@ -9,9 +9,11 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping
+class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping, WithDrawings
 
 /**
  * @return \Illuminate\Support\Collection
@@ -23,15 +25,15 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
 
     function __construct($tglAwal, $tglAkhir)
     {
-        $this->tglAwal = $tglAwal." 00:00:00";
-        $this->tglAkhir = $tglAkhir." 23:59:00";
+        $this->tglAwal = $tglAwal . " 00:00:00";
+        $this->tglAkhir = $tglAkhir . " 23:59:00";
         $this->serialNumber = 1;
     }
 
     public function collection()
     {
         $result  = ListDataProduk::select('produk_kode', 'satuan_id', DB::raw('SUM(jumlah) as total_jumlah'))
-            ->whereBetween('created_at', [$this->tglAwal , $this->tglAkhir])
+            ->whereBetween('created_at', [$this->tglAwal, $this->tglAkhir])
             ->groupBy('produk_kode')
             ->groupBy('satuan_id')
             ->with('produk', 'satuan')
@@ -53,12 +55,12 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
     public function headings(): array
     {
         $rs = ListDataProduk::first();
-        $hospitalName = 'Anonim';
-        $hospitalAddress = 'Anonim';
+        $perusahaanName = 'PT Satya Amarta Prima';
+        $perusahaanAddress = 'Jl. Villa Melati Mas Raya No.5 Blok B8-1, Jelupang, Serpong Utara, South Tangerang City, Banten 15323';
 
         $filterText = [
-            [$hospitalName],
-            [$hospitalAddress],
+            [$perusahaanName],
+            [$perusahaanAddress],
             [],
             ['Laporan Produk'],
             [],
@@ -138,5 +140,18 @@ class laporanprodukExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'Jumlah' => $data['Jumlah'],
             'Satuan' => $data['Satuan'],
         ];
+    }
+
+    public function drawings()
+    {
+        $gambar = base_path('public\assets\images\logo.png');
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Presales');
+        $drawing->setPath($gambar);
+        $drawing->setHeight(25);
+        $drawing->setCoordinates('A1');
+
+        return [$drawing];
     }
 }

@@ -9,6 +9,7 @@ use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -69,8 +70,9 @@ class UserController extends Controller
         return redirect()->route('user')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    public function edit($User_id)
+    public function edit($encryptedId)
     {
+        $User_id = Crypt::decryptString($encryptedId);
         $dtRole = DB::table('roles')->select('id', 'name')->get();
         $dtUser = DataUser::where('User_id', $User_id)->with('role')->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
@@ -79,8 +81,9 @@ class UserController extends Controller
         return view('user.edit', compact('dtUser', 'dtRole', 'menu', 'roleuser'));
     }
 
-    public function update(Request $request, $User_id)
+    public function update(Request $request, $encryptedId)
     {
+        $User_id = Crypt::decryptString($encryptedId);
         $request->validate([
             'username' => 'required',
             'email' => 'required|email',
@@ -91,7 +94,6 @@ class UserController extends Controller
         ]);
 
         $role = DB::table('roles')->where('name', $request->role)->first();
-        // dd($role->id);
         $userData = [
             'User_name' => $request->username,
             'User_email' => $request->email,
@@ -116,8 +118,9 @@ class UserController extends Controller
         return redirect()->route('user')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($User_id)
+    public function destroy($encryptedId)
     {
+        $User_id = Crypt::decryptString($encryptedId);
         DataUser::where('User_id', $User_id)->delete();
         DB::table('model_has_roles')->where('model_id', $User_id)->delete();
         return redirect()->route('user')->with('success', 'Data berhasil dihapus!');

@@ -64,6 +64,44 @@
                                     </thead>
                                     <tbody>
                                         @php
+                                            $rowNumber = 1;
+                                        @endphp
+                                        <tr>
+                                            @foreach ($dtrute as $rute)
+                                                <td>{{ $rowNumber }}</td>
+                                                <td>
+                                                    {{ $rute->rute_nama }}
+                                                </td>
+                                                <td>
+                                                    @foreach ($rute->detail as $namacustomer)
+                                                        {{ $namacustomer->customer->customer_nama }}
+                                                        @if (!$loop->last)
+                                                            ,
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td class="table-action">
+                                                    <a href="{{ route('rute.edit', Crypt::encryptString($rute->rute_id)) }}" class="action-icon">
+                                                        <i class="mdi mdi-square-edit-outline"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="action-icon"
+                                                        onclick="event.preventDefault(); if (confirm('Apakah Anda yakin ingin menghapus?')) document.getElementById('delete-form-{{ $rute->rute_id }}').submit();">
+                                                        <i class="mdi mdi-delete"></i>
+                                                    </a>
+                                                    <form id="delete-form-{{ $rute->rute_id }}"
+                                                        action="{{ route('rute.destroy', Crypt::encryptString($rute->rute_id)) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
+
+                                        </tr>
+                                        @php
+                                            $rowNumber++;
+                                        @endphp
+                                        @endforeach
+
+                                        {{-- @php
                                             $groupedData = collect($dtdetailrute)->groupBy('rute_id');
                                             $rowNumber = 1;
                                         @endphp
@@ -71,7 +109,7 @@
                                         @foreach ($groupedData as $ruteId => $group)
                                             <tr>
                                                 <td>{{ $rowNumber }}</td>
-                                                <td>{{ $group->first()->rute->rute_nama }}</td>
+                                                <td>{{ $group->first()->rute->rute_nama ?? ''}}</td>
                                                 <td>
                                                     @foreach ($group as $item)
                                                         {{ $item->customer->customer_nama }}
@@ -97,10 +135,8 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                            @php
-                                                $rowNumber++;
-                                            @endphp
-                                        @endforeach
+
+                                        @endforeach --}}
                                     </tbody>
                                 </table>
                             </div>

@@ -52,6 +52,26 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
                     role="button" aria-haspopup="true" aria-expanded="false">
+                        @if (null !== Auth::user()->role && Auth::user()->role->Role_name == 'Distributor')
+                            <i class="fas fa-bell"></i>
+                            @if (isset($notif) && $notif != 'No notifications')
+                                {{ $notif }}
+                            @else
+                                0
+                            @endif
+                        @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
+                    <a href="{{ route('cek-pesanan-distributor') }}" class="dropdown-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Cek Pesanan Hari Ini!</span>
+                    </a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
+                    role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="account-user-avatar">
                         <img src="{{ asset(Auth::user()->User_photo) }}" alt="user-image" width="31"
                             class="rounded-circle">

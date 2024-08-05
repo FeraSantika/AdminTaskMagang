@@ -51,6 +51,9 @@
                                 <th>No.</th>
                                 <th scope="col">Kode Customer</th>
                                 <th scope="col">Nama Customer</th>
+                                <th>Alamat</th>
+                                <th>Depo</th>
+                                <th>Distributor</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,12 +65,11 @@
                                     <td>
                                         {{ $rowNumber }}
                                     </td>
-                                    <td>
-                                        {{ $item->customer_kode }}
-                                    </td>
-                                    <td>
-                                        {{ $item->customer->customer_nama }}
-                                    </td>
+                                    <td>{{ $item->customer_kode }}</td>
+                                    <td>{{ $item->customer->customer_nama }}</td>
+                                    <td>{{ $item->customer->customer_alamat }}, {{ $item->customer->latitude }}, {{ $item->customer->longtitude }} </td>
+                                    <td>{{ $item->customer->depo->depo_nama }}</td>
+                                    <td>{{ $item->customer->distributor->distributor_nama }}</td>
                                 </tr>
                                 @php
                                     $rowNumber++;

@@ -88,7 +88,7 @@
                                                     {{ $item->user->User_name }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->rute->rute_nama }}
+                                                    {{ $item->rute->rute_nama ?? ''}}
                                                 </td>
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($item->kunjungan_tanggal)->format('d-m-Y') }}

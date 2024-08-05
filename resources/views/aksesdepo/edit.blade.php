@@ -4,7 +4,7 @@
         <h3>Edit Akses Depo</h3>
         <div class="content bg-white border">
             <div class="m-5">
-                <form action="{{ route('akses-depo.update', $dtaksesdepo->akses_depo_id ?? '') }}" method="POST" class="mb-3">
+                <form action="{{ route('akses-depo.update', Crypt::encryptString($dtaksesdepo->akses_depo_id)) }}" method="POST" class="mb-3">
                     @csrf
                     <div class="row mb-3">
                         <label for="user" class="col-md-2 col-form-label text-md-start">Nama User</label>

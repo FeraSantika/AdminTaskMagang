@@ -7,12 +7,14 @@ use App\Models\DataDetailRute;
 use App\Models\AksesDistributor;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class laporankunjungandistributorExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping
+class laporankunjungandistributorExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping, WithDrawings
 {
     public $tglAwal;
     public $tglAkhir;
@@ -55,12 +57,12 @@ class laporankunjungandistributorExport implements FromCollection, WithHeadings,
 
     public function headings(): array
     {
-        $nama = 'Anonim';
-        $alamat = 'Anonim';
+        $perusahaanName = 'PT Satya Amarta Prima';
+        $perusahaanAddress = 'Jl. Villa Melati Mas Raya No.5 Blok B8-1, Jelupang, Serpong Utara, South Tangerang City, Banten 15323';
 
         $filterText = [
-            [$nama],
-            [$alamat],
+            [$perusahaanName],
+            [$perusahaanAddress],
             [],
             ['Laporan Kunjungan Distributor'],
             [],
@@ -143,5 +145,18 @@ class laporankunjungandistributorExport implements FromCollection, WithHeadings,
             'Alamat Customer' => $data['Alamat Customer'],
             'Status' => $data['Status'],
         ];
+    }
+
+    public function drawings()
+    {
+        $gambar = base_path('public\assets\images\logo.png');
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Presales');
+        $drawing->setPath($gambar);
+        $drawing->setHeight(25);
+        $drawing->setCoordinates('A1');
+
+        return [$drawing];
     }
 }

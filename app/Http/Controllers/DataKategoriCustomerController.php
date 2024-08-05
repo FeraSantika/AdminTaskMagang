@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataKategoriCustomer;
 use App\Models\DataMenu;
 use App\Models\DataRoleMenu;
 use Illuminate\Http\Request;
+use App\Models\DataKategoriCustomer;
+use Illuminate\Support\Facades\Crypt;
 
 class DataKategoriCustomerController extends Controller
 {
@@ -34,8 +35,9 @@ class DataKategoriCustomerController extends Controller
         return redirect()->route('kategori_customer')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    public function edit($id)
+    public function edit($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         $dtkategori = DataKategoriCustomer::where('kategori_customer_id', $id)->first();
         $menu = DataMenu::where('Menu_category', 'Master Menu')->with('menu')->orderBy('Menu_position', 'ASC')->get();
         $user = auth()->user()->role;
@@ -43,14 +45,16 @@ class DataKategoriCustomerController extends Controller
         return view('kategori_customer.edit', compact('dtkategori', 'menu', 'roleuser'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         DataKategoriCustomer::where('kategori_customer_id', $id)->update(['kategori_customer_nama' => $request->nama]);
         return redirect()->route('kategori_customer')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy($id)
+    public function destroy($encryptedId)
     {
+        $id = Crypt::decryptString($encryptedId);
         DataKategoriCustomer::where('kategori_customer_id', $id)->delete();
         return redirect()->route('kategori_customer')->with('success', 'Data berhasil dihapus!');
     }

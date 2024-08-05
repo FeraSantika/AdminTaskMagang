@@ -1,7 +1,6 @@
 @extends('main')
 @section('content')
     <div class="content">
-
         <!-- Start Content-->
         <div class="container-fluid">
 
@@ -12,10 +11,11 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Cek Pesanan</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Cek
+                                        Pesanan</a></li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Cek Pesanan Distributor</h4>
+                        <h4 class="page-title">Histori Transaksi</h4>
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -47,68 +47,41 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No.</th>
-                                            <th scope="col">Kode Customer</th>
-                                            <th scope="col">Nama Customer</th>
-                                            <th scope="col">Alamat Customer</th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Tanggal</th>
+                                            <th>Transaksi kode</th>
+                                            <th>Customer kode</th>
+                                            <th>Kode Produk</th>
+                                            <th>Nama Produk</th>
+                                            <th>Jumlah</th>
+                                            <th>Satuan</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                     <tbody>
                                         @php
                                             $rowNumber = 1;
                                         @endphp
-                                        @if ($dtkunjungan->count() > 0)
-                                            @foreach ($dtkunjungan as $item)
-                                                <tr>
-                                                    <td>{{ $rowNumber }}</td>
-                                                    <td>{{ $item->customer_kode }}</td>
-                                                    <td>{{ $item->customer->customer_nama }}</td>
-                                                    <td>{{ $item->customer->customer_alamat }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                @if ($dtpesan->count() > 0 && $dtpesan->where('customer_kode', $item->customer_kode)->count() > 0)
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>No.</th>
-                                                        <th>Transaksi kode</th>
-                                                        <th>Kode Produk</th>
-                                                        <th>Nama Produk</th>
-                                                        <th>Jumlah</th>
-                                                        <th>Satuan</th>
-                                                    </tr>
+                                            @foreach ($dtpesan as $item)
                                                     @php
                                                         $rowProduk = 1;
                                                     @endphp
-                                                    @foreach ($dtpesan->where('customer_kode', $item->customer_kode) as $pesan)
                                                         <tr>
-                                                            <td></td>
-                                                            <td>{{ $rowProduk }}</td>
-                                                            <td>{{ $pesan->transaksi_kode }}</td>
-                                                            <td>{{ $pesan->produk_kode }}</td>
-                                                            <td>{{ $pesan->produk->produk_nama }}</td>
-                                                            <td>{{ $pesan->total_jumlah }}</td>
-                                                            <td>{{ $pesan->satuan->satuan_nama }}</td>
+                                                            <td>{{ $rowNumber }}</td>
+                                                            <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                                            <td>{{ $item->transaksi_kode }}</td>
+                                                            <td>{{ $item->customer_kode }}</td>
+                                                            <td>{{ $item->produk_kode }}</td>
+                                                            <td>{{ $item->produk->produk_nama }}</td>
+                                                            <td>{{ $item->total_jumlah }}</td>
+                                                            <td>{{ $item->satuan->satuan_nama }}</td>
                                                         </tr>
                                                         @php
                                                             $rowProduk++;
                                                         @endphp
-                                                    @endforeach
-                                                @endif
                                                 @php
                                                     $rowNumber++;
                                                 @endphp
                                             @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="4">Tidak ada data kunjungan untuk hari ini</td>
-                                            </tr>
-                                        @endif
                                     </tbody>
-
                                 </table>
                             </div>
                         </div> <!-- end card-body-->
@@ -119,9 +92,7 @@
                 </div> <!-- end col -->
             </div>
             <!-- end row -->
-
         </div> <!-- container -->
-
     </div>
 @endsection
 @section('script')
@@ -136,7 +107,7 @@
         }
 
         function exportPDFWithDates() {
-            var pdfURL = "{{ route('cek-pesanan-distributor.export-pdf') }}";
+            var pdfURL = "{{ route('history-transaksi.export-pdf') }}";
 
             window.location.href = pdfURL;
         }

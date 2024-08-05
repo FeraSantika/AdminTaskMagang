@@ -12,7 +12,8 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Hyper</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Data Master</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-warning">Data
+                                        Master</a></li>
                                 <li class="breadcrumb-item active">Satuan</li>
                             </ol>
                         </div>
@@ -64,7 +65,8 @@
                                                     {{ $item->satuan_nama }}
                                                 </td>
                                                 <td class="table-action">
-                                                    <a href="{{ route('satuan.edit', $item->satuan_id) }}" class="action-icon">
+                                                    <a href="{{ route('satuan.edit', Crypt::encryptString($item->satuan_id)) }}"
+                                                        class="action-icon">
                                                         <i class="mdi mdi-square-edit-outline"></i>
                                                     </a>
                                                     <a href="javascript:void(0);" class="action-icon"
@@ -72,7 +74,8 @@
                                                         <i class="mdi mdi-delete"></i>
                                                     </a>
                                                     <form id="delete-form-{{ $item->satuan_id }}"
-                                                        action="{{ route('satuan.destroy', $item->satuan_id) }}" method="POST">
+                                                        action="{{ route('satuan.destroy', Crypt::encryptString($item->satuan_id)) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
